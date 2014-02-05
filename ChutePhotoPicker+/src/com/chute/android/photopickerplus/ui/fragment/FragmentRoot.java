@@ -40,7 +40,6 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.araneaapps.android.libs.logger.ALog;
 import com.chute.android.photopickerplus.R;
 import com.chute.android.photopickerplus.callback.ImageDataResponseLoader;
 import com.chute.android.photopickerplus.config.PhotoPicker;
@@ -115,11 +114,10 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		this.setRetainInstance(true);
 	}
-	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -160,6 +158,17 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 		this.filterType = filterType;
 		this.selectedAccountsPositions = selectedAccountsPositions;
 		this.account = account;
+		adapterMerge = new MergeAdapter();
+		adapterImages = new CursorAdapterImages(getActivity(), null,
+				cursorListener);
+		adapterVideos = new CursorAdapterVideos(getActivity(), null,
+				cursorListener);
+		adapterMerge.addAdapter(adapterVideos);
+		adapterMerge.addAdapter(adapterImages);
+		gridView.setAdapter(adapterMerge);
+		AppUtil.setFragmentLabel(getActivity().getApplicationContext(),
+				textViewSelectMedia, supportImages, supportVideos,
+				isMultipicker);
 
 		if ((filterType == PhotoFilterType.ALL_PHOTOS)
 				|| (filterType == PhotoFilterType.CAMERA_ROLL)) {
@@ -173,26 +182,17 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 			}
 		} else if (filterType == PhotoFilterType.SOCIAL_PHOTOS
 				&& getActivity() != null) {
-			    accountType = PhotoPickerPreferenceUtil.get().getAccountType();
-			    if (supportVideos == false && accountType.equals(AccountType.YOUTUBE)) {
-			    	progressBar.setVisibility(View.GONE);
-			    } else {
+			accountType = PhotoPickerPreferenceUtil.get().getAccountType();
+			if (supportVideos == false
+					&& accountType.equals(AccountType.YOUTUBE)) {
+				progressBar.setVisibility(View.GONE);
+			} else {
 				GCAccounts.accountRoot(getActivity().getApplicationContext(),
 						accountType.name().toLowerCase(),
 						account.getShortcut(), new RootCallback())
 						.executeAsync();
-			    }
+			}
 		}
-
-		adapterMerge = new MergeAdapter();
-		adapterImages = new CursorAdapterImages(getActivity(), null,
-				cursorListener);
-		adapterVideos = new CursorAdapterVideos(getActivity(), null,
-				cursorListener);
-		adapterMerge.addAdapter(adapterVideos);
-		adapterMerge.addAdapter(adapterImages);
-		gridView.setAdapter(adapterMerge);
-		AppUtil.setFragmentLabel(getActivity().getApplicationContext(), textViewSelectMedia, supportImages, supportVideos, isMultipicker);
 
 	}
 
@@ -216,7 +216,6 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 
 		}
 
-
 		@Override
 		public void onSuccess(ResponseModel<AccountBaseModel> responseData) {
 			progressBar.setVisibility(View.GONE);
@@ -236,7 +235,9 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 				NotificationUtil.showPhotosAdapterToast(getActivity()
 						.getApplicationContext(), adapterAccounts.getCount());
 			}
-			AppUtil.setFragmentLabel(getActivity().getApplicationContext(), textViewSelectMedia, supportImages, supportVideos, isMultipicker);
+			AppUtil.setFragmentLabel(getActivity().getApplicationContext(),
+					textViewSelectMedia, supportImages, supportVideos,
+					isMultipicker);
 		}
 
 	}
@@ -347,7 +348,7 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 					|| (filterType == PhotoFilterType.CAMERA_ROLL)) {
 				List<DeliverMediaModel> deliverList = new ArrayList<DeliverMediaModel>();
 				if (!adapterImages.getSelectedFilePaths().isEmpty()) {
-						deliverList.addAll(adapterImages.getSelectedFilePaths());
+					deliverList.addAll(adapterImages.getSelectedFilePaths());
 				}
 				if (!adapterVideos.getSelectedFilePaths().isEmpty()) {
 					deliverList.addAll(adapterVideos.getSelectedFilePaths());

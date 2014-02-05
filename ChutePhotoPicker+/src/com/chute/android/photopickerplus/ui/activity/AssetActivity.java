@@ -124,7 +124,6 @@ public class AssetActivity extends FragmentActivity implements
 
 		fragmentRoot = (FragmentRoot) getSupportFragmentManager()
 				.findFragmentById(R.id.gcFragmentAssets);
-//		fragmentRoot.setRetainInstance(true);
 		fragmentRoot.updateFragment(account, filterType,
 				selectedAccountsPositions, selectedImagesPaths,
 				selectedVideosPaths);
@@ -214,7 +213,6 @@ public class AssetActivity extends FragmentActivity implements
 		fragmentSingle = (FragmentSingle) getSupportFragmentManager()
 				.findFragmentByTag(Constants.TAG_FRAGMENT_FILES);
 		if (fragmentSingle != null) {
-//			fragmentSingle.setRetainInstance(true);
 			fragmentSingle.updateFragment(account, folderId,
 					selectedAccountsPositions);
 		}
@@ -274,7 +272,6 @@ public class AssetActivity extends FragmentActivity implements
 		selectedImagesPaths = null;
 		selectedVideosPaths = null;
 		if (fragmentRoot != null) {
-			fragmentRoot.setRetainInstance(true);
 			fragmentRoot.updateFragment(account, filterType,
 					selectedAccountsPositions, selectedImagesPaths,
 					selectedVideosPaths);
