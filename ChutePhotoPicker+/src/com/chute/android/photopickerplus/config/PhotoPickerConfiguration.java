@@ -98,7 +98,7 @@ public final class PhotoPickerConfiguration {
 		private List<LocalServiceType> localMediaList = null;
 		private String configUrl = null;
 		private boolean supportImages = true;
-		private boolean supportVideos = false;
+		private boolean supportVideos = true;
 
 		public Builder(Context context) {
 			this.context = context.getApplicationContext();
