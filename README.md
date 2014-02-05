@@ -27,7 +27,7 @@ https://github.com/chute/Chute-SDK-V2-Android
 Introduction
 ==========
 
-PhotoPicker+ is a component made for developers to easily integrate it inside their application and enable photo picking functionality. This component enables browsing photos from services such as Facebook, Picasa, Instagram, Flickr, Google+, Google Drive, SkyDrive and Dropbox. It also enables taking photos with the native camera application and choosing photos from the device.
+PhotoPicker+ is a component made for developers to easily integrate it inside their application and enable photo and video picking functionality. This component enables browsing media items from services such as Facebook, Picasa, Instagram, Flickr, Google+, Google Drive, SkyDrive, Dropbox and YouTube. It also enables capturing photos and videos with the native camera application and choosing media items from the device.
 
 
 Screenshots
