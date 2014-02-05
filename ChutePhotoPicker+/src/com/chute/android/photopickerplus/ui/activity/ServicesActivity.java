@@ -67,6 +67,7 @@ import com.chute.android.photopickerplus.util.intent.IntentUtil;
 import com.chute.android.photopickerplus.util.intent.PhotosIntentWrapper;
 import com.chute.sdk.v2.api.accounts.GCAccounts;
 import com.chute.sdk.v2.api.authentication.AuthenticationFactory;
+import com.chute.sdk.v2.api.authentication.AuthenticationOptions;
 import com.chute.sdk.v2.model.AccountModel;
 import com.chute.sdk.v2.model.AssetModel;
 import com.chute.sdk.v2.model.enums.AccountType;
@@ -303,9 +304,11 @@ public class ServicesActivity extends FragmentActivity implements
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode != Activity.RESULT_OK) {
+			ALog.d("result not ok");
 			return;
 		}
 		if (requestCode == AuthenticationFactory.AUTHENTICATION_REQUEST_CODE) {
+			ALog.d("request code authentication");
 			GCAccounts.allUserAccounts(getApplicationContext(),
 					new AccountsCallback()).executeAsync();
 			return;
@@ -508,7 +511,7 @@ public class ServicesActivity extends FragmentActivity implements
 	public void onSessionExpired(AccountType accountType) {
 		PhotoPickerPreferenceUtil.get().setAccountType(accountType);
 		AuthenticationFactory.getInstance().startAuthenticationActivity(
-				ServicesActivity.this, accountType);
+				ServicesActivity.this, accountType, new AuthenticationOptions.Builder().setShouldRetainSession(true).build());
 	}
 
 	@Override
@@ -530,6 +533,7 @@ public class ServicesActivity extends FragmentActivity implements
 
 		@Override
 		public void onSuccess(ListResponseModel<AccountModel> responseData) {
+			ALog.d("success: " + responseData.getData());
 			if (accountType == null) {
 				accountType = PhotoPickerPreferenceUtil.get().getAccountType();
 			}
@@ -541,6 +545,7 @@ public class ServicesActivity extends FragmentActivity implements
 			}
 			for (AccountModel accountModel : responseData.getData()) {
 				if (accountModel.getType().equals(accountType.getLoginMethod())) {
+					ALog.d("account clicked");
 					PreferenceUtil.get().saveAccount(accountModel);
 					accountClicked(accountModel);
 				}

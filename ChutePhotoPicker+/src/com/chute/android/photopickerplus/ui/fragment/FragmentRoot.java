@@ -273,6 +273,9 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 					adapterImages.toggleTick(path);
 				}
 			}
+			
+			NotificationUtil.showPhotosAdapterToast(getActivity()
+					.getApplicationContext(), adapterImages.getCount());
 		}
 
 		@Override
@@ -314,6 +317,9 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 					adapterVideos.toggleTick(path);
 				}
 			}
+			
+//			NotificationUtil.showPhotosAdapterToast(getActivity()
+//					.getApplicationContext(), adapterImages.getCount());
 
 		}
 
