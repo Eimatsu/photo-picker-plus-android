@@ -4,8 +4,10 @@
     <!-- Account type -->
     <string name="take_photos">Scattare una foto</string>
     <string name="last_photo">Ultima foto scattata</string>
-    <string name="all_photos">Tutte le foto</string>
-    <string name="camera_shots">Scatti della fotocamera</string>
+    <string name="record_video">Registrare un video</string>
+    <string name="last_video_captured">Ultimo video catturato</string>
+    <string name="all_media">Tutti i supporti</string>
+    <string name="camera_media">Supporti per fotocamere</string>
 
     <!-- Exceptions -->
     <string name="parsing_exception">Formato di risposta cattiva</string>
@@ -17,12 +19,19 @@
     <string name="ok">OK</string>
     <string name="albums">Album</string>
     <string name="loading_albums">Caricamento album...</string>
-    <string name="loading_photos">Caricamento foto...</string>
+    <string name="loading_media">Caricamento dei supporti ...</string>
     <string name="select_a_photo">Seleziona una foto</string>
     <string name="select_photos">Selezionare le foto</string>
     <string name="select_an_album">Selezionare Foto Fonte</string>
     <string name="title_default">Predefinito</string>
     <string name="title_user">Utente</string>
+    <string name="select_a_video">Selezionare un video</string>
+    <string name="select_videos">Seleziona i video</string>
+    <string name="select_media">Selezionare la voce dei media</string>
+    <string name="select_video_source">Selezionare la sorgente video</string>
+    <string name="select_media_source">Selezionare la sorgente multimediale</string>
+    <string name="select_photo_source">Selezionare Foto Fonte</string>
+    
 
     <!-- Toast -->
     <string name="toast_choose_photos">Si prega di selezionare le foto</string>

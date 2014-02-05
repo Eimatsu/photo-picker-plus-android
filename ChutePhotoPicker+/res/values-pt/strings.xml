@@ -4,8 +4,10 @@
     <!-- Account type -->
     <string name="take_photos">Tire uma foto</string>
     <string name="last_photo">Última foto tirada</string>
-    <string name="all_photos">Todas as fotos</string>
-    <string name="camera_shots">Tomadas de câmera</string>
+    <string name="record_video">Gravar um vídeo</string>
+    <string name="last_video_captured">Último vídeo capturado</string>
+    <string name="all_media">Todos os meios</string>
+    <string name="camera_media">Média quarto</string>
 
     <!-- Exceptions -->
     <string name="parsing_exception">Formato de resposta ruim</string>
@@ -17,12 +19,18 @@
     <string name="ok">OK</string>
     <string name="albums">Álbuns</string>
     <string name="loading_albums">Carregar álbuns...</string>
-    <string name="loading_photos">Carregando fotos...</string>
+    <string name="loading_media">Carregamento de mídia...</string>
     <string name="select_a_photo">Selecione uma foto</string>
     <string name="select_photos">Selecione as fotos</string>
     <string name="select_an_album">Selecione Foto Fonte</string>
     <string name="title_default">Omissão</string>
     <string name="title_user">Usuário</string>
+    <string name="select_a_video">Selecione um vídeo</string>
+    <string name="select_videos">Selecionar vídeos</string>
+    <string name="select_media">Selecionar mídia</string>
+    <string name="select_video_source">Selecione a fonte de vídeo</string>
+    <string name="select_media_source">Selecione a origem da mídia</string>
+    <string name="select_photo_source">Selecione Foto Fonte</string>
 
     <!-- Toast -->
     <string name="toast_choose_photos">Por favor, selecionar fotos</string>
