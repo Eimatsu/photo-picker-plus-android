@@ -456,15 +456,10 @@ public class ServicesActivity extends FragmentActivity implements
 				.findFragmentByTag(Constants.TAG_FRAGMENT_FOLDER);
 		if (fragmentSingle != null
 				&& photoFilterType == PhotoFilterType.SOCIAL_PHOTOS.ordinal()) {
-//			fragmentSingle.setRetainInstance(true);
 			fragmentSingle.updateFragment(account, folderId,
 					accountItemPositions);
 		}
 		if (fragmentRoot != null) {
-			ALog.d("services onrestoreinstancestate root != null");
-			ALog.d("services onrestoreinstance state images: " + imageItemPaths);
-			ALog.d("services onrestoreinstancestate videos: " + videoItemPaths);
-//			fragmentRoot.setRetainInstance(true);
 			fragmentRoot.updateFragment(account,
 					PhotoFilterType.values()[photoFilterType],
 					accountItemPositions, imageItemPaths, videoItemPaths);

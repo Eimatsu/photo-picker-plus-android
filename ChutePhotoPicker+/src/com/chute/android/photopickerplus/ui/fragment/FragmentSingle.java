@@ -91,8 +91,8 @@ public class FragmentSingle extends Fragment implements
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		this.setRetainInstance(true);
 	}
 
@@ -169,7 +169,9 @@ public class FragmentSingle extends Fragment implements
 					}
 				}
 
-				AppUtil.setFragmentLabel(getActivity().getApplicationContext(), textViewSelectMedia, supportImages, supportVideos, supportVideos);
+				AppUtil.setFragmentLabel(getActivity().getApplicationContext(),
+						textViewSelectMedia, supportImages, supportVideos,
+						supportVideos);
 				NotificationUtil.showPhotosAdapterToast(getActivity()
 						.getApplicationContext(), accountAssetAdapter
 						.getCount());
