@@ -46,6 +46,7 @@ import android.widget.Toast;
 
 import com.araneaapps.android.libs.logger.ALog;
 import com.chute.android.photopickerplus.R;
+import com.chute.android.photopickerplus.callback.CustomAuthenticationProvider;
 import com.chute.android.photopickerplus.dao.MediaDAO;
 import com.chute.android.photopickerplus.models.DeliverMediaModel;
 import com.chute.android.photopickerplus.models.enums.MediaType;
@@ -65,9 +66,12 @@ import com.chute.android.photopickerplus.util.NotificationUtil;
 import com.chute.android.photopickerplus.util.PhotoPickerPreferenceUtil;
 import com.chute.android.photopickerplus.util.intent.IntentUtil;
 import com.chute.android.photopickerplus.util.intent.PhotosIntentWrapper;
+import com.chute.sdk.v2.api.accounts.CurrentUserAccountsRequest;
 import com.chute.sdk.v2.api.accounts.GCAccounts;
+import com.chute.sdk.v2.api.authentication.AuthenticationActivity;
 import com.chute.sdk.v2.api.authentication.AuthenticationFactory;
 import com.chute.sdk.v2.api.authentication.AuthenticationOptions;
+import com.chute.sdk.v2.api.authentication.TokenAuthenticationProvider;
 import com.chute.sdk.v2.model.AccountModel;
 import com.chute.sdk.v2.model.AssetModel;
 import com.chute.sdk.v2.model.enums.AccountType;
@@ -294,7 +298,9 @@ public class ServicesActivity extends FragmentActivity implements
 			accountClicked(account);
 		} else {
 			AuthenticationFactory.getInstance().startAuthenticationActivity(
-					ServicesActivity.this, accountType);
+					ServicesActivity.this, accountType, new AuthenticationOptions.Builder()
+					.setClearCookiesForAccount(false)
+					.setShouldRetainSession(false).build());
 		}
 
 	}
@@ -303,16 +309,26 @@ public class ServicesActivity extends FragmentActivity implements
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode != Activity.RESULT_OK) {
-			ALog.d("result not ok");
+		if (resultCode != RESULT_OK && resultCode !=  AuthenticationActivity.RESULT_DIFFERENT_CHUTE_USER_AUTHENTICATED) {
 			return;
 		}
 		if (requestCode == AuthenticationFactory.AUTHENTICATION_REQUEST_CODE) {
-			ALog.d("request code authentication");
+			if (data != null) {
+			String newSessionToken = data.getExtras().getString(AuthenticationActivity.INTENT_DIFFERENT_CHUTE_USER_TOKEN);
+			String previousSessionToken = TokenAuthenticationProvider.getInstance().getToken();
+			if (!newSessionToken.equals(previousSessionToken)) {
+				CurrentUserAccountsRequest request = new CurrentUserAccountsRequest(getApplicationContext(), new AccountsCallback());
+				request.getClient().setAuthentication(
+				        new CustomAuthenticationProvider(newSessionToken));
+				    request.executeAsync();
+			} 
+			}else {
 			GCAccounts.allUserAccounts(getApplicationContext(),
 					new AccountsCallback()).executeAsync();
+			}
 			return;
 		}
+		
 		if (requestCode == PhotosIntentWrapper.ACTIVITY_FOR_RESULT_STREAM_KEY) {
 			finish();
 			return;
@@ -533,7 +549,6 @@ public class ServicesActivity extends FragmentActivity implements
 
 		@Override
 		public void onSuccess(ListResponseModel<AccountModel> responseData) {
-			ALog.d("success: " + responseData.getData());
 			if (accountType == null) {
 				accountType = PhotoPickerPreferenceUtil.get().getAccountType();
 			}
@@ -545,7 +560,6 @@ public class ServicesActivity extends FragmentActivity implements
 			}
 			for (AccountModel accountModel : responseData.getData()) {
 				if (accountModel.getType().equals(accountType.getLoginMethod())) {
-					ALog.d("account clicked");
 					PreferenceUtil.get().saveAccount(accountModel);
 					accountClicked(accountModel);
 				}
