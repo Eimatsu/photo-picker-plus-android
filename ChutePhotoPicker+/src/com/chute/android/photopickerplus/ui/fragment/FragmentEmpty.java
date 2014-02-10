@@ -32,16 +32,17 @@ import com.chute.android.photopickerplus.R;
 
 public class FragmentEmpty extends Fragment {
 
-  public static FragmentEmpty newInstance() {
-    FragmentEmpty frag = new FragmentEmpty();
-    return frag;
-  }
+	public static FragmentEmpty newInstance() {
+		FragmentEmpty frag = new FragmentEmpty();
+		return frag;
+	}
 
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.gc_fragment_empty, container, false);
-    return view;
-  }
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.gc_fragment_empty, container,
+				false);
+		return view;
+	}
 
 }

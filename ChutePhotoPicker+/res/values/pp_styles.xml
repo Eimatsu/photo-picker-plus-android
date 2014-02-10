@@ -38,7 +38,7 @@
         <item name="android:textSize">@dimen/sign_out</item>
         <item name="android:textColor">?topBarTextColor</item>
     </style>
-
+    
     <!-- TextView Default Small -->
     <style name="textViewDefaultSmall" parent="android:Widget.TextView">
         <item name="android:layout_gravity">center_horizontal</item>
@@ -57,7 +57,7 @@
 
     <!-- LinearLayout Empty Fragment Label -->
     <style name="linearLayoutEmptyFragmentLabel" parent="android:Widget.TextView">
-        <item name="android:background">@drawable/gradient_blue</item>
+        <item name="android:background">?topBarBackground</item>
     </style>
 
     <!-- LinearLayout Progress Dialog -->

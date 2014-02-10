@@ -125,6 +125,10 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 
 		View view = inflater.inflate(R.layout.gc_fragment_assets, container,
 				false);
+		
+		isMultipicker = PhotoPicker.getInstance().isMultiPicker();
+		supportVideos = PhotoPicker.getInstance().supportVideos();
+		supportImages = PhotoPicker.getInstance().supportImages();
 
 		textViewSelectMedia = (TextView) view
 				.findViewById(R.id.gcTextViewSelectMedia);
@@ -141,6 +145,10 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 			updateFragment(account, filterType, selectedAccountsPositions,
 					selectedImagePositions, selectedVideoPositions);
 		}
+		
+		AppUtil.setFragmentLabel(getActivity().getApplicationContext(),
+				textViewSelectMedia, supportImages, supportVideos,
+				isMultipicker);
 
 		gridView.setNumColumns(getResources().getInteger(
 				R.integer.grid_columns_assets));
@@ -153,26 +161,21 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 			List<Integer> selectedAccountsPositions,
 			List<Integer> selectedImagePositions, List<Integer> selectedVideoPositions) {
 
-		isMultipicker = PhotoPicker.getInstance().isMultiPicker();
-		supportVideos = PhotoPicker.getInstance().supportVideos();
-		supportImages = PhotoPicker.getInstance().supportImages();
+		
 		this.filterType = filterType;
 		this.selectedAccountsPositions = selectedAccountsPositions;
 		this.account = account;
-		adapterMerge = new MergeAdapter();
-		adapterImages = new CursorAdapterImages(getActivity(), null,
-				cursorListener);
-		adapterVideos = new CursorAdapterVideos(getActivity(), null,
-				cursorListener);
-		adapterMerge.addAdapter(adapterVideos);
-		adapterMerge.addAdapter(adapterImages);
-		gridView.setAdapter(adapterMerge);
-		AppUtil.setFragmentLabel(getActivity().getApplicationContext(),
-				textViewSelectMedia, supportImages, supportVideos,
-				isMultipicker);
-
+		
 		if ((filterType == PhotoFilterType.ALL_PHOTOS)
 				|| (filterType == PhotoFilterType.CAMERA_ROLL)) {
+			adapterMerge = new MergeAdapter();
+			adapterImages = new CursorAdapterImages(getActivity(), null,
+					cursorListener);
+			adapterVideos = new CursorAdapterVideos(getActivity(), null,
+					cursorListener);
+			adapterMerge.addAdapter(adapterVideos);
+			adapterMerge.addAdapter(adapterImages);
+			gridView.setAdapter(adapterMerge);
 			if (supportImages == true) {
 				getActivity().getSupportLoaderManager().initLoader(1, null,
 						new ImagesLoaderCallback(selectedImagePositions));
@@ -194,6 +197,7 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 						.executeAsync();
 			}
 		}
+		
 
 	}
 
