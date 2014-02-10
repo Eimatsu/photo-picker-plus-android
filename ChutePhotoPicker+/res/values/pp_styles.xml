@@ -30,6 +30,14 @@
         <item name="android:textSize">@dimen/fragment_title</item>
         <item name="android:textColor">?topBarTextColor</item>
     </style>
+    
+    <!-- TextView Sign Out Label -->
+    <style name="textViewSignOut" parent="android:Widget.TextView">
+        <item name="android:gravity">center</item>
+        <item name="android:background">?topBarBackground</item>
+        <item name="android:textSize">@dimen/sign_out</item>
+        <item name="android:textColor">?topBarTextColor</item>
+    </style>
 
     <!-- TextView Default Small -->
     <style name="textViewDefaultSmall" parent="android:Widget.TextView">

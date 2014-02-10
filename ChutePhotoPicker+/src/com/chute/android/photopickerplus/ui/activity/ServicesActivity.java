@@ -41,7 +41,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.araneaapps.android.libs.logger.ALog;
@@ -103,6 +106,7 @@ public class ServicesActivity extends FragmentActivity implements
 	private ListenerVideoSelection listenerVideosSelection;
 	private FragmentSingle fragmentSingle;
 	private FragmentRoot fragmentRoot;
+	private TextView signOut;
 	private int photoFilterType;
 
 	public void setAssetsSelectListener(
@@ -124,6 +128,9 @@ public class ServicesActivity extends FragmentActivity implements
 		fragmentManager = getSupportFragmentManager();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main_layout);
+
+		signOut = (TextView) findViewById(R.id.gcTextViewSignOut);
+		signOut.setOnClickListener(new SignOutListener());
 
 		retrieveValuesFromBundle(savedInstanceState);
 
@@ -152,7 +159,8 @@ public class ServicesActivity extends FragmentActivity implements
 	public void lastVideo() {
 		Uri lastVideoThumbnailFromCameraVideos = MediaDAO
 				.getLastVideoThumbnailFromCameraVideos(getApplicationContext());
-		Uri lastVideoItemFromCameraVideos = MediaDAO.getLastVideoFromCameraVideos(getApplicationContext());
+		Uri lastVideoItemFromCameraVideos = MediaDAO
+				.getLastVideoFromCameraVideos(getApplicationContext());
 		if (lastVideoThumbnailFromCameraVideos.toString().equals("")) {
 			NotificationUtil.makeToast(getApplicationContext(), getResources()
 					.getString(R.string.no_camera_photos));
@@ -298,9 +306,11 @@ public class ServicesActivity extends FragmentActivity implements
 			accountClicked(account);
 		} else {
 			AuthenticationFactory.getInstance().startAuthenticationActivity(
-					ServicesActivity.this, accountType, new AuthenticationOptions.Builder()
-					.setClearCookiesForAccount(false)
-					.setShouldRetainSession(false).build());
+					ServicesActivity.this,
+					accountType,
+					new AuthenticationOptions.Builder()
+							.setClearCookiesForAccount(false)
+							.setShouldRetainSession(false).build());
 		}
 
 	}
@@ -309,26 +319,32 @@ public class ServicesActivity extends FragmentActivity implements
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode != RESULT_OK && resultCode !=  AuthenticationActivity.RESULT_DIFFERENT_CHUTE_USER_AUTHENTICATED) {
+		if (resultCode != RESULT_OK
+				&& resultCode != AuthenticationActivity.RESULT_DIFFERENT_CHUTE_USER_AUTHENTICATED) {
 			return;
 		}
 		if (requestCode == AuthenticationFactory.AUTHENTICATION_REQUEST_CODE) {
 			if (data != null) {
-			String newSessionToken = data.getExtras().getString(AuthenticationActivity.INTENT_DIFFERENT_CHUTE_USER_TOKEN);
-			String previousSessionToken = TokenAuthenticationProvider.getInstance().getToken();
-			if (!newSessionToken.equals(previousSessionToken)) {
-				CurrentUserAccountsRequest request = new CurrentUserAccountsRequest(getApplicationContext(), new AccountsCallback());
-				request.getClient().setAuthentication(
-				        new CustomAuthenticationProvider(newSessionToken));
-				    request.executeAsync();
-			} 
-			}else {
-			GCAccounts.allUserAccounts(getApplicationContext(),
-					new AccountsCallback()).executeAsync();
+				String newSessionToken = data
+						.getExtras()
+						.getString(
+								AuthenticationActivity.INTENT_DIFFERENT_CHUTE_USER_TOKEN);
+				String previousSessionToken = TokenAuthenticationProvider
+						.getInstance().getToken();
+				if (!newSessionToken.equals(previousSessionToken)) {
+					CurrentUserAccountsRequest request = new CurrentUserAccountsRequest(
+							getApplicationContext(), new AccountsCallback());
+					request.getClient().setAuthentication(
+							new CustomAuthenticationProvider(newSessionToken));
+					request.executeAsync();
+				}
+			} else {
+				GCAccounts.allUserAccounts(getApplicationContext(),
+						new AccountsCallback()).executeAsync();
 			}
 			return;
 		}
-		
+
 		if (requestCode == PhotosIntentWrapper.ACTIVITY_FOR_RESULT_STREAM_KEY) {
 			finish();
 			return;
@@ -481,7 +497,8 @@ public class ServicesActivity extends FragmentActivity implements
 		if (fragmentRoot != null) {
 			fragmentRoot.updateFragment(account,
 					PhotoFilterType.values()[photoFilterType],
-					accountItemPositions, imageItemPositions, videoItemPositions);
+					accountItemPositions, imageItemPositions,
+					videoItemPositions);
 		}
 	}
 
@@ -491,11 +508,12 @@ public class ServicesActivity extends FragmentActivity implements
 				: null;
 
 		imageItemPositions = savedInstanceState != null ? savedInstanceState
-				.getIntegerArrayList(Constants.KEY_SELECTED_IMAGES_ITEMS) : null;
-				
+				.getIntegerArrayList(Constants.KEY_SELECTED_IMAGES_ITEMS)
+				: null;
 
 		videoItemPositions = savedInstanceState != null ? savedInstanceState
-				.getIntegerArrayList(Constants.KEY_SELECTED_VIDEOS_ITEMS) : null;
+				.getIntegerArrayList(Constants.KEY_SELECTED_VIDEOS_ITEMS)
+				: null;
 
 		folderId = savedInstanceState != null ? savedInstanceState
 				.getString(Constants.KEY_FOLDER_ID) : null;
@@ -527,7 +545,10 @@ public class ServicesActivity extends FragmentActivity implements
 	public void onSessionExpired(AccountType accountType) {
 		PhotoPickerPreferenceUtil.get().setAccountType(accountType);
 		AuthenticationFactory.getInstance().startAuthenticationActivity(
-				ServicesActivity.this, accountType, new AuthenticationOptions.Builder().setShouldRetainSession(true).build());
+				ServicesActivity.this,
+				accountType,
+				new AuthenticationOptions.Builder()
+						.setShouldRetainSession(true).build());
 	}
 
 	@Override
@@ -571,6 +592,19 @@ public class ServicesActivity extends FragmentActivity implements
 		public void onHttpError(ResponseStatus responseStatus) {
 			ALog.d("Http Error: " + responseStatus.getStatusCode() + " "
 					+ responseStatus.getStatusMessage());
+		}
+
+	}
+
+	private final class SignOutListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			NotificationUtil.makeToast(getApplicationContext(),
+					"Signed out");
+			TokenAuthenticationProvider.getInstance().clearAuth();
+			PhotoPickerPreferenceUtil.get().clearAll();
+
 		}
 
 	}

@@ -21,7 +21,7 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -29,11 +29,23 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <TextView
         android:id="@+id/gcTextViewTitle"
         style="@style/textViewFragmentLabel"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     
+    <TextView android:id="@+id/gcTextViewSignOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/textViewSignOut"
+        android:text="@string/sign_out"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_alignRight="@+id/gcTextViewTitle" >
+         </TextView>
+    
     <GridView
         android:id="@+id/gcGridViewServices"
+        android:layout_below="@+id/gcTextViewTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fadingEdgeLength="0dip"
@@ -47,4 +59,4 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         android:scrollbars="none"
         android:verticalSpacing="10dip" />
 
-</LinearLayout>
+</RelativeLayout>
