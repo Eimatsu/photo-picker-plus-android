@@ -42,99 +42,108 @@ import android.preference.PreferenceManager;
  */
 public class PhotoPickerPreferenceUtil {
 
-  private static final String KEY_ACCOUNT_TYPE = "accountType";
-  private static final String KEY_ACCOUNT_SERVICE_LIST = "accountServiceList";
-  private static final String KEY_LOCAL_SERVICE_LIST = "localServiceList";
-  private final Context context;
+	private static final String KEY_ACCOUNT_TYPE = "accountType";
+	private static final String KEY_ACCOUNT_SERVICE_LIST = "accountServiceList";
+	private static final String KEY_LOCAL_SERVICE_LIST = "localServiceList";
+	private final Context context;
 
-  private PhotoPickerPreferenceUtil(Context context) {
-    this.context = context;
-  }
+	private PhotoPickerPreferenceUtil(Context context) {
+		this.context = context;
+	}
 
-  static PhotoPickerPreferenceUtil instance;
+	static PhotoPickerPreferenceUtil instance;
 
-  public static PhotoPickerPreferenceUtil get() {
-    return instance;
-  }
+	public static PhotoPickerPreferenceUtil get() {
+		return instance;
+	}
 
-  public static boolean isInitialized() {
-    return instance != null;
-  }
+	public static boolean isInitialized() {
+		return instance != null;
+	}
 
-  public static void init(Context context) {
-    if (instance == null) {
-      instance = new PhotoPickerPreferenceUtil(context.getApplicationContext());
-    }
-  }
+	public static void init(Context context) {
+		if (instance == null) {
+			instance = new PhotoPickerPreferenceUtil(
+					context.getApplicationContext());
+		}
+	}
 
-  public SharedPreferences getPreferences() {
-    return PreferenceManager.getDefaultSharedPreferences(context);
-  }
+	public SharedPreferences getPreferences() {
+		return PreferenceManager.getDefaultSharedPreferences(context);
+	}
 
-  private final <T> void setPreference(final String key, final T value) {
-    SharedPreferences.Editor edit = getPreferences().edit();
-    if (value.getClass().equals(String.class)) {
-      edit.putString(key, (String) value);
-    } else if (value.getClass().equals(Boolean.class)) {
-      edit.putBoolean(key, (Boolean) value);
-    } else if (value.getClass().equals(Integer.class)) {
-      edit.putInt(key, (Integer) value);
-    } else if (value.getClass().equals(Long.class)) {
-      edit.putLong(key, (Long) value);
-    } else if (value.getClass().equals(Float.class)) {
-      edit.putFloat(key, (Float) value);
-    } else {
-      throw new UnsupportedOperationException(
-          "Need to add a primitive type to shared prefs");
-    }
-    edit.commit();
-  }
+	private final <T> void setPreference(final String key, final T value) {
+		SharedPreferences.Editor edit = getPreferences().edit();
+		if (value.getClass().equals(String.class)) {
+			edit.putString(key, (String) value);
+		} else if (value.getClass().equals(Boolean.class)) {
+			edit.putBoolean(key, (Boolean) value);
+		} else if (value.getClass().equals(Integer.class)) {
+			edit.putInt(key, (Integer) value);
+		} else if (value.getClass().equals(Long.class)) {
+			edit.putLong(key, (Long) value);
+		} else if (value.getClass().equals(Float.class)) {
+			edit.putFloat(key, (Float) value);
+		} else {
+			throw new UnsupportedOperationException(
+					"Need to add a primitive type to shared prefs");
+		}
+		edit.commit();
+	}
 
-  public void setAccountType(AccountType accountType) {
-    setPreference(KEY_ACCOUNT_TYPE, accountType.name());
-  }
+	public void clearAll() {
+		getPreferences().edit().clear().commit();
+	}
 
-  public AccountType getAccountType() {
-    String accountName = getPreferences().getString(KEY_ACCOUNT_TYPE, null);
-    AccountType type = null;
-    for (AccountType accountType : AccountType.values()) {
-      if (accountName.equalsIgnoreCase(accountType.name())) {
-        type = accountType;
-      }
-    }
-    return type;
-  }
+	public void setAccountType(AccountType accountType) {
+		setPreference(KEY_ACCOUNT_TYPE, accountType.name());
+	}
 
-  public void setAccountServiceList(ArrayList<AccountType> accountList) {
-    for (AccountType accountType : accountList) {
-      setPreference(KEY_ACCOUNT_SERVICE_LIST + "_" + accountType, accountType.name());
-    }
-  }
+	public AccountType getAccountType() {
+		String accountName = getPreferences().getString(KEY_ACCOUNT_TYPE, null);
+		AccountType type = null;
+		for (AccountType accountType : AccountType.values()) {
+			if (accountName.equalsIgnoreCase(accountType.name())) {
+				type = accountType;
+			}
+		}
+		return type;
+	}
 
-  public ArrayList<AccountType> getAccountServiceList() {
-    ArrayList<AccountType> accountList = new ArrayList<AccountType>();
-    for (AccountType accountType : AccountType.values()) {
-      if (getPreferences().contains(KEY_ACCOUNT_SERVICE_LIST + "_" + accountType)) {
-        accountList.add(accountType);
-      }
-    }
-    return accountList;
-  }
+	public void setAccountServiceList(ArrayList<AccountType> accountList) {
+		for (AccountType accountType : accountList) {
+			setPreference(KEY_ACCOUNT_SERVICE_LIST + "_" + accountType,
+					accountType.name());
+		}
+	}
 
-  public void setLocalServiceList(ArrayList<LocalServiceType> localServiceList) {
-    for (LocalServiceType localMediaType : localServiceList) {
-      setPreference(KEY_LOCAL_SERVICE_LIST + "_" + localMediaType, localMediaType.name());
-    }
-  }
+	public ArrayList<AccountType> getAccountServiceList() {
+		ArrayList<AccountType> accountList = new ArrayList<AccountType>();
+		for (AccountType accountType : AccountType.values()) {
+			if (getPreferences().contains(
+					KEY_ACCOUNT_SERVICE_LIST + "_" + accountType)) {
+				accountList.add(accountType);
+			}
+		}
+		return accountList;
+	}
 
-  public ArrayList<LocalServiceType> getLocalServiceList() {
-    ArrayList<LocalServiceType> localServiceList = new ArrayList<LocalServiceType>();
-    for (LocalServiceType localMediaType : LocalServiceType.values()) {
-      if (getPreferences().contains(KEY_LOCAL_SERVICE_LIST + "_" + localMediaType)) {
-        localServiceList.add(localMediaType);
-      }
-    }
-    return localServiceList;
-  }
+	public void setLocalServiceList(ArrayList<LocalServiceType> localServiceList) {
+		for (LocalServiceType localMediaType : localServiceList) {
+			setPreference(KEY_LOCAL_SERVICE_LIST + "_" + localMediaType,
+					localMediaType.name());
+		}
+	}
+
+	public ArrayList<LocalServiceType> getLocalServiceList() {
+		ArrayList<LocalServiceType> localServiceList = new ArrayList<LocalServiceType>();
+		for (LocalServiceType localMediaType : LocalServiceType.values()) {
+			if (getPreferences().contains(
+					KEY_LOCAL_SERVICE_LIST + "_" + localMediaType)) {
+				localServiceList.add(localMediaType);
+			}
+		}
+		return localServiceList;
+	}
 
 }

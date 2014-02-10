@@ -32,7 +32,7 @@ import java.util.List;
 public interface ListenerImageSelection {
 
 
-	public List<String> getCursorImagesSelection();
+	public List<Integer> getCursorImagesSelection();
 	
 	
 

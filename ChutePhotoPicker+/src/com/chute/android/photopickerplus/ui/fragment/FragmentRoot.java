@@ -82,8 +82,8 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 	private boolean supportVideos;
 	private boolean supportImages;
 	private List<Integer> selectedAccountsPositions;
-	private List<String> selectedImagePaths;
-	private List<String> selectedVideoPaths;
+	private List<Integer> selectedImagePositions;
+	private List<Integer> selectedVideoPositions;
 	private AccountModel account;
 	private PhotoFilterType filterType;
 	private AccountType accountType;
@@ -93,13 +93,13 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 	public static FragmentRoot newInstance(AccountModel account,
 			PhotoFilterType filterType,
 			List<Integer> selectedAccountsPositions,
-			List<String> selectedImagePaths, List<String> selectedVideoPaths) {
+			List<Integer> selectedImagePositions, List<Integer> selectedVideoPositions) {
 		FragmentRoot frag = new FragmentRoot();
 		frag.account = account;
 		frag.filterType = filterType;
 		frag.selectedAccountsPositions = selectedAccountsPositions;
-		frag.selectedImagePaths = selectedImagePaths;
-		frag.selectedVideoPaths = selectedVideoPaths;
+		frag.selectedImagePositions = selectedImagePositions;
+		frag.selectedVideoPositions = selectedVideoPositions;
 		Bundle args = new Bundle();
 		frag.setArguments(args);
 		return frag;
@@ -116,12 +116,13 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setRetainInstance(true);
+		setRetainInstance(true);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
 		View view = inflater.inflate(R.layout.gc_fragment_assets, container,
 				false);
 
@@ -138,7 +139,7 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 
 		if (savedInstanceState == null) {
 			updateFragment(account, filterType, selectedAccountsPositions,
-					selectedImagePaths, selectedVideoPaths);
+					selectedImagePositions, selectedVideoPositions);
 		}
 
 		gridView.setNumColumns(getResources().getInteger(
@@ -150,7 +151,7 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 	public void updateFragment(AccountModel account,
 			PhotoFilterType filterType,
 			List<Integer> selectedAccountsPositions,
-			List<String> selectedImagePaths, List<String> selectedVideoPaths) {
+			List<Integer> selectedImagePositions, List<Integer> selectedVideoPositions) {
 
 		isMultipicker = PhotoPicker.getInstance().isMultiPicker();
 		supportVideos = PhotoPicker.getInstance().supportVideos();
@@ -174,11 +175,11 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 				|| (filterType == PhotoFilterType.CAMERA_ROLL)) {
 			if (supportImages == true) {
 				getActivity().getSupportLoaderManager().initLoader(1, null,
-						new ImagesLoaderCallback(selectedImagePaths));
+						new ImagesLoaderCallback(selectedImagePositions));
 			}
 			if (supportVideos == true) {
 				getActivity().getSupportLoaderManager().initLoader(2, null,
-						new VideosLoaderCallback(selectedVideoPaths));
+						new VideosLoaderCallback(selectedVideoPositions));
 			}
 		} else if (filterType == PhotoFilterType.SOCIAL_PHOTOS
 				&& getActivity() != null) {
@@ -247,10 +248,10 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 	 */
 	private final class ImagesLoaderCallback implements LoaderCallbacks<Cursor> {
 
-		private List<String> imagePaths;
+		private List<Integer> imagePositions;
 
-		private ImagesLoaderCallback(List<String> imagePaths) {
-			this.imagePaths = imagePaths;
+		private ImagesLoaderCallback(List<Integer> imagePositions) {
+			this.imagePositions = imagePositions;
 		}
 
 		@Override
@@ -268,12 +269,12 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 			progressBar.setVisibility(View.GONE);
 			adapterImages.changeCursor(cursor);
 
-			if (imagePaths != null) {
-				for (String path : imagePaths) {
-					adapterImages.toggleTick(path);
+			if (imagePositions != null) {
+				for (int selectedPosition : imagePositions) {
+					adapterImages.toggleTick(selectedPosition);
 				}
 			}
-			
+
 			NotificationUtil.showPhotosAdapterToast(getActivity()
 					.getApplicationContext(), adapterImages.getCount());
 		}
@@ -291,10 +292,10 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 	 */
 	private final class VideosLoaderCallback implements LoaderCallbacks<Cursor> {
 
-		private List<String> videoPaths;
+		private List<Integer> videoPositions;
 
-		private VideosLoaderCallback(List<String> videoPaths) {
-			this.videoPaths = videoPaths;
+		private VideosLoaderCallback(List<Integer> videoPositions) {
+			this.videoPositions = videoPositions;
 		}
 
 		@Override
@@ -312,14 +313,14 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 			progressBar.setVisibility(View.GONE);
 			adapterVideos.changeCursor(cursor);
 
-			if (videoPaths != null) {
-				for (String path : videoPaths) {
-					adapterVideos.toggleTick(path);
+			if (videoPositions!= null) {
+				for (int selectedPoosition : videoPositions) {
+					adapterVideos.toggleTick(selectedPoosition);
 				}
 			}
-			
-//			NotificationUtil.showPhotosAdapterToast(getActivity()
-//					.getApplicationContext(), adapterImages.getCount());
+
+			// NotificationUtil.showPhotosAdapterToast(getActivity()
+			// .getApplicationContext(), adapterImages.getCount());
 
 		}
 
