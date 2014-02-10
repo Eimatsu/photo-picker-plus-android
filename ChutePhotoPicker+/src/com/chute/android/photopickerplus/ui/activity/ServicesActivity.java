@@ -128,13 +128,13 @@ public class ServicesActivity extends FragmentActivity implements
 		fragmentManager = getSupportFragmentManager();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main_layout);
+		dualPanes = getResources().getBoolean(R.bool.has_two_panes);
 
 		signOut = (TextView) findViewById(R.id.gcTextViewSignOut);
 		signOut.setOnClickListener(new SignOutListener());
-
+		
 		retrieveValuesFromBundle(savedInstanceState);
-
-		dualPanes = getResources().getBoolean(R.bool.has_two_panes);
+		
 		if (dualPanes
 				&& savedInstanceState == null
 				&& getResources().getConfiguration().orientation != Configuration.ORIENTATION_PORTRAIT) {
@@ -600,6 +600,9 @@ public class ServicesActivity extends FragmentActivity implements
 
 		@Override
 		public void onClick(View v) {
+			if (dualPanes) {
+				replaceContentWithEmptyFragment();
+			}
 			NotificationUtil.makeToast(getApplicationContext(),
 					"Signed out");
 			TokenAuthenticationProvider.getInstance().clearAuth();
@@ -608,5 +611,6 @@ public class ServicesActivity extends FragmentActivity implements
 		}
 
 	}
+
 
 }
