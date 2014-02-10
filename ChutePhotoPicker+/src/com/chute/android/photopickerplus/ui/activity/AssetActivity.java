@@ -75,8 +75,8 @@ public class AssetActivity extends FragmentActivity implements
 	private FragmentSingle fragmentSingle;
 	private AccountModel account;
 	private List<Integer> selectedAccountsPositions;
-	private List<String> selectedImagesPaths;
-	private List<String> selectedVideosPaths;
+	private List<Integer> selectedImagesPositions;
+	private List<Integer> selectedVideosPositions;
 	private ListenerAccountAssetsSelection listenerAccountsSelection;
 	private ListenerImageSelection listenerImagesSelection;
 	private ListenerVideoSelection listenerVideosSelection;
@@ -108,11 +108,11 @@ public class AssetActivity extends FragmentActivity implements
 				.getIntegerArrayList(Constants.KEY_SELECTED_ACCOUNTS_ITEMS)
 				: null;
 
-		selectedImagesPaths = savedInstanceState != null ? savedInstanceState
-				.getStringArrayList(Constants.KEY_SELECTED_IMAGES_ITEMS) : null;
+		selectedImagesPositions = savedInstanceState != null ? savedInstanceState
+				.getIntegerArrayList(Constants.KEY_SELECTED_IMAGES_ITEMS) : null;
 
-		selectedVideosPaths = savedInstanceState != null ? savedInstanceState
-				.getStringArrayList(Constants.KEY_SELECTED_VIDEOS_ITEMS) : null;
+		selectedVideosPositions = savedInstanceState != null ? savedInstanceState
+				.getIntegerArrayList(Constants.KEY_SELECTED_VIDEOS_ITEMS) : null;
 
 
 		folderId = savedInstanceState != null ? savedInstanceState
@@ -125,8 +125,8 @@ public class AssetActivity extends FragmentActivity implements
 		fragmentRoot = (FragmentRoot) getSupportFragmentManager()
 				.findFragmentById(R.id.gcFragmentAssets);
 		fragmentRoot.updateFragment(account, filterType,
-				selectedAccountsPositions, selectedImagesPaths,
-				selectedVideosPaths);
+				selectedAccountsPositions, selectedImagesPositions,
+				selectedVideosPositions);
 	}
 
 	@Override
@@ -181,8 +181,8 @@ public class AssetActivity extends FragmentActivity implements
 		super.onSaveInstanceState(outState);
 		outState.putString(Constants.KEY_FOLDER_ID, folderId);
 		List<Integer> accountPositions = new ArrayList<Integer>();
-		List<String> imagePaths = new ArrayList<String>();
-		List<String> videoPaths = new ArrayList<String>();
+		List<Integer> imagePositions = new ArrayList<Integer>();
+		List<Integer> videoPositions = new ArrayList<Integer>();
 		if (listenerAccountsSelection != null
 				&& listenerAccountsSelection.getSocialPhotosSelection() != null) {
 			accountPositions.addAll(listenerAccountsSelection
@@ -192,17 +192,17 @@ public class AssetActivity extends FragmentActivity implements
 		}
 		if (listenerImagesSelection != null
 				&& listenerImagesSelection.getCursorImagesSelection() != null) {
-			imagePaths.addAll(listenerImagesSelection
+			imagePositions.addAll(listenerImagesSelection
 					.getCursorImagesSelection());
-			outState.putStringArrayList(Constants.KEY_SELECTED_IMAGES_ITEMS,
-					(ArrayList<String>) imagePaths);
+			outState.putIntegerArrayList(Constants.KEY_SELECTED_IMAGES_ITEMS,
+				 (ArrayList<Integer>) imagePositions);
 		}
 		if (listenerVideosSelection != null
 				&& listenerVideosSelection.getCursorVideosSelection() != null) {
-			videoPaths.addAll(listenerVideosSelection
+			videoPositions.addAll(listenerVideosSelection
 					.getCursorVideosSelection());
-			outState.putStringArrayList(Constants.KEY_SELECTED_VIDEOS_ITEMS,
-					(ArrayList<String>) videoPaths);
+			outState.putIntegerArrayList(Constants.KEY_SELECTED_VIDEOS_ITEMS,
+					(ArrayList<Integer>) videoPositions);
 		}
 
 	}
@@ -269,12 +269,12 @@ public class AssetActivity extends FragmentActivity implements
 	public void accountClicked(String accountId, String accountName,
 			String accountShortcut) {
 		selectedAccountsPositions = null;
-		selectedImagesPaths = null;
-		selectedVideosPaths = null;
+		selectedImagesPositions = null;
+		selectedVideosPositions = null;
 		if (fragmentRoot != null) {
 			fragmentRoot.updateFragment(account, filterType,
-					selectedAccountsPositions, selectedImagesPaths,
-					selectedVideosPaths);
+					selectedAccountsPositions, selectedImagesPositions,
+					selectedVideosPositions);
 		}
 	}
 

@@ -31,7 +31,7 @@ import java.util.List;
  */
 public interface ListenerVideoSelection {
 
-	public List<String> getCursorVideosSelection();
+	public List<Integer> getCursorVideosSelection();
 	
 
 }

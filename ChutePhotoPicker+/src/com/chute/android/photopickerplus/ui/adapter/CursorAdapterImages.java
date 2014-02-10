@@ -62,13 +62,13 @@ public class CursorAdapterImages extends BaseCursorAdapter implements
 	}
 
 	@Override
-	public List<String> getCursorImagesSelection() {
-		final ArrayList<String> photos = new ArrayList<String>();
-		final Iterator<String> iterator = tick.values().iterator();
+	public List<Integer> getCursorImagesSelection() {
+		final List<Integer> positions = new ArrayList<Integer>();
+		final Iterator<Integer> iterator = tick.keySet().iterator();
 		while (iterator.hasNext()) {
-			photos.add(iterator.next());
+			positions.add(iterator.next());
 		}
-		return photos;
+		return positions;
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class CursorAdapterImages extends BaseCursorAdapter implements
 
 	@Override
 	public void setViewClickListener(View view, String path, int position) {
-		view.setOnClickListener(new ImageClickListener(path));
+		view.setOnClickListener(new ImageClickListener(path, position));
 
 	}
 
@@ -92,25 +92,36 @@ public class CursorAdapterImages extends BaseCursorAdapter implements
 
 	}
 
+	@Override
+	public void loadImageView(ImageView imageView, Cursor cursor) {
+		String path = cursor.getString(dataIndex);
+		Uri uri = Uri.fromFile(new File(path));
+		loader.displayImage(uri.toString(), imageView, null);
+
+	}
+
 	private final class ImageClickListener implements OnClickListener {
 		private String path;
+		private int selectedPosition;
 
-		private ImageClickListener(String path) {
+		private ImageClickListener(String path, int selectedPosition) {
 			this.path = path;
+			this.selectedPosition = selectedPosition;
 		}
 
 		@Override
 		public void onClick(View v) {
 			if (PhotoPicker.getInstance().isMultiPicker()) {
-				toggleTick(path);
+				toggleTick(selectedPosition);
 			} else {
-				listener.onCursorAssetsSelect(AppUtil.getMediaModel(createMediaResultModel(path)));
+				listener.onCursorAssetsSelect(AppUtil
+						.getMediaModel(createMediaResultModel(path)));
 			}
 
 		}
 
 	}
-	
+
 	public List<DeliverMediaModel> getSelectedFilePaths() {
 		final List<DeliverMediaModel> deliverList = new ArrayList<DeliverMediaModel>();
 		final Iterator<String> iterator = tick.values().iterator();
@@ -120,25 +131,16 @@ public class CursorAdapterImages extends BaseCursorAdapter implements
 		}
 		return deliverList;
 	}
-	
-	
-	public void toggleTick(String path) {
-		if (tick.containsKey(path)) {
-			tick.remove(path);
+
+	public void toggleTick(int selectedPosition) {
+		if (tick.containsKey(selectedPosition)) {
+			tick.remove(selectedPosition);
 		} else {
-			tick.put(path, path);
+			tick.put(selectedPosition, getItem(selectedPosition));
 		}
 		notifyDataSetChanged();
 	}
 
-	@Override
-	public void loadImageView(ImageView imageView, Cursor cursor) {
-		String path = cursor.getString(dataIndex);
-		Uri uri = Uri.fromFile(new File(path));
-		loader.displayImage(uri.toString(), imageView, null);
-		
-	}
-	
 	private DeliverMediaModel createMediaResultModel(String path) {
 		DeliverMediaModel model = new DeliverMediaModel();
 		model.setImageUrl(path);
@@ -146,6 +148,5 @@ public class CursorAdapterImages extends BaseCursorAdapter implements
 		model.setMediaType(MediaType.IMAGE);
 		return model;
 	}
-
 
 }

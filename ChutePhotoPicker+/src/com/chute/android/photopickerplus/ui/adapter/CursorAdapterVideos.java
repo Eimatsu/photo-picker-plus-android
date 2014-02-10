@@ -68,13 +68,14 @@ public class CursorAdapterVideos extends BaseCursorAdapter implements
 	}
 
 	@Override
-	public List<String> getCursorVideosSelection() {
-		final ArrayList<String> photos = new ArrayList<String>();
-		final Iterator<String> iterator = tick.keySet().iterator();
+	public List<Integer> getCursorVideosSelection() {
+		final List<Integer> selectedItemPositions = new ArrayList<Integer>();
+		final Iterator<Integer> iterator = tick.keySet().iterator();
 		while (iterator.hasNext()) {
-			photos.add(iterator.next());
+			selectedItemPositions.add(iterator.next());
 		}
-		return photos;
+		return selectedItemPositions;
+
 	}
 
 	@Override
@@ -98,6 +99,12 @@ public class CursorAdapterVideos extends BaseCursorAdapter implements
 
 	}
 
+	@Override
+	public void loadImageView(ImageView imageView, Cursor cursor) {
+		imageView.setImageBitmap(MediaDAO.getVideoThumbnail(context, cursor));
+
+	}
+
 	private final class VideoClickListener implements OnClickListener {
 
 		private String path;
@@ -112,7 +119,7 @@ public class CursorAdapterVideos extends BaseCursorAdapter implements
 		public void onClick(View v) {
 			position = itemPosition;
 			if (PhotoPicker.getInstance().isMultiPicker()) {
-				toggleTick(path);
+				toggleTick(position);
 			} else {
 				String thumb = MediaDAO.getVideoThumbnailFromCursor(context,
 						getCursor(), position);
@@ -126,31 +133,26 @@ public class CursorAdapterVideos extends BaseCursorAdapter implements
 
 	public List<DeliverMediaModel> getSelectedFilePaths() {
 		final List<DeliverMediaModel> deliverList = new ArrayList<DeliverMediaModel>();
-		Iterator<Entry<String, String>> iterator = tick.entrySet().iterator();
+		Iterator<Entry<Integer, String>> iterator = tick.entrySet().iterator();
 		while (iterator.hasNext()) {
-			Map.Entry<String, String> pairs = iterator.next();
-			String path = pairs.getKey();
-			String position = pairs.getValue();
+			Map.Entry<Integer, String> pairs = iterator.next();
+			String path = pairs.getValue();
+			int position = pairs.getKey();
+
 			String thumbnail = MediaDAO.getVideoThumbnailFromCursor(context,
-					getCursor(), Integer.valueOf(position));
+					getCursor(), position);
 			deliverList.add(createMediaResultModel(thumbnail, path));
 		}
 		return deliverList;
 	}
 
-	public void toggleTick(String path) {
-		if (tick.containsKey(path)) {
-			tick.remove(path);
+	public void toggleTick(int positionSelected) {
+		if (tick.containsKey(positionSelected)) {
+			tick.remove(positionSelected);
 		} else {
-			tick.put(path, String.valueOf(position));
+			tick.put(positionSelected, getItem(positionSelected));
 		}
 		notifyDataSetChanged();
-	}
-
-	@Override
-	public void loadImageView(ImageView imageView, Cursor cursor) {
-		imageView.setImageBitmap(MediaDAO.getVideoThumbnail(context, cursor));
-
 	}
 
 	private DeliverMediaModel createMediaResultModel(String thumb,

@@ -23,7 +23,7 @@ public abstract class BaseCursorAdapter extends CursorAdapter implements OnScrol
 	private static LayoutInflater inflater = null;
 	public ImageLoader loader;
 	protected int dataIndex;
-	public Map<String, String> tick;
+	public Map<Integer, String> tick;
 	protected boolean shouldLoadImages = true;
 
 	@SuppressLint("NewApi")
@@ -33,7 +33,7 @@ public abstract class BaseCursorAdapter extends CursorAdapter implements OnScrol
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		loader = ImageLoader.getLoader(context.getApplicationContext());
 		dataIndex = getDataIndex(c);
-		tick = new HashMap<String, String>();
+		tick = new HashMap<Integer, String>();
 
 	}
 	
@@ -111,7 +111,7 @@ public abstract class BaseCursorAdapter extends CursorAdapter implements OnScrol
 		if (shouldLoadImages) {
 			loadImageView(holder.imageViewThumb, cursor);
 		}
-		if (tick.containsKey(path)) {
+		if (tick.containsKey(cursor.getPosition())) {
 			holder.imageViewTick.setVisibility(View.VISIBLE);
 			view.setBackgroundColor(context.getResources().getColor(
 					R.color.sky_blue));
