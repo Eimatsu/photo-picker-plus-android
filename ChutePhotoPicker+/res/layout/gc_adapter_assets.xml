@@ -36,14 +36,18 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     <ImageView
         android:id="@+id/gcImageViewTick"
-        style="@style/imageViewTick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/tick"
         android:layout_gravity="top|right"
         >
     </ImageView>
     
     <ImageView
-        android:id="@+id/gcImageViewPlay"
-        style="@style/imageViewTick"
+        android:id="@+id/gcImageViewVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/video_icon"
         android:layout_gravity="bottom|left"
         android:visibility="gone"
         >
