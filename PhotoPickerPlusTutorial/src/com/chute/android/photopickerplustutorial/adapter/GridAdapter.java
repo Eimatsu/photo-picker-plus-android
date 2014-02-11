@@ -32,6 +32,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.araneaapps.android.libs.logger.ALog;
+import com.chute.android.photopickerplus.models.enums.MediaType;
 import com.chute.android.photopickerplustutorial.R;
 import com.chute.sdk.v2.model.AssetModel;
 
@@ -70,7 +72,8 @@ public class GridAdapter extends BaseAdapter {
 
   public static class ViewHolder {
 
-    public ImageView image;
+    public ImageView imageView;
+    public ImageView videoIcon;
   }
 
   @Override
@@ -80,12 +83,17 @@ public class GridAdapter extends BaseAdapter {
     if (convertView == null) {
       vi = inflater.inflate(R.layout.gc_grid_adapter_item, null);
       holder = new ViewHolder();
-      holder.image = (ImageView) vi.findViewById(R.id.gcImageViewThumb);
+      holder.imageView = (ImageView) vi.findViewById(R.id.gcImageViewThumb);
+      holder.videoIcon = (ImageView) vi.findViewById(R.id.gcImageViewVideo);
       vi.setTag(holder);
     } else {
       holder = (ViewHolder) vi.getTag();
     }
-    loader.displayImage(getItem(position).getThumbnail(), holder.image, null);
+    loader.displayImage(getItem(position).getThumbnail(), holder.imageView, null);
+    AssetModel asset = getItem(position);
+    if (asset.getType().equalsIgnoreCase(MediaType.VIDEO.name().toLowerCase())) {
+    	holder.videoIcon.setVisibility(View.VISIBLE);
+    }
     return vi;
   }
 
