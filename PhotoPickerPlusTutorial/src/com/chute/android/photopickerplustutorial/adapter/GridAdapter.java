@@ -32,7 +32,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.araneaapps.android.libs.logger.ALog;
 import com.chute.android.photopickerplus.models.enums.MediaType;
 import com.chute.android.photopickerplustutorial.R;
 import com.chute.sdk.v2.model.AssetModel;
