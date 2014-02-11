@@ -50,7 +50,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="5dp"
-        android:drawableLeft="@drawable/btn_icon"
+        android:drawableLeft="@drawable/pp_button_icon"
         android:drawablePadding="10dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"

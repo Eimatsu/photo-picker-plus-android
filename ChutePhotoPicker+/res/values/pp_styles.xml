@@ -83,13 +83,6 @@
         <item name="android:background">@color/white</item>
     </style>
 
-    <!-- ImageView Tick -->
-    <style name="imageViewTick">
-        <item name="android:background">@drawable/checked</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
     <!-- ImageView Default Assets -->
     <style name="imageViewDefaultAssets">
         <item name="android:background">@drawable/photo_placeholder</item>

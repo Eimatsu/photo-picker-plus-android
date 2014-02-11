@@ -124,7 +124,7 @@ public class AssetAccountAdapter extends BaseAdapter implements
 
 		public ImageView imageViewThumb;
 		public ImageView imageViewTick;
-		public ImageView imageVewPlay;
+		public ImageView imageVewVideo;
 		public TextView textViewFolderTitle;
 	}
 
@@ -141,8 +141,8 @@ public class AssetAccountAdapter extends BaseAdapter implements
 					.findViewById(R.id.gcImageViewThumb);
 			holder.imageViewTick = (ImageView) convertView
 					.findViewById(R.id.gcImageViewTick);
-			holder.imageVewPlay = (ImageView) convertView
-					.findViewById(R.id.gcImageViewPlay);
+			holder.imageVewVideo = (ImageView) convertView
+					.findViewById(R.id.gcImageViewVideo);
 			holder.imageViewTick.setTag(position);
 			holder.textViewFolderTitle = (TextView) convertView
 					.findViewById(R.id.gcTextViewFolderTitle);
@@ -171,7 +171,7 @@ public class AssetAccountAdapter extends BaseAdapter implements
 			holder.imageViewThumb
 					.setOnClickListener(new OnFileClickedListener());
 			if (file.getVideoUrl() != null) {
-				holder.imageVewPlay.setVisibility(View.VISIBLE);
+				holder.imageVewVideo.setVisibility(View.VISIBLE);
 			}
 		}
 

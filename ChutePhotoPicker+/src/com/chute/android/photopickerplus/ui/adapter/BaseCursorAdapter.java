@@ -53,7 +53,7 @@ public abstract class BaseCursorAdapter extends CursorAdapter implements OnScrol
 
 		public ImageView imageViewThumb;
 		public ImageView imageViewTick;
-		public ImageView imageViewPlay;
+		public ImageView imageViewVideo;
 	}
 
 
@@ -66,8 +66,8 @@ public abstract class BaseCursorAdapter extends CursorAdapter implements OnScrol
 				.findViewById(R.id.gcImageViewThumb);
 		holder.imageViewTick = (ImageView) vi
 				.findViewById(R.id.gcImageViewTick);
-		holder.imageViewPlay = (ImageView) vi
-				.findViewById(R.id.gcImageViewPlay);
+		holder.imageViewVideo= (ImageView) vi
+				.findViewById(R.id.gcImageViewVideo);
 		vi.setTag(holder);
 		return vi;
 	}
@@ -120,9 +120,9 @@ public abstract class BaseCursorAdapter extends CursorAdapter implements OnScrol
 			view.setBackgroundColor(context.getResources().getColor(
 					R.color.gray_light));
 		}
-		holder.imageViewPlay.setVisibility(View.VISIBLE);
+		holder.imageViewVideo.setVisibility(View.VISIBLE);
 		setViewClickListener(view, path, cursor.getPosition());
-		setPlayButtonVisibility(holder.imageViewPlay);
+		setPlayButtonVisibility(holder.imageViewVideo);
 
 	}
 
