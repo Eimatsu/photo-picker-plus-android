@@ -35,5 +35,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         android:layout_centerInParent="true"
         android:scaleType="centerCrop" >
     </ImageView>
+    
+    <ImageView
+        android:id="@+id/gcImageViewVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/video_icon"
+        android:layout_gravity="top|left"
+        android:visibility="gone"
+        >
+    </ImageView>
 
 </com.chute.android.photopickerplus.ui.components.SquareFrameLayout>
