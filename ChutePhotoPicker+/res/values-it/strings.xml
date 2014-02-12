@@ -13,6 +13,7 @@
     <string name="parsing_exception">Formato di risposta cattiva</string>
     <string name="http_exception">Controlla la tua connessione a Internet e riprova</string>
     <string name="http_error">Problema del server, riprovare</string>
+    <string name="general_error">Si è verificato un errore. Riprovare più tardi</string>
 
     <!-- UI -->
     <string name="cancel">Cancellare</string>

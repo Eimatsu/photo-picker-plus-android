@@ -13,6 +13,7 @@
     <string name="parsing_exception">Mauvais format de réponse</string>
     <string name="http_exception">Vérifiez votre connexion Internet et réessayez</string>
     <string name="http_error">Problème de serveur, réessayez</string>
+    <string name="general_error">Une erreur s\'est produite. S\'il vous plaît réessayer plus tard</string>
 
     <!-- UI -->
     <string name="cancel">Annuler</string>

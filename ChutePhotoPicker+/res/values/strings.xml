@@ -16,9 +16,10 @@
     <string name="camera_media">Camera media</string>
 
     <!-- Exceptions -->
-    <string name="parsing_exception">Invalid response format</string>
-    <string name="http_exception">Check your internet connection and try again</string>
-    <string name="http_error">Server Problem, Try again</string>
+    <string name="parsing_exception">Invalid response format.</string>
+    <string name="http_exception">Check your internet connection and try again.</string>
+    <string name="http_error">Server Problem. Please try again later.</string>
+    <string name="general_error">An error has occurred. Please try again later.</string>
 
     <!-- UI -->
     <string name="cancel">Cancel</string>

@@ -47,7 +47,6 @@ import com.chute.sdk.v2.model.AssetModel;
  */
 public class PhotosIntentWrapper extends IntentWrapper {
 
-  public static final int ACTIVITY_FOR_RESULT_PHOTO_KEY = 115;
   public static final int ACTIVITY_FOR_RESULT_STREAM_KEY = 113;
 
   // social photos

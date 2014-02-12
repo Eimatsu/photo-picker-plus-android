@@ -138,7 +138,6 @@ public class ServicesAdapter extends BaseAdapter {
 		}
 
 		if (getItemViewType(position) == VIEW_TYPE_LOCAL_ACCOUNT) {
-			/* Set an image as a background. */
 			holder.textViewServiceTitle.setVisibility(View.VISIBLE);
 			setupLocalService(holder, getLocalAccount(position));
 		} else {

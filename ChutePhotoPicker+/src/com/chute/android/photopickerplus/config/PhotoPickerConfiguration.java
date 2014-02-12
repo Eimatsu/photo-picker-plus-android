@@ -42,7 +42,7 @@ import com.chute.sdk.v2.model.enums.AccountType;
  *  getApplicationContext())
  *  .isMultiPicker(true)
  *  .accountList(AccountType.FLICKR, AccountType.FACEBOOK)
- *  .localImageList(LocalServiceType.ALL_PHOTOS, LocalServiceType.CAMERA_PHOTOS)
+ *  .localImageList(LocalServiceType.ALL_MEDIA, LocalServiceType.CAMERA_MEDIA)
  *  .configUrl("http://s3.amazonaws.com/store.getchute.com/51eeae5e6e29310c9a000001")
  * .build();
  * PhotoPicker.getInstance().init(config);
@@ -78,8 +78,8 @@ public final class PhotoPickerConfiguration {
 	 * <li>isMultiPicker = false</li>
 	 * <li>accountList = {@link AccountType#FACEBOOK},
 	 * {@link AccountType#INSTAGRAM}</li>
-	 * <li>localMediaList = {@link LocalServiceType#ALL_PHOTOS},
-	 * {@link LocalServiceType#CAMERA_PHOTOS}</li>
+	 * <li>localMediaList = {@link LocalServiceType#ALL_MEDIA},
+	 * {@link LocalServiceType#CAMERA_MEDIA}</li>
 	 * </ul>
 	 * */
 	public static PhotoPickerConfiguration createDefault(Context context) {
@@ -144,11 +144,11 @@ public final class PhotoPickerConfiguration {
 		}
 
 		/**
-		 * Allows selection of one or multiple photos in the PhotoPicker.
+		 * Enables video support.
 		 * 
-		 * @param isMultiPicker
-		 *            <b>true</b> for enabling multi-picking and <b>false</b>
-		 *            for enabling single-picking feature.
+		 * @param supportVideos
+		 *            <b>true</b> if PhotoPicker should support videos and
+		 *            <b>false</b> otherwise.
 		 * @return
 		 */
 		public Builder supportVideos(boolean supportVideos) {
@@ -156,11 +156,27 @@ public final class PhotoPickerConfiguration {
 			return this;
 		}
 
+		/**
+		 * Enables image support.
+		 * 
+		 * @param supportImages
+		 *            <b>true</b> if PhotoPicker should support images and
+		 *            <b>false</b> otherwise.
+		 * @return
+		 */
 		public Builder supportImages(boolean supportImages) {
 			this.supportImages = supportImages;
 			return this;
 		}
 
+		/**
+		 * Allows selection of one or multiple photos in the PhotoPicker.
+		 * 
+		 * @param isMultiPicker
+		 *            <b>true</b> for enabling multi-picking and <b>false</b>
+		 *            for enabling single-picking feature.
+		 * @return
+		 */
 		public Builder isMultiPicker(boolean isMultiPicker) {
 			this.isMultiPicker = isMultiPicker;
 			return this;

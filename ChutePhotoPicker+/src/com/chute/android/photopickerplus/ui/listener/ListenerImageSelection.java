@@ -25,8 +25,8 @@ package com.chute.android.photopickerplus.ui.listener;
 import java.util.List;
 
 /**
- * Interface for retrieving the selected item positions used to save the
- * selected items state when the orientation is changed.
+ * Interface for retrieving the selected image positions used to save the
+ * selected images state when the orientation is changed.
  * 
  */
 public interface ListenerImageSelection {

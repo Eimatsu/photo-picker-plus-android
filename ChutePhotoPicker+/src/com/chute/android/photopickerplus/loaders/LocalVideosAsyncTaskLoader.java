@@ -30,7 +30,7 @@ import com.chute.android.photopickerplus.models.enums.PhotoFilterType;
 
 /**
  * The {@link LocalVideosAsyncTaskLoader} class is an AsyncTaskLoader subclass
- * that loads photos that can be found on the device.
+ * that loads videos found on the device.
  */
 public class LocalVideosAsyncTaskLoader extends
 		AbstractSingleDataInstanceAsyncTaskLoader<Cursor> {
@@ -46,7 +46,7 @@ public class LocalVideosAsyncTaskLoader extends
 	@Override
 	public Cursor loadInBackground() {
 		switch (filterType) {
-		case ALL_PHOTOS:
+		case ALL_MEDIA:
 			return MediaDAO.getAllMediaVideos(getContext());
 		case CAMERA_ROLL:
 			return MediaDAO.getCameraVideos(getContext());

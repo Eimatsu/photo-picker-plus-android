@@ -47,7 +47,6 @@ public class PhotoPickerPlusIntentWrapper extends IntentWrapper {
   private static final String KEY_ACCOUNT_ID = "accountId";
   private static final String KEY_ALBUM_ID = "albumId";
   private static final String KEY_PHOTO_COLLECTION = "photoCollection";
-  public static final String FLAG_SERVICES_HIDE = "flagHideServices";
 
   public PhotoPickerPlusIntentWrapper(Context context) {
     super(context, ServicesActivity.class);
@@ -71,14 +70,6 @@ public class PhotoPickerPlusIntentWrapper extends IntentWrapper {
 
   public void setAlbumId(String albumId) {
     getIntent().putExtra(KEY_ALBUM_ID, albumId);
-  }
-
-  public boolean areServicesHidden() {
-    return getIntent().getExtras().getBoolean(FLAG_SERVICES_HIDE);
-  }
-
-  public void setServicesHidden(boolean flag) {
-    getIntent().putExtra(FLAG_SERVICES_HIDE, flag);
   }
 
   @SuppressWarnings("unchecked")

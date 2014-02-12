@@ -45,7 +45,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.araneaapps.android.libs.logger.ALog;
 import com.chute.android.photopickerplus.R;
@@ -132,9 +131,9 @@ public class ServicesActivity extends FragmentActivity implements
 
 		signOut = (TextView) findViewById(R.id.gcTextViewSignOut);
 		signOut.setOnClickListener(new SignOutListener());
-		
+
 		retrieveValuesFromBundle(savedInstanceState);
-		
+
 		if (dualPanes
 				&& savedInstanceState == null
 				&& getResources().getConfiguration().orientation != Configuration.ORIENTATION_PORTRAIT) {
@@ -215,18 +214,18 @@ public class ServicesActivity extends FragmentActivity implements
 
 	@Override
 	public void photoStream() {
-		photoFilterType = PhotoFilterType.ALL_PHOTOS.ordinal();
+		photoFilterType = PhotoFilterType.ALL_MEDIA.ordinal();
 		accountItemPositions = null;
 		imageItemPositions = null;
 		videoItemPositions = null;
 		if (!dualPanes) {
 			final PhotosIntentWrapper wrapper = new PhotosIntentWrapper(
 					ServicesActivity.this);
-			wrapper.setFilterType(PhotoFilterType.ALL_PHOTOS);
+			wrapper.setFilterType(PhotoFilterType.ALL_MEDIA);
 			wrapper.startActivityForResult(ServicesActivity.this,
 					PhotosIntentWrapper.ACTIVITY_FOR_RESULT_STREAM_KEY);
 		} else {
-			replaceContentWithRootFragment(null, PhotoFilterType.ALL_PHOTOS);
+			replaceContentWithRootFragment(null, PhotoFilterType.ALL_MEDIA);
 		}
 
 	}
@@ -250,7 +249,7 @@ public class ServicesActivity extends FragmentActivity implements
 	}
 
 	public void accountClicked(AccountModel account) {
-		photoFilterType = PhotoFilterType.SOCIAL_PHOTOS.ordinal();
+		photoFilterType = PhotoFilterType.SOCIAL_MEDIA.ordinal();
 		accountItemPositions = null;
 		imageItemPositions = null;
 		videoItemPositions = null;
@@ -258,13 +257,13 @@ public class ServicesActivity extends FragmentActivity implements
 		if (!dualPanes) {
 			final PhotosIntentWrapper wrapper = new PhotosIntentWrapper(
 					ServicesActivity.this);
-			wrapper.setFilterType(PhotoFilterType.SOCIAL_PHOTOS);
+			wrapper.setFilterType(PhotoFilterType.SOCIAL_MEDIA);
 			wrapper.setAccount(account);
 			wrapper.startActivityForResult(ServicesActivity.this,
 					PhotosIntentWrapper.ACTIVITY_FOR_RESULT_STREAM_KEY);
 		} else {
 			replaceContentWithRootFragment(account,
-					PhotoFilterType.SOCIAL_PHOTOS);
+					PhotoFilterType.SOCIAL_MEDIA);
 		}
 
 	}
@@ -442,7 +441,7 @@ public class ServicesActivity extends FragmentActivity implements
 		accountItemPositions = null;
 		imageItemPositions = null;
 		videoItemPositions = null;
-		photoFilterType = PhotoFilterType.SOCIAL_PHOTOS.ordinal();
+		photoFilterType = PhotoFilterType.SOCIAL_MEDIA.ordinal();
 		this.folderId = folderId;
 		this.account = account;
 		replaceContentWithSingleFragment(account, folderId,
@@ -490,7 +489,7 @@ public class ServicesActivity extends FragmentActivity implements
 		fragmentRoot = (FragmentRoot) getSupportFragmentManager()
 				.findFragmentByTag(Constants.TAG_FRAGMENT_FOLDER);
 		if (fragmentSingle != null
-				&& photoFilterType == PhotoFilterType.SOCIAL_PHOTOS.ordinal()) {
+				&& photoFilterType == PhotoFilterType.SOCIAL_MEDIA.ordinal()) {
 			fragmentSingle.updateFragment(account, folderId,
 					accountItemPositions);
 		}
@@ -574,9 +573,8 @@ public class ServicesActivity extends FragmentActivity implements
 				accountType = PhotoPickerPreferenceUtil.get().getAccountType();
 			}
 			if (responseData.getData().size() == 0) {
-				Toast.makeText(getApplicationContext(),
-						getResources().getString(R.string.no_albums_found),
-						Toast.LENGTH_SHORT).show();
+				NotificationUtil.makeToast(getApplicationContext(),
+						R.string.no_albums_found);
 				return;
 			}
 			for (AccountModel accountModel : responseData.getData()) {
@@ -603,14 +601,12 @@ public class ServicesActivity extends FragmentActivity implements
 			if (dualPanes) {
 				replaceContentWithEmptyFragment();
 			}
-			NotificationUtil.makeToast(getApplicationContext(),
-					"Signed out");
+			NotificationUtil.makeToast(getApplicationContext(), "Signed out");
 			TokenAuthenticationProvider.getInstance().clearAuth();
 			PhotoPickerPreferenceUtil.get().clearAll();
 
 		}
 
 	}
-
 
 }
