@@ -13,6 +13,7 @@
     <string name="parsing_exception">悪い応答形式</string>
     <string name="http_exception">あなたのインターネット接続を確認し、再試行してください</string>
     <string name="http_error">サーバーの問題はもう一度やり直し</string>
+    <string name="general_error">エラーが発生しました。後で再試行してください。</string>
 
     <!-- UI -->
     <string name="cancel">キャンセル</string>

@@ -22,6 +22,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.chute.android.photopickerplus.models.enums;
 
+/**
+ * Values used to indicate whether the media item type refers to an item
+ * retrieved from camera roll, all media or a social service.
+ * 
+ */
 public enum PhotoFilterType {
-  CAMERA_ROLL, ALL_PHOTOS, SOCIAL_PHOTOS
+	CAMERA_ROLL, ALL_MEDIA, SOCIAL_MEDIA
 }

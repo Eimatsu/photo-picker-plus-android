@@ -31,7 +31,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Window;
-import android.widget.Toast;
 
 import com.araneaapps.android.libs.logger.ALog;
 import com.chute.android.photopickerplus.R;
@@ -44,6 +43,7 @@ import com.chute.android.photopickerplus.ui.listener.ListenerImageSelection;
 import com.chute.android.photopickerplus.ui.listener.ListenerVideoSelection;
 import com.chute.android.photopickerplus.util.AppUtil;
 import com.chute.android.photopickerplus.util.Constants;
+import com.chute.android.photopickerplus.util.NotificationUtil;
 import com.chute.android.photopickerplus.models.DeliverMediaModel;
 import com.chute.android.photopickerplus.models.enums.PhotoFilterType;
 import com.chute.android.photopickerplus.util.PhotoPickerPreferenceUtil;
@@ -244,9 +244,7 @@ public class AssetActivity extends FragmentActivity implements
 				accountType = PhotoPickerPreferenceUtil.get().getAccountType();
 			}
 			if (responseData.getData().size() == 0) {
-				Toast.makeText(getApplicationContext(),
-						getResources().getString(R.string.no_albums_found),
-						Toast.LENGTH_SHORT).show();
+				NotificationUtil.makeToast(getApplicationContext(), R.string.no_albums_found);
 				return;
 			}
 			for (AccountModel accountModel : responseData.getData()) {

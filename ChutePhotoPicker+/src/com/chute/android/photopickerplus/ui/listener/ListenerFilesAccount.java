@@ -72,7 +72,7 @@ public interface ListenerFilesAccount {
   /**
    * This method is used to handle expired session events. It is triggered when
    * HTTP Error containing 401 error code is thrown. It happens when the account
-   * is inactive for 15 min. Google and SkyDrive usually manifest this kind of a
+   * is inactive for 15 min. Google, SkyDrive and YouTube usually manifest this kind of
    * behavior.
    * 
    * @param accountType

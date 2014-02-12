@@ -47,11 +47,11 @@ public interface ListenerFilesCursor {
   public void onCursorAssetsSelect(AssetModel assetModel);
 
   /**
-   * Delivers a list of {@link AssetModel}s to the main activity when photos
+   * Delivers a list of {@link DeliverMediaModel}s to the main activity when photos
    * from a local service are selected.
    * 
-   * @param assetPathList
-   *          List of selected photo paths delivered to the main activity i.e.
+   * @param deliverList
+   *          List of selected items wrapped in {@link DeliverMediaModel} delivered to the main activity i.e.
    *          the activity that started the PhotoPicker.
    */
   public void onDeliverCursorAssets(List<DeliverMediaModel> deliverList);

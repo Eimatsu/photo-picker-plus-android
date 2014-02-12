@@ -34,7 +34,7 @@ import com.dg.libs.rest.client.BaseRestClient.RequestMethod;
 import com.dg.libs.rest.requests.StringBodyHttpRequestImpl;
 
 /**
- * The {@link ImageDataRequest} used for exchanging messages with the server
+ * The {@link ImageDataRequest} class is used for exchanging messages with the server
  * (request-response). It uses the {@link StringBodyHttpRequestImpl}
  * implementation.
  * 

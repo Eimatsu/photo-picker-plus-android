@@ -58,7 +58,7 @@ import com.chute.sdk.v2.utils.Utils;
  * <li>Get chache directorium
  * <li>Check if the device has an image capture bug
  * <li>Set ImageView dimensions according to the device size
- * <li>Create {@link AssetModel}(s) using the image path
+ * <li>Create {@link AssetModel}(s) using the image path 
  * </ul>
  * 
  */

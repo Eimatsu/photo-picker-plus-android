@@ -61,6 +61,15 @@ public class MediaDAO {
 				null, MediaStore.Images.Media.DATE_ADDED + " DESC");
 	}
 
+	/**
+	 * Request a specific record in {@link MediaStore.Video.Thumbnails}
+	 * database.
+	 * 
+	 * @param context
+	 *            The application context.
+	 * @return Cursor object enabling read-write access to camera video
+	 *         thumbnails on the device.
+	 */
 	public static Cursor getCameraVideosThumbnails(final Context context) {
 		final String[] projection = new String[] {
 				MediaStore.Video.Thumbnails._ID,
@@ -72,6 +81,14 @@ public class MediaDAO {
 				null, MediaStore.Video.Thumbnails.DEFAULT_SORT_ORDER);
 	}
 
+	/**
+	 * Request a specific record in {@link MediaStore.Video.Media} database.
+	 * 
+	 * @param context
+	 *            The application context.
+	 * @return Cursor object enabling read-write access to camera videos on the
+	 *         device.
+	 */
 	public static Cursor getCameraVideos(final Context context) {
 		final String[] projection = new String[] { MediaStore.Video.Media._ID,
 				MediaStore.Video.Media.DATA };
@@ -98,6 +115,15 @@ public class MediaDAO {
 				null, MediaStore.Images.Media.DATE_ADDED + " DESC");
 	}
 
+	/**
+	 * Request a specific record in {@link MediaStore.Video.Thumbnails}
+	 * database.
+	 * 
+	 * @param context
+	 *            The application context.
+	 * @return Cursor object enabling read-write access to all video thumbnails
+	 *         on the device.
+	 */
 	public static Cursor getAllMediaVideosThumbnails(final Context context) {
 		final String[] projection = new String[] {
 				MediaStore.Video.Thumbnails._ID,
@@ -107,6 +133,14 @@ public class MediaDAO {
 				null, MediaStore.Video.Thumbnails.DEFAULT_SORT_ORDER);
 	}
 
+	/**
+	 * Request a specific record in {@link MediaStore.Video.Media} database.
+	 * 
+	 * @param context
+	 *            The application context.
+	 * @return Cursor object enabling read-write access to all videos on the
+	 *         device.
+	 */
 	public static Cursor getAllMediaVideos(final Context context) {
 		final String[] projection = new String[] { MediaStore.Video.Media._ID,
 				MediaStore.Video.Media.DATA };
@@ -150,6 +184,13 @@ public class MediaDAO {
 		return uri;
 	}
 
+	/**
+	 * Returns the last video thumbnail URI from all videos on the device.
+	 * 
+	 * @param context
+	 *            The application context.
+	 * @return The URI for the requested query.
+	 */
 	public static Uri getLastVideoThumbnailFromAllVideos(final Context context) {
 		Cursor allMediaVideos = getAllMediaVideosThumbnails(context);
 		Uri uri = getFirstVideoThumbnailUri(allMediaVideos);
@@ -160,6 +201,14 @@ public class MediaDAO {
 		return uri;
 	}
 
+	/**
+	 * Returns the last video thumbnail URI from the camera videos on the
+	 * device.
+	 * 
+	 * @param context
+	 *            The application context.
+	 * @return The URI for the requested query.
+	 */
 	public static Uri getLastVideoThumbnailFromCameraVideos(
 			final Context context) {
 		Cursor cameraVideos = getCameraVideosThumbnails(context);
@@ -171,6 +220,13 @@ public class MediaDAO {
 		return uri;
 	}
 
+	/**
+	 * Returns the last video URI from the camera videos on the device.
+	 * 
+	 * @param context
+	 *            The application context.
+	 * @return The URI for the requested query.
+	 */
 	public static Uri getLastVideoFromCameraVideos(final Context context) {
 		Cursor cameraVideos = getCameraVideos(context);
 		Uri uri = getFirstVideoItemUri(cameraVideos);
@@ -181,6 +237,13 @@ public class MediaDAO {
 		return uri;
 	}
 
+	/**
+	 * Returns the last video URI from all videos on the device.
+	 * 
+	 * @param context
+	 *            The application context.
+	 * @return The URI for the requested query.
+	 */
 	public static Uri getLastVideoFromAllVideos(final Context context) {
 		Cursor allVideos = getAllMediaVideos(context);
 		Uri uri = getFirstVideoItemUri(allVideos);
@@ -191,6 +254,19 @@ public class MediaDAO {
 		return uri;
 	}
 
+	/**
+	 * Request a specific record in {@link MediaStore.Video.Thumbnails}
+	 * database.
+	 * 
+	 * @param context
+	 *            The application context.
+	 * @param dataCursor
+	 *            Cursor object enabling read-write access to videos on the
+	 *            device.
+	 * @param position
+	 *            Cursor position
+	 * @return Path of the video thumbnail.
+	 */
 	public static String getVideoThumbnailFromCursor(final Context context,
 			final Cursor dataCursor, int position) {
 		String thumbPath = null;
@@ -230,6 +306,14 @@ public class MediaDAO {
 		return null;
 	}
 
+	/**
+	 * Returns the URI of the first item from all videos on the device.
+	 * 
+	 * @param Cursor
+	 *            Cursor object enabling read-write access to all videos on the
+	 *            device.
+	 * @return The URI for the requested query.
+	 */
 	private static Uri getFirstVideoItemUri(Cursor cursor) {
 		if (cursor != null && cursor.moveToFirst()) {
 			return Uri.fromFile(new File(cursor.getString(cursor
@@ -238,6 +322,15 @@ public class MediaDAO {
 		return null;
 	}
 
+	/**
+	 * Returns the URI of the first item from all video thumbnails on the
+	 * device.
+	 * 
+	 * @param Cursor
+	 *            Cursor object enabling read-write access to all video
+	 *            thumbnails on the device.
+	 * @return The URI for the requested query.
+	 */
 	private static Uri getFirstVideoThumbnailUri(Cursor cursor) {
 		if (cursor != null && cursor.moveToFirst()) {
 			return Uri.fromFile(new File(cursor.getString(cursor
@@ -246,6 +339,16 @@ public class MediaDAO {
 		return null;
 	}
 
+	/**
+	 * Gets
+	 * 
+	 * @param context
+	 *            The application context
+	 * @param cursor
+	 *            Cursor object enabling read-write access to all videos on the
+	 *            device.
+	 * @return Video bitmap thumbnail.
+	 */
 	public static Bitmap getVideoThumbnail(Context context, Cursor cursor) {
 		int id = cursor.getInt(cursor
 				.getColumnIndexOrThrow(MediaStore.Video.VideoColumns._ID));

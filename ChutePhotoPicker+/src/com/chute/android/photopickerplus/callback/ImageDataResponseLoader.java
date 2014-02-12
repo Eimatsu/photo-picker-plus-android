@@ -26,15 +26,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.araneaapps.android.libs.logger.ALog;
+import com.chute.android.photopickerplus.R;
 import com.chute.android.photopickerplus.models.MediaResponseModel;
 import com.chute.android.photopickerplus.models.MediaDataModel;
 import com.chute.android.photopickerplus.models.MediaModel;
 import com.chute.android.photopickerplus.models.OptionsModel;
 import com.chute.android.photopickerplus.models.enums.MediaType;
 import com.chute.android.photopickerplus.ui.listener.ListenerFilesAccount;
+import com.chute.android.photopickerplus.util.NotificationUtil;
 import com.chute.sdk.v2.api.Chute;
 import com.chute.sdk.v2.api.authentication.AuthConstants;
 import com.chute.sdk.v2.api.authentication.AuthenticationFactory;
@@ -72,9 +73,9 @@ public class ImageDataResponseLoader {
 		for (AccountMediaModel accountMediaModel : selectedImages) {
 			MediaDataModel mediaModel = new MediaDataModel();
 			if (accountMediaModel.getVideoUrl() != null) {
-			mediaModel.setFileType(MediaType.VIDEO.name().toLowerCase());
+				mediaModel.setFileType(MediaType.VIDEO.name().toLowerCase());
 			} else {
-			mediaModel.setFileType(MediaType.IMAGE.name().toLowerCase());
+				mediaModel.setFileType(MediaType.IMAGE.name().toLowerCase());
 			}
 			mediaModel.setVideoUrl(accountMediaModel.getVideoUrl());
 			mediaModel.setImageUrl(accountMediaModel.getImageUrl());
@@ -112,9 +113,7 @@ public class ImageDataResponseLoader {
 
 		@Override
 		public void onHttpError(ResponseStatus responseStatus) {
-			Toast.makeText(context,
-					"An error occurred, please try again later",
-					Toast.LENGTH_SHORT).show();
+			NotificationUtil.makeToast(context, R.string.general_error);
 			ALog.d("Http Error: " + responseStatus.getStatusCode() + " "
 					+ responseStatus.getStatusMessage());
 

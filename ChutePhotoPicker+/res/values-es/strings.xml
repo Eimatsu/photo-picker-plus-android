@@ -13,6 +13,7 @@
     <string name="parsing_exception">Formato de respuesta no válida</string>
     <string name="http_exception">Compruebe su conexión a internet y vuelve a intentarlo</string>
     <string name="http_error">Problema en el servidor intente de nuevo</string>
+    <string name="general_error">Se ha producido un error. Por favor, inténtelo de nuevo más tarde</string>
 
     <!-- UI -->
     <string name="cancel">Cancelar</string>

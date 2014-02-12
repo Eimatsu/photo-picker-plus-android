@@ -37,50 +37,49 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ServiceResponseModel {
 
+	/**
+	 * List of remote services.
+	 * 
+	 * The list can contain: facebook, flickr, picasa, instagram, google,
+	 * googledrive, skydrive, dropbox and youtube.
+	 */
+	@JsonProperty("services")
+	private List<String> services;
 
-  /**
-   * List of remote services.
-   * 
-   * The list can contain: facebook, flickr, picasa, instagram, google,
-   * googledrive, skydrive or dropbox.
-   */
-  @JsonProperty("services")
-  private List<String> services;
+	/**
+	 * List of local services.
+	 * 
+	 * The list can contain: all_media, take_photo, last_photo_taken,
+	 * last_video_captured, record_video and camera_media.
+	 */
+	@JsonProperty("local_features")
+	private List<String> localFeatures;
 
-  /**
-   * List of local services.
-   * 
-   * The list can contain: all_photos, take_photo, last_taken_photo and
-   * camera_photos.
-   */
-  @JsonProperty("local_features")
-  private List<String> localFeatures;
+	public List<String> getServices() {
+		return services;
+	}
 
-  public List<String> getServices() {
-    return services;
-  }
+	public void setServices(List<String> services) {
+		this.services = services;
+	}
 
-  public void setServices(List<String> services) {
-    this.services = services;
-  }
+	public List<String> getLocalFeatures() {
+		return localFeatures;
+	}
 
-  public List<String> getLocalFeatures() {
-    return localFeatures;
-  }
+	public void setLocalFeatures(List<String> localFeatures) {
+		this.localFeatures = localFeatures;
+	}
 
-  public void setLocalFeatures(List<String> localFeatures) {
-    this.localFeatures = localFeatures;
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("ServiceResponseModel [services=");
-    builder.append(services);
-    builder.append(", localFeatures=");
-    builder.append(localFeatures);
-    builder.append("]");
-    return builder.toString();
-  }
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("ServiceResponseModel [services=");
+		builder.append(services);
+		builder.append(", localFeatures=");
+		builder.append(localFeatures);
+		builder.append("]");
+		return builder.toString();
+	}
 
 }

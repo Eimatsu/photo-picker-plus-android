@@ -28,118 +28,118 @@ import android.support.v4.content.AsyncTaskLoader;
 import com.araneaapps.android.libs.logger.ALog;
 
 /**
- * An abstract class that performs asynchronous loading of data. While Loaders
- * are active they should monitor the source of their data and deliver new
- * results when the contents change.
+ * An abstract class that performs asynchronous data loading. While Loaders are
+ * active they should monitor the source of their data and deliver new results
+ * when the contents change.
  * 
  * @author darko.grozdanovski
  * @param <D>
  */
 public abstract class AbstractSingleDataInstanceAsyncTaskLoader<D> extends
-    AsyncTaskLoader<D> {
+		AsyncTaskLoader<D> {
 
-  private D data;
+	private D data;
 
-  public AbstractSingleDataInstanceAsyncTaskLoader(Context context) {
-    super(context);
+	public AbstractSingleDataInstanceAsyncTaskLoader(Context context) {
+		super(context);
 
-  }
+	}
 
-  public static final String TAG = AbstractSingleDataInstanceAsyncTaskLoader.class
-      .getSimpleName();
+	public static final String TAG = AbstractSingleDataInstanceAsyncTaskLoader.class
+			.getSimpleName();
 
-  @Override
-  public void deliverResult(D data) {
-    if (isReset()) {
-      /*
-       * An asynchronous query came in while the loader is stopped. The result
-       * is not needed.
-       */
-      if (data != null) {
-        onReleaseResources(data);
-      }
-    }
-    this.data = data;
-    if (isStarted()) {
-      /*
-       * If the Loader is currently started, the results can be delivered
-       * immediately.
-       */
-      super.deliverResult(data);
-    }
+	@Override
+	public void deliverResult(D data) {
+		if (isReset()) {
+			/*
+			 * An asynchronous query came in while the loader is stopped. The
+			 * result is not needed.
+			 */
+			if (data != null) {
+				onReleaseResources(data);
+			}
+		}
+		this.data = data;
+		if (isStarted()) {
+			/*
+			 * If the Loader is currently started, the results can be delivered
+			 * immediately.
+			 */
+			super.deliverResult(data);
+		}
 
-  }
+	}
 
-  public void changeStoredResources(D data) {
-    this.data = data;
-  }
+	public void changeStoredResources(D data) {
+		this.data = data;
+	}
 
-  public D getData() {
-    return data;
-  }
+	public D getData() {
+		return data;
+	}
 
-  private void onReleaseResources(D data) {
-    // TODO Auto-generated method stub
-  }
+	private void onReleaseResources(D data) {
+		// TODO Auto-generated method stub
+	}
 
-  /**
-   * Handles a request to start the Loader.
-   */
-  @Override
-  protected void onStartLoading() {
-    if (data != null) {
-      /*
-       * If the result is currently available, it should be delivered
-       * immediately.
-       */
-      deliverResult(data);
-    }
+	/**
+	 * Handles a request to start the Loader.
+	 */
+	@Override
+	protected void onStartLoading() {
+		if (data != null) {
+			/*
+			 * If the result is currently available, it should be delivered
+			 * immediately.
+			 */
+			deliverResult(data);
+		}
 
-    if (takeContentChanged() || data == null) {
-      // If the data has changed since the last time it was loaded
-      // or is not currently available, start a load.
-      forceLoad();
-    }
-  }
+		if (takeContentChanged() || data == null) {
+			// If the data has changed since the last time it was loaded
+			// or is not currently available, start a load.
+			forceLoad();
+		}
+	}
 
-  @Override
-  public void forceLoad() {
-    ALog.d(TAG, "forcing load");
-    super.forceLoad();
-  }
+	@Override
+	public void forceLoad() {
+		ALog.d(TAG, "forcing load");
+		super.forceLoad();
+	}
 
-  /**
-   * Handles a request to stop the Loader.
-   */
-  @Override
-  protected void onStopLoading() {
-    /* Attempt to cancel the current load task if possible. */
-    cancelLoad();
-  }
+	/**
+	 * Handles a request to stop the Loader.
+	 */
+	@Override
+	protected void onStopLoading() {
+		/* Attempt to cancel the current load task if possible. */
+		cancelLoad();
+	}
 
-  @Override
-  public void onCanceled(D data) {
-    super.onCanceled(data);
-    onReleaseResources(data);
-  }
+	@Override
+	public void onCanceled(D data) {
+		super.onCanceled(data);
+		onReleaseResources(data);
+	}
 
-  /**
-   * Handles a request to completely reset the Loader.
-   */
-  @Override
-  protected void onReset() {
-    super.onReset();
+	/**
+	 * Handles a request to completely reset the Loader.
+	 */
+	@Override
+	protected void onReset() {
+		super.onReset();
 
-    /* Ensure the loader is stopped */
-    onStopLoading();
+		/* Ensure the loader is stopped */
+		onStopLoading();
 
-    /*
-     * At this point we can release the resources associated with 'apps' if
-     * needed.
-     */
-    if (data != null) {
-      onReleaseResources(data);
-      data = null;
-    }
-  }
+		/*
+		 * At this point we can release the resources associated with 'apps' if
+		 * needed.
+		 */
+		if (data != null) {
+			onReleaseResources(data);
+			data = null;
+		}
+	}
 }

@@ -166,7 +166,7 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 		this.selectedAccountsPositions = selectedAccountsPositions;
 		this.account = account;
 		
-		if ((filterType == PhotoFilterType.ALL_PHOTOS)
+		if ((filterType == PhotoFilterType.ALL_MEDIA)
 				|| (filterType == PhotoFilterType.CAMERA_ROLL)) {
 			adapterMerge = new MergeAdapter();
 			adapterImages = new CursorAdapterImages(getActivity(), null,
@@ -184,7 +184,7 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 				getActivity().getSupportLoaderManager().initLoader(2, null,
 						new VideosLoaderCallback(selectedVideoPositions));
 			}
-		} else if (filterType == PhotoFilterType.SOCIAL_PHOTOS
+		} else if (filterType == PhotoFilterType.SOCIAL_MEDIA
 				&& getActivity() != null) {
 			accountType = PhotoPickerPreferenceUtil.get().getAccountType();
 			if (supportVideos == false
@@ -349,13 +349,13 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 
 		@Override
 		public void onClick(View v) {
-			if (filterType == PhotoFilterType.SOCIAL_PHOTOS) {
+			if (filterType == PhotoFilterType.SOCIAL_MEDIA) {
 				if (!adapterAccounts.getPhotoCollection().isEmpty()) {
 					ImageDataResponseLoader.postImageData(getActivity()
 							.getApplicationContext(), adapterAccounts
 							.getPhotoCollection(), accountListener);
 				}
-			} else if ((filterType == PhotoFilterType.ALL_PHOTOS)
+			} else if ((filterType == PhotoFilterType.ALL_MEDIA)
 					|| (filterType == PhotoFilterType.CAMERA_ROLL)) {
 				List<DeliverMediaModel> deliverList = new ArrayList<DeliverMediaModel>();
 				if (!adapterImages.getSelectedFilePaths().isEmpty()) {

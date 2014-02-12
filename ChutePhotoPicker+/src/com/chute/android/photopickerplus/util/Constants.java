@@ -24,25 +24,23 @@ package com.chute.android.photopickerplus.util;
 
 public class Constants {
 
-  public static final int HTTP_ERROR_CODE_UNAUTHORIZED = 401;
-  public static final int DELAY_TIME = 500;
-  public static final int CAMERA_PIC_REQUEST = 2500;
-  public static final int CAMERA_VIDEO_REQUEST = 2501;
+	public static final int HTTP_ERROR_CODE_UNAUTHORIZED = 401;
+	public static final int DELAY_TIME = 500;
+	public static final int CAMERA_PIC_REQUEST = 2500;
+	public static final int CAMERA_VIDEO_REQUEST = 2501;
 
-  public static final String TAG_FRAGMENT_FOLDER = "FolderFrag";
-  public static final String TAG_FRAGMENT_FILES = "FilesFrag";
-  public static final String TAG_FRAGMENT_EMPTY = "EmptyFrag";
+	public static final String TAG_FRAGMENT_FOLDER = "FolderFrag";
+	public static final String TAG_FRAGMENT_FILES = "FilesFrag";
+	public static final String TAG_FRAGMENT_EMPTY = "EmptyFrag";
 
-  public static final String KEY_SELECTED_ACCOUNTS_ITEMS = "keySelectedAccountsItems";
-  public static final String KEY_SELECTED_IMAGES_ITEMS = "keySelectedImagesItems";
-  public static final String KEY_SELECTED_VIDEOS_ITEMS = "keySelectedVideosItems";
-  public static final String KEY_FOLDER_ID = "keyFolderId";
-  public static final String KEY_ACCOUNT = "keyAccount";
-  public static final String KEY_PHOTO_FILTER_TYPE = "keyPhotoFilterType";
-  public static final String KEY_EXPIRED_SESSION = "keyExpiredSession";
+	public static final String KEY_SELECTED_ACCOUNTS_ITEMS = "keySelectedAccountsItems";
+	public static final String KEY_SELECTED_IMAGES_ITEMS = "keySelectedImagesItems";
+	public static final String KEY_SELECTED_VIDEOS_ITEMS = "keySelectedVideosItems";
+	public static final String KEY_FOLDER_ID = "keyFolderId";
+	public static final String KEY_ACCOUNT = "keyAccount";
+	public static final String KEY_PHOTO_FILTER_TYPE = "keyPhotoFilterType";
+	public static final String KEY_EXPIRED_SESSION = "keyExpiredSession";
 
-  public static final String SELECTED_IMAGES_URL = "http://api.getchute.com/v2/widgets/native";
-  
-//  public static final String TYPE_IMAGE = "image";
-//  public static final String TYPE_VIDEO = "video";
+	public static final String SELECTED_IMAGES_URL = "http://api.getchute.com/v2/widgets/native";
+
 }

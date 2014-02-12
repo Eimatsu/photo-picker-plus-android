@@ -13,6 +13,7 @@
     <string name="parsing_exception">Schlechte Antwort-Format</string>
     <string name="http_exception">Überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut</string>
     <string name="http_error">Server-Problem, es erneut zu versuchen</string>
+    <string name="general_error">Ein Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal</string>
 
     <!-- UI -->
     <string name="cancel">Stornieren</string>

@@ -63,8 +63,8 @@ public class PhotoPicker {
 	 */
 	private List<AccountType> remoteServices;
 	/**
-	 * List of {@link LocalServiceType} objects representing the local services to
-	 * be configured.
+	 * List of {@link LocalServiceType} objects representing the local services
+	 * to be configured.
 	 */
 	private List<LocalServiceType> localServices;
 
@@ -192,8 +192,8 @@ public class PhotoPicker {
 	}
 
 	/**
-	 * Gets list of {@link AccountType} and {@link LocalServiceType} services from
-	 * server.
+	 * Gets list of {@link AccountType} and {@link LocalServiceType} services
+	 * from server.
 	 * 
 	 * @param url
 	 *            An absolute URL giving the base location of the config file
@@ -271,11 +271,25 @@ public class PhotoPicker {
 
 	}
 
+	/**
+	 * If true, PhotoPicker displays images for selection. Note that
+	 * {@linkplain #supportImages()}, {@linkplain #supportVideos()} or both
+	 * should return true in order to start the PhotoPicker component.
+	 * 
+	 * @return <b>true</b> if supports images, <b>false</b> otherwise.
+	 */
 	public boolean supportImages() {
 		return configuration.supportImages;
 
 	}
 
+	/**
+	 * If true, PhotoPicker displays videos for selection. Note that
+	 * {@linkplain #supportImages()}, {@linkplain #supportVideos()} or both
+	 * should return true in order to start the PhotoPicker component.
+	 * 
+	 * @return <b>true</b> if multi, <b>false</b> if single picker.
+	 */
 	public boolean supportVideos() {
 		return configuration.supportVideos;
 
@@ -334,9 +348,9 @@ public class PhotoPicker {
 	}
 
 	/**
-	 * If the specified list of {@link LocalServiceType} services contains service
-	 * which is not supported by the Chute API, the service is immediately
-	 * removed.
+	 * If the specified list of {@link LocalServiceType} services contains
+	 * service which is not supported by the Chute API, the service is
+	 * immediately removed.
 	 * 
 	 * Local supported services include: All Photos, Camera Photos, Last Taken
 	 * Photo and Take Photo.
@@ -354,7 +368,8 @@ public class PhotoPicker {
 			LocalServiceType localMediaType = iterator.next();
 			if (!localMediaType.equals(LocalServiceType.ALL_MEDIA)
 					&& !localMediaType.equals(LocalServiceType.CAMERA_MEDIA)
-					&& !localMediaType.equals(LocalServiceType.LAST_PHOTO_TAKEN)
+					&& !localMediaType
+							.equals(LocalServiceType.LAST_PHOTO_TAKEN)
 					&& !localMediaType.equals(LocalServiceType.TAKE_PHOTO)
 					&& !localMediaType
 							.equals(LocalServiceType.LAST_VIDEO_CAPTURED)
