@@ -37,6 +37,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -70,7 +71,8 @@ import com.dg.libs.rest.domain.ResponseStatus;
 
 public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 
-	private GridView gridView;
+//	private GridView gridView;
+	private ListView listView;
 	private CursorAdapterImages adapterImages;
 	private CursorAdapterVideos adapterVideos;
 	private AssetAccountAdapter adapterAccounts;
@@ -123,7 +125,7 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.gc_fragment_assets, container,
+		View view = inflater.inflate(R.layout.gc_fragment_assets_list, container,
 				false);
 		
 		isMultipicker = PhotoPicker.getInstance().isMultiPicker();
@@ -133,7 +135,8 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 		textViewSelectMedia = (TextView) view
 				.findViewById(R.id.gcTextViewSelectMedia);
 		progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-		gridView = (GridView) view.findViewById(R.id.gcGridViewAssets);
+//		gridView = (GridView) view.findViewById(R.id.gcGridViewAssets);
+		listView = (ListView) view.findViewById(R.id.gcListViewAssets);
 
 		Button ok = (Button) view.findViewById(R.id.gcButtonOk);
 		Button cancel = (Button) view.findViewById(R.id.gcButtonCancel);
@@ -150,8 +153,8 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 				textViewSelectMedia, supportImages, supportVideos,
 				isMultipicker);
 
-		gridView.setNumColumns(getResources().getInteger(
-				R.integer.grid_columns_assets));
+//		gridView.setNumColumns(getResources().getInteger(
+//				R.integer.grid_columns_assets));
 
 		return view;
 	}
@@ -175,7 +178,8 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 					cursorListener);
 			adapterMerge.addAdapter(adapterVideos);
 			adapterMerge.addAdapter(adapterImages);
-			gridView.setAdapter(adapterMerge);
+//			gridView.setAdapter(adapterMerge);
+			listView.setAdapter(adapterMerge);
 			if (supportImages == true) {
 				getActivity().getSupportLoaderManager().initLoader(1, null,
 						new ImagesLoaderCallback(selectedImagePositions));
@@ -229,7 +233,8 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 						AppUtil.filterFiles(responseData.getData(),
 								supportImages, supportVideos),
 						FragmentRoot.this);
-				gridView.setAdapter(adapterAccounts);
+//				gridView.setAdapter(adapterAccounts);
+				listView.setAdapter(adapterAccounts);
 
 				if (selectedAccountsPositions != null) {
 					for (int position : selectedAccountsPositions) {

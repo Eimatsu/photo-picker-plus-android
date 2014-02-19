@@ -23,10 +23,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 package com.chute.android.photopickerplus.config;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
+import android.widget.TextView.BufferType;
 
+import com.chute.android.photopickerplus.models.enums.DisplayType;
 import com.chute.android.photopickerplus.models.enums.LocalServiceType;
 import com.chute.sdk.v2.model.enums.AccountType;
 
@@ -60,6 +64,8 @@ public final class PhotoPickerConfiguration {
 	final boolean isMultiPicker;
 	final boolean supportVideos;
 	final boolean supportImages;
+	final DisplayType displayType;
+	final Map<AccountType, DisplayType> accountDisplayTypeMap;
 
 	private PhotoPickerConfiguration(final Builder builder) {
 		context = builder.context;
@@ -69,6 +75,8 @@ public final class PhotoPickerConfiguration {
 		configUrl = builder.configUrl;
 		supportImages = builder.supportImages;
 		supportVideos = builder.supportVideos;
+		displayType = builder.displayType;
+		accountDisplayTypeMap = builder.accountDisplayTypeMap;
 	}
 
 	/**
@@ -99,6 +107,8 @@ public final class PhotoPickerConfiguration {
 		private String configUrl = null;
 		private boolean supportImages = true;
 		private boolean supportVideos = true;
+		private DisplayType displayType = DisplayType.GRID;
+		private Map<AccountType, DisplayType> accountDisplayTypeMap = null;
 
 		public Builder(Context context) {
 			this.context = context.getApplicationContext();
@@ -141,6 +151,17 @@ public final class PhotoPickerConfiguration {
 		public Builder configUrl(String configUrl) {
 			this.configUrl = configUrl;
 			return this;
+		}
+
+		public Builder defaultAccountDisplayType(DisplayType displayType) {
+			this.displayType = displayType;
+			return this;
+		}
+
+		public Builder accountDisplayType(Map<AccountType, DisplayType> accountDisplayTypeMap) {
+			this.accountDisplayTypeMap = accountDisplayTypeMap;
+			return this;
+
 		}
 
 		/**

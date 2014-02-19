@@ -25,7 +25,10 @@ package com.chute.android.photopickerplus.ui.activity;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -49,8 +52,10 @@ import android.widget.TextView;
 import com.araneaapps.android.libs.logger.ALog;
 import com.chute.android.photopickerplus.R;
 import com.chute.android.photopickerplus.callback.CustomAuthenticationProvider;
+import com.chute.android.photopickerplus.config.PhotoPicker;
 import com.chute.android.photopickerplus.dao.MediaDAO;
 import com.chute.android.photopickerplus.models.DeliverMediaModel;
+import com.chute.android.photopickerplus.models.enums.DisplayType;
 import com.chute.android.photopickerplus.models.enums.MediaType;
 import com.chute.android.photopickerplus.models.enums.PhotoFilterType;
 import com.chute.android.photopickerplus.ui.fragment.FragmentEmpty;
@@ -127,6 +132,7 @@ public class ServicesActivity extends FragmentActivity implements
 		fragmentManager = getSupportFragmentManager();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main_layout);
+			
 		dualPanes = getResources().getBoolean(R.bool.has_two_panes);
 
 		signOut = (TextView) findViewById(R.id.gcTextViewSignOut);

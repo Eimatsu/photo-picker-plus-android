@@ -99,7 +99,7 @@ public class FragmentSingle extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.gc_fragment_assets, container,
+		View view = inflater.inflate(R.layout.gc_fragment_assets_grid, container,
 				false);
 
 		textViewSelectMedia = (TextView) view

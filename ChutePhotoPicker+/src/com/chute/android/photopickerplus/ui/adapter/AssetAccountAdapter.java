@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
@@ -39,6 +40,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chute.android.photopickerplus.R;
+import com.chute.android.photopickerplus.config.PhotoPicker;
+import com.chute.android.photopickerplus.models.enums.DisplayType;
 import com.chute.android.photopickerplus.ui.activity.AssetActivity;
 import com.chute.android.photopickerplus.ui.activity.ServicesActivity;
 import com.chute.android.photopickerplus.ui.listener.ListenerAccountAssetsSelection;
@@ -46,6 +49,7 @@ import com.chute.sdk.v2.model.AccountAlbumModel;
 import com.chute.sdk.v2.model.AccountBaseModel;
 import com.chute.sdk.v2.model.AccountMediaModel;
 import com.chute.sdk.v2.model.enums.AccountMediaType;
+import com.chute.sdk.v2.model.enums.AccountType;
 import com.chute.sdk.v2.model.interfaces.AccountMedia;
 
 import darko.imagedownloader.ImageLoader;
@@ -62,6 +66,9 @@ public class AssetAccountAdapter extends BaseAdapter implements
 	private final FragmentActivity context;
 	private List<AccountMedia> rows;
 	private AdapterItemClickListener adapterItemClickListener;
+	private AccountType accountType;
+	private Map<AccountType, DisplayType> map;
+	private DisplayType displayType;
 
 	public interface AdapterItemClickListener {
 
@@ -95,6 +102,12 @@ public class AssetAccountAdapter extends BaseAdapter implements
 			((ServicesActivity) context).setAssetsSelectListener(this);
 		} else {
 			((AssetActivity) context).setAssetsSelectListener(this);
+		}
+		//TODO get AccountType
+		map = PhotoPicker.getInstance().getAccountDisplayType();
+		displayType = getDisplayType(map);
+		if (displayType == null) {
+			displayType = PhotoPicker.getInstance().getDefaultAccountDisplayType();
 		}
 	}
 
@@ -135,17 +148,31 @@ public class AssetAccountAdapter extends BaseAdapter implements
 		ViewHolder holder;
 		int type = getItemViewType(position);
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.gc_adapter_assets, null);
+			if (displayType == DisplayType.LIST) {
+			convertView = inflater.inflate(R.layout.gc_adapter_assets_list, null);
 			holder = new ViewHolder();
 			holder.imageViewThumb = (ImageView) convertView
-					.findViewById(R.id.gcImageViewThumb);
+					.findViewById(R.id.gcImageViewListThumb);
 			holder.imageViewTick = (ImageView) convertView
-					.findViewById(R.id.gcImageViewTick);
+					.findViewById(R.id.gcImageViewListTick);
 			holder.imageVewVideo = (ImageView) convertView
-					.findViewById(R.id.gcImageViewVideo);
+					.findViewById(R.id.gcImageViewListVideo);
 			holder.imageViewTick.setTag(position);
 			holder.textViewFolderTitle = (TextView) convertView
-					.findViewById(R.id.gcTextViewFolderTitle);
+					.findViewById(R.id.gcTextViewListAlbumTitle);
+			} else {
+				convertView = inflater.inflate(R.layout.gc_adapter_assets_grid, null);
+				holder = new ViewHolder();
+				holder.imageViewThumb = (ImageView) convertView
+						.findViewById(R.id.gcImageViewGridThumb);
+				holder.imageViewTick = (ImageView) convertView
+						.findViewById(R.id.gcImageViewGridTick);
+				holder.imageVewVideo = (ImageView) convertView
+						.findViewById(R.id.gcImageViewGridVideo);
+				holder.imageViewTick.setTag(position);
+				holder.textViewFolderTitle = (TextView) convertView
+						.findViewById(R.id.gcTextViewGridAlbumTitle);
+			}
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -165,6 +192,10 @@ public class AssetAccountAdapter extends BaseAdapter implements
 					.setOnClickListener(new OnFolderClickedListener());
 		} else if (type == AccountMediaType.FILE.ordinal()) {
 			AccountMediaModel file = (AccountMediaModel) getItem(position);
+			if (displayType == DisplayType.LIST) {
+				holder.textViewFolderTitle.setVisibility(View.VISIBLE);
+				holder.textViewFolderTitle.setText(file.getCaption());
+			}
 			holder.imageViewTick.setVisibility(View.VISIBLE);
 			loader.displayImage(file.getThumbnail(), holder.imageViewThumb,
 					null);
@@ -239,6 +270,18 @@ public class AssetAccountAdapter extends BaseAdapter implements
 			positions.add(iterator.next());
 		}
 		return positions;
+	}
+	
+	private DisplayType getDisplayType(Map<AccountType, DisplayType> accountMap) {
+		Iterator<Entry<AccountType, DisplayType>> iterator = map.entrySet().iterator();
+		while(iterator.hasNext()) {
+			Entry<AccountType, DisplayType> pairs = iterator.next();
+			AccountType type = pairs.getKey();
+			if (type == accountType) {
+				displayType =  pairs.getValue();
+			}
+		}
+		return displayType;
 	}
 
 }
