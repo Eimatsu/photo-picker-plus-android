@@ -23,10 +23,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 package com.chute.android.photopickerplus.config;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.araneaapps.android.libs.logger.ALog;
+import com.chute.android.photopickerplus.models.enums.DisplayType;
 import com.chute.android.photopickerplus.models.enums.LocalServiceType;
 import com.chute.android.photopickerplus.util.PhotoPickerPreferenceUtil;
 import com.chute.sdk.v2.model.enums.AccountType;
@@ -189,6 +192,20 @@ public class PhotoPicker {
 		} else {
 			return checkIfRemoteServiceIsSupported(accountServiceListInPrefs);
 		}
+	}
+
+	public Map<AccountType, DisplayType> getAccountDisplayType() {
+		checkConfiguration();
+		Map<AccountType, DisplayType> map = configuration.accountDisplayTypeMap;
+		if (map != null) {
+			return map;
+		} else {
+			return new HashMap<AccountType, DisplayType>();
+		}
+	}
+
+	public DisplayType getDefaultAccountDisplayType() {
+		return configuration.displayType;
 	}
 
 	/**

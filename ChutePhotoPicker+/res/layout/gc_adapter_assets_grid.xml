@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chute.android.photopickerplus.ui.components.SquareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/relativeLayoutAdapterItemHolder"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center" >
+
+    <ImageView
+        android:id="@+id/gcImageViewGridThumb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" >
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/gcImageViewGridTick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/tick"
+        android:layout_gravity="top|right"
+        >
+    </ImageView>
+    
+    <ImageView
+        android:id="@+id/gcImageViewGridVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/video_icon"
+        android:layout_gravity="top|left"
+        android:visibility="gone"
+        >
+    </ImageView>
+
+    <TextView
+        android:id="@+id/gcTextViewGridAlbumTitle"
+        style="@style/textViewServiceName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center" />
+
+</com.chute.android.photopickerplus.ui.components.SquareFrameLayout>

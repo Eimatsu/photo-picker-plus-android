@@ -22,11 +22,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.chute.android.photopickerplustutorial;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.araneaapps.android.libs.logger.ALog;
 import com.araneaapps.android.libs.logger.ALog.DebugLevel;
 import com.chute.android.photopickerplus.PhotoPickerPlusApp;
 import com.chute.android.photopickerplus.config.PhotoPicker;
 import com.chute.android.photopickerplus.config.PhotoPickerConfiguration;
+import com.chute.android.photopickerplus.models.enums.DisplayType;
 import com.chute.android.photopickerplus.models.enums.LocalServiceType;
 import com.chute.android.photopickerplustutorial.config.ConfigEndpointURLs;
 import com.chute.sdk.v2.api.Chute;
@@ -52,10 +56,15 @@ public class PhotoPickerPlusTutorialApp extends PhotoPickerPlusApp {
 		 */
 
 		Chute.init(this, new AuthConstants(APP_ID, APP_SECRET));
+		
+		Map<AccountType, DisplayType> map = new HashMap<AccountType, DisplayType>();
+		map.put(AccountType.INSTAGRAM, DisplayType.LIST);
 
 		PhotoPickerConfiguration config = new PhotoPickerConfiguration.Builder(
 				getApplicationContext())
 				.isMultiPicker(true)
+				.defaultAccountDisplayType(DisplayType.GRID)
+		        .accountDisplayType(map)
 				.accountList(AccountType.FLICKR, AccountType.DROPBOX,
 						AccountType.INSTAGRAM, AccountType.GOOGLE,
 						AccountType.YOUTUBE)
