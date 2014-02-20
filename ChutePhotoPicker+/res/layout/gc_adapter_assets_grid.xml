@@ -6,14 +6,14 @@
     android:layout_gravity="center" >
 
     <ImageView
-        android:id="@+id/gcImageViewGridThumb"
+        android:id="@+id/gcImageViewThumb"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop" >
     </ImageView>
 
     <ImageView
-        android:id="@+id/gcImageViewGridTick"
+        android:id="@+id/gcImageViewTick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/tick"
@@ -22,7 +22,7 @@
     </ImageView>
     
     <ImageView
-        android:id="@+id/gcImageViewGridVideo"
+        android:id="@+id/gcImageViewVideo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/video_icon"
@@ -32,7 +32,7 @@
     </ImageView>
 
     <TextView
-        android:id="@+id/gcTextViewGridAlbumTitle"
+        android:id="@+id/gcTextViewAlbumTitle"
         style="@style/textViewServiceName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

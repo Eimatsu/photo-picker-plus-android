@@ -63,11 +63,11 @@ public abstract class BaseCursorAdapter extends CursorAdapter implements OnScrol
 		View vi = inflater.inflate(R.layout.gc_adapter_assets_grid, null);
 		holder = new ViewHolder();
 		holder.imageViewThumb = (ImageView) vi
-				.findViewById(R.id.gcImageViewGridThumb);
+				.findViewById(R.id.gcImageViewThumb);
 		holder.imageViewTick = (ImageView) vi
-				.findViewById(R.id.gcImageViewGridTick);
+				.findViewById(R.id.gcImageViewTick);
 		holder.imageViewVideo= (ImageView) vi
-				.findViewById(R.id.gcImageViewGridVideo);
+				.findViewById(R.id.gcImageViewVideo);
 		vi.setTag(holder);
 		return vi;
 	}

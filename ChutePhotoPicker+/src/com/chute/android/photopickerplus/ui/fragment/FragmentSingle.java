@@ -23,10 +23,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 package com.chute.android.photopickerplus.ui.fragment;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -40,6 +38,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.araneaapps.android.libs.logger.ALog;
@@ -47,13 +46,14 @@ import com.chute.android.photopickerplus.R;
 import com.chute.android.photopickerplus.callback.ImageDataResponseLoader;
 import com.chute.android.photopickerplus.config.PhotoPicker;
 import com.chute.android.photopickerplus.models.enums.DisplayType;
-import com.chute.android.photopickerplus.models.enums.PhotoFilterType;
 import com.chute.android.photopickerplus.ui.adapter.AssetAccountAdapter;
 import com.chute.android.photopickerplus.ui.adapter.AssetAccountAdapter.AdapterItemClickListener;
 import com.chute.android.photopickerplus.ui.listener.ListenerFilesAccount;
 import com.chute.android.photopickerplus.util.AppUtil;
+import com.chute.android.photopickerplus.util.AssetUtil;
 import com.chute.android.photopickerplus.util.NotificationUtil;
 import com.chute.android.photopickerplus.util.PhotoPickerPreferenceUtil;
+import com.chute.android.photopickerplus.util.UIUtil;
 import com.chute.sdk.v2.api.accounts.GCAccounts;
 import com.chute.sdk.v2.model.AccountAlbumModel;
 import com.chute.sdk.v2.model.AccountBaseModel;
@@ -81,6 +81,8 @@ public class FragmentSingle extends Fragment implements
 
 	private AssetAccountAdapter accountAssetAdapter;
 	private ListenerFilesAccount accountListener;
+	
+	private RelativeLayout relativeLayoutRoot;
 
 	public static FragmentSingle newInstance(AccountModel account,
 			String folderId, List<Integer> selectedItemPositions) {
@@ -116,17 +118,14 @@ public class FragmentSingle extends Fragment implements
 		Map<AccountType, DisplayType> accountMap = PhotoPicker.getInstance().getAccountDisplayType();
 		displayType = AppUtil.getDisplayType(accountMap, PhotoPicker.getInstance().getDefaultAccountDisplayType(), accountType);
 		
-		View view = null;
+		View view = inflater.inflate(R.layout.gc_fragment_assets_grid, container, false);
+		relativeLayoutRoot = (RelativeLayout) view.findViewById(R.id.gcRelativeLayoutRoot);
 		if (displayType == DisplayType.LIST) {
-		view = inflater.inflate(R.layout.gc_fragment_assets_list, container,
-				false);
-		listView = (ListView) view.findViewById(R.id.gcListViewAssets);
+			listView = UIUtil.initListView(getActivity());
+			relativeLayoutRoot.addView(listView);
 		} else {
-			view = inflater.inflate(R.layout.gc_fragment_assets_grid, container,
-					false);
-			gridView = (GridView) view.findViewById(R.id.gcGridViewAssets);
-			gridView.setNumColumns(getResources().getInteger(
-					R.integer.grid_columns_assets));
+			gridView = UIUtil.initGridView(getActivity());
+			relativeLayoutRoot.addView(gridView);
 		}
 
 		textViewSelectMedia = (TextView) view
@@ -180,7 +179,7 @@ public class FragmentSingle extends Fragment implements
 			boolean supportVideos = PhotoPicker.getInstance().supportVideos();
 			if (responseData.getData() != null && getActivity() != null) {
 				accountAssetAdapter = new AssetAccountAdapter(getActivity(),
-						AppUtil.filterFiles(responseData.getData(),
+						AssetUtil.filterFiles(responseData.getData(),
 								supportImages, supportVideos),
 						FragmentSingle.this, displayType);
 				if (displayType == DisplayType.LIST) {
@@ -195,7 +194,7 @@ public class FragmentSingle extends Fragment implements
 					}
 				}
 
-				AppUtil.setFragmentLabel(getActivity().getApplicationContext(),
+				UIUtil.setFragmentLabel(getActivity().getApplicationContext(),
 						textViewSelectMedia, supportImages, supportVideos,
 						supportVideos);
 				NotificationUtil.showPhotosAdapterToast(getActivity()
@@ -251,5 +250,5 @@ public class FragmentSingle extends Fragment implements
 			}
 		}
 	}
-
+	
 }

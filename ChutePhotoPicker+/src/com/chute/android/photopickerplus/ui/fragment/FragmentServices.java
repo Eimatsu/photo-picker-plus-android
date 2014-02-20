@@ -37,7 +37,7 @@ import com.chute.android.photopickerplus.R;
 import com.chute.android.photopickerplus.config.PhotoPicker;
 import com.chute.android.photopickerplus.models.enums.LocalServiceType;
 import com.chute.android.photopickerplus.ui.adapter.ServicesAdapter;
-import com.chute.android.photopickerplus.util.AppUtil;
+import com.chute.android.photopickerplus.util.UIUtil;
 import com.chute.sdk.v2.model.enums.AccountType;
 
 public class FragmentServices extends Fragment {
@@ -96,7 +96,7 @@ public class FragmentServices extends Fragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		PhotoPicker singleton = PhotoPicker.getInstance();
-		AppUtil.setServiceFragmentLabel(getActivity().getApplicationContext(),
+		UIUtil.setServiceFragmentLabel(getActivity().getApplicationContext(),
 				textViewTitle, singleton.supportImages(),
 				singleton.supportVideos());
 		configureServices(singleton.getRemoteServices(),

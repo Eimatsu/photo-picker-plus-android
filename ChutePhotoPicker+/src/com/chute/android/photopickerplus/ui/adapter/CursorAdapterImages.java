@@ -44,6 +44,7 @@ import com.chute.android.photopickerplus.ui.activity.ServicesActivity;
 import com.chute.android.photopickerplus.ui.listener.ListenerFilesCursor;
 import com.chute.android.photopickerplus.ui.listener.ListenerImageSelection;
 import com.chute.android.photopickerplus.util.AppUtil;
+import com.chute.android.photopickerplus.util.AssetUtil;
 
 public class CursorAdapterImages extends BaseCursorAdapter implements
 		ListenerImageSelection {
@@ -114,7 +115,7 @@ public class CursorAdapterImages extends BaseCursorAdapter implements
 			if (PhotoPicker.getInstance().isMultiPicker()) {
 				toggleTick(selectedPosition);
 			} else {
-				listener.onCursorAssetsSelect(AppUtil
+				listener.onCursorAssetsSelect(AssetUtil
 						.getMediaModel(createMediaResultModel(path)));
 			}
 

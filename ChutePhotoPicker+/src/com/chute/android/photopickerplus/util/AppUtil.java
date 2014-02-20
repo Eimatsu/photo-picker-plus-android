@@ -29,7 +29,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -42,17 +41,9 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore.Images;
 import android.provider.MediaStore.MediaColumns;
-import android.provider.MediaStore.Video;
-import android.widget.TextView;
 
 import com.araneaapps.android.libs.logger.ALog;
-import com.chute.android.photopickerplus.R;
-import com.chute.android.photopickerplus.config.PhotoPicker;
-import com.chute.android.photopickerplus.models.DeliverMediaModel;
 import com.chute.android.photopickerplus.models.enums.DisplayType;
-import com.chute.sdk.v2.model.AccountAlbumModel;
-import com.chute.sdk.v2.model.AccountBaseModel;
-import com.chute.sdk.v2.model.AccountMediaModel;
 import com.chute.sdk.v2.model.AssetModel;
 import com.chute.sdk.v2.model.enums.AccountType;
 import com.chute.sdk.v2.utils.Utils;
@@ -64,7 +55,7 @@ import com.chute.sdk.v2.utils.Utils;
  * <li>Get chache directorium
  * <li>Check if the device has an image capture bug
  * <li>Set ImageView dimensions according to the device size
- * <li>Create {@link AssetModel}(s) using the image path 
+ * <li>Create {@link AssetModel}(s) using the image path
  * </ul>
  * 
  */
@@ -152,25 +143,6 @@ public class AppUtil {
 		return cursor.getString(column_index);
 	}
 
-	public static String getVideoPath(Context context, Uri videoUri) {
-		String result = null;
-		final String[] VIDEOTHUMBNAIL_TABLE = new String[] {
-
-		Video.Media._ID, // 0
-				Video.Media.DATA, // 1 from android.provider.MediaStore.Video
-
-		};
-		// Uri videoUri = MediaStore.Video.Thumbnails.getContentUri("external");
-
-		Cursor c = context.getContentResolver().query(videoUri,
-				VIDEOTHUMBNAIL_TABLE, Video.Thumbnails.VIDEO_ID, null, null);
-
-		if ((c != null) && c.moveToFirst()) {
-			result = c.getString(1);
-		}
-		return result;
-	}
-
 	public final static String asUpperCaseFirstChar(final String target) {
 
 		if ((target == null) || (target.length() == 0)) {
@@ -180,93 +152,9 @@ public class AppUtil {
 				+ (target.length() > 1 ? target.substring(1) : "");
 	}
 
-	public static ArrayList<AssetModel> getPhotoCollection(
-			List<DeliverMediaModel> resultList) {
-		final ArrayList<AssetModel> collection = new ArrayList<AssetModel>();
-		for (DeliverMediaModel result : resultList) {
-			AssetModel asset = getMediaModel(result);
-			collection.add(asset);
-		}
-		return collection;
-	}
-
-	public static AssetModel getMediaModel(DeliverMediaModel model) {
-		final AssetModel asset = new AssetModel();
-		asset.setThumbnail(Uri.fromFile(new File(model.getThumbnail()))
-				.toString());
-		asset.setUrl(model.getImageUrl());
-		asset.setVideoUrl(model.getVideoUrl());
-		asset.setType(model.getMediaType().name().toLowerCase());
-		return asset;
-	}
-
-	public static AccountBaseModel filterFiles(
-			AccountBaseModel accountBaseModel, boolean supportImages,
-			boolean supportVideos) {
-		AccountBaseModel model = new AccountBaseModel();
-		List<AccountAlbumModel> folders = accountBaseModel.getFolders();
-		List<AccountMediaModel> files = new ArrayList<AccountMediaModel>();
-		List<AccountMediaModel> videos = new ArrayList<AccountMediaModel>();
-		List<AccountMediaModel> images = new ArrayList<AccountMediaModel>();
-		if (accountBaseModel.getFiles() != null) {
-			for (AccountMediaModel file : accountBaseModel.getFiles()) {
-				if (file.getVideoUrl() != null && supportVideos == true) {
-					videos.add(file);
-				}
-				if (file.getVideoUrl() == null && supportImages == true) {
-					images.add(file);
-				}
-			}
-		}
-		files.addAll(images);
-		files.addAll(videos);
-		model.setFiles(files);
-		model.setFolders(folders);
-		return model;
-	}
-
-	public static void setFragmentLabel(Context context, TextView textView,
-			boolean supportImages, boolean supportVideos, boolean isMultipicker) {
-		if (isMultipicker == true) {
-			if (supportImages == true && supportVideos == false) {
-				textView.setText(context.getResources().getString(
-						R.string.select_photos));
-			} else if (supportVideos == true && supportImages == false) {
-				textView.setText(context.getResources().getString(
-						R.string.select_videos));
-			} else {
-				textView.setText(context.getResources().getString(
-						R.string.select_media));
-			}
-		} else {
-			if (supportImages == true && supportVideos == false) {
-				textView.setText(context.getResources().getString(
-						R.string.select_a_photo));
-			} else if (supportVideos == true && supportImages == false) {
-				textView.setText(context.getResources().getString(
-						R.string.select_a_video));
-			} else {
-				textView.setText(context.getResources().getString(
-						R.string.select_media));
-			}
-		}
-	}
-
-	public static void setServiceFragmentLabel(Context context,
-			TextView textView, boolean supportImages, boolean supportVideos) {
-		if (supportImages == true && supportVideos == false) {
-			textView.setText(context.getResources().getString(
-					R.string.select_photo_source));
-		} else if (supportVideos == true && supportImages == false) {
-			textView.setText(context.getResources().getString(
-					R.string.select_video_source));
-		} else {
-			textView.setText(context.getResources().getString(
-					R.string.select_media_source));
-		}
-	}
-	
-	public static DisplayType getDisplayType(Map<AccountType, DisplayType> accountMap, DisplayType displayType, AccountType accountType) {
+	public static DisplayType getDisplayType(
+			Map<AccountType, DisplayType> accountMap, DisplayType displayType,
+			AccountType accountType) {
 		if (accountMap != null) {
 			Iterator<Entry<AccountType, DisplayType>> iterator = accountMap
 					.entrySet().iterator();
