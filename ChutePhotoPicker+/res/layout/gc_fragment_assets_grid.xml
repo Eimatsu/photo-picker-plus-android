@@ -15,23 +15,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
-    <GridView
-        android:id="@+id/gcGridViewAssets"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/gcLinearLayoutButtons"
-        android:layout_below="@+id/gcTextViewSelectMedia"
-        android:fadingEdgeLength="0dip"
-        android:fastScrollEnabled="true"
-        android:horizontalSpacing="10dip"
-        android:numColumns="3"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp"
-        android:scrollbars="none"
-        android:verticalSpacing="10dip" />
-    <!-- Preview listitem=@layout/adapter_photos -->
-
 
     <!-- Empty View -->
     

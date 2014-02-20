@@ -40,6 +40,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chute.android.photopickerplus.R;
@@ -58,9 +59,11 @@ import com.chute.android.photopickerplus.ui.adapter.MergeAdapter;
 import com.chute.android.photopickerplus.ui.listener.ListenerFilesAccount;
 import com.chute.android.photopickerplus.ui.listener.ListenerFilesCursor;
 import com.chute.android.photopickerplus.util.AppUtil;
+import com.chute.android.photopickerplus.util.AssetUtil;
 import com.chute.android.photopickerplus.util.Constants;
 import com.chute.android.photopickerplus.util.NotificationUtil;
 import com.chute.android.photopickerplus.util.PhotoPickerPreferenceUtil;
+import com.chute.android.photopickerplus.util.UIUtil;
 import com.chute.sdk.v2.api.accounts.GCAccounts;
 import com.chute.sdk.v2.model.AccountAlbumModel;
 import com.chute.sdk.v2.model.AccountBaseModel;
@@ -95,6 +98,8 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 	private DisplayType displayType;
 	private ListenerFilesCursor cursorListener;
 	private ListenerFilesAccount accountListener;
+	
+	RelativeLayout relativeLayoutRoot;
 
 	public static FragmentRoot newInstance(AccountModel account,
 			PhotoFilterType filterType,
@@ -138,20 +143,16 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 		accountMap = PhotoPicker.getInstance().getAccountDisplayType();
 		displayType = AppUtil.getDisplayType(accountMap, PhotoPicker.getInstance().getDefaultAccountDisplayType(), accountType);
 
-		View view = null;
-		if (displayType == DisplayType.LIST
-				&& filterType == PhotoFilterType.SOCIAL_MEDIA) {
-			view = inflater.inflate(R.layout.gc_fragment_assets_list,
-					container, false);
-			listView = (ListView) view.findViewById(R.id.gcListViewAssets);
+		View view = inflater.inflate(R.layout.gc_fragment_assets_grid, container, false);
+		relativeLayoutRoot = (RelativeLayout) view.findViewById(R.id.gcRelativeLayoutRoot);
+		if (displayType == DisplayType.LIST && filterType == PhotoFilterType.SOCIAL_MEDIA) {
+			listView = UIUtil.initListView(getActivity());
+			relativeLayoutRoot.addView(listView);
 		} else {
-			view = inflater.inflate(R.layout.gc_fragment_assets_grid,
-					container, false);
-			gridView = (GridView) view.findViewById(R.id.gcGridViewAssets);
-			gridView.setNumColumns(getResources().getInteger(
-					R.integer.grid_columns_assets));
+			gridView = UIUtil.initGridView(getActivity());
+			relativeLayoutRoot.addView(gridView);
 		}
-
+		
 		textViewSelectMedia = (TextView) view
 				.findViewById(R.id.gcTextViewSelectMedia);
 		progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
@@ -167,7 +168,7 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 					selectedImagePositions, selectedVideoPositions);
 		}
 
-		AppUtil.setFragmentLabel(getActivity().getApplicationContext(),
+		UIUtil.setFragmentLabel(getActivity().getApplicationContext(),
 				textViewSelectMedia, supportImages, supportVideos,
 				isMultipicker);
 
@@ -242,7 +243,7 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 			progressBar.setVisibility(View.GONE);
 			if (responseData != null && getActivity() != null) {
 				adapterAccounts = new AssetAccountAdapter(getActivity(),
-						AppUtil.filterFiles(responseData.getData(),
+						AssetUtil.filterFiles(responseData.getData(),
 								supportImages, supportVideos),
 						FragmentRoot.this, displayType);
 				if (displayType == DisplayType.LIST) {
@@ -260,7 +261,7 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 				NotificationUtil.showPhotosAdapterToast(getActivity()
 						.getApplicationContext(), adapterAccounts.getCount());
 			}
-			AppUtil.setFragmentLabel(getActivity().getApplicationContext(),
+			UIUtil.setFragmentLabel(getActivity().getApplicationContext(),
 					textViewSelectMedia, supportImages, supportVideos,
 					isMultipicker);
 		}
@@ -411,5 +412,7 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 		}
 
 	}
+	
+	
 
 }

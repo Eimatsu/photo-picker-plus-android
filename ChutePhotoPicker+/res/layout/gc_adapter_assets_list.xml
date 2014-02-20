@@ -7,7 +7,7 @@
     android:padding="10dp" >
 
     <ImageView
-        android:id="@+id/gcImageViewListThumb"
+        android:id="@+id/gcImageViewThumb"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_alignParentLeft="true"
@@ -16,31 +16,31 @@
     </ImageView>
 
     <ImageView
-        android:id="@+id/gcImageViewListTick"
+        android:id="@+id/gcImageViewTick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/gcImageViewListThumb"
-        android:layout_alignTop="@+id/gcImageViewListThumb"
+        android:layout_alignRight="@+id/gcImageViewThumb"
+        android:layout_alignTop="@+id/gcImageViewThumb"
         android:background="@drawable/tick"
         android:visibility="gone" >
     </ImageView>
 
     <ImageView
-        android:id="@+id/gcImageViewListVideo"
+        android:id="@+id/gcImageViewVideo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/gcImageViewListThumb"
-        android:layout_alignTop="@+id/gcImageViewListThumb"
+        android:layout_alignLeft="@+id/gcImageViewThumb"
+        android:layout_alignTop="@+id/gcImageViewThumb"
         android:background="@drawable/video_icon"
         android:visibility="gone" >
     </ImageView>
 
     <TextView
-        android:id="@+id/gcTextViewListAlbumTitle"
+        android:id="@+id/gcTextViewAlbumTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/gcImageViewListThumb" />
+        android:layout_toRightOf="@+id/gcImageViewThumb" />
 
 </RelativeLayout>

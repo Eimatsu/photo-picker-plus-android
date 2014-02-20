@@ -47,6 +47,7 @@ import com.chute.android.photopickerplus.ui.activity.ServicesActivity;
 import com.chute.android.photopickerplus.ui.listener.ListenerFilesCursor;
 import com.chute.android.photopickerplus.ui.listener.ListenerVideoSelection;
 import com.chute.android.photopickerplus.util.AppUtil;
+import com.chute.android.photopickerplus.util.AssetUtil;
 
 public class CursorAdapterVideos extends BaseCursorAdapter implements
 		ListenerVideoSelection {
@@ -123,7 +124,7 @@ public class CursorAdapterVideos extends BaseCursorAdapter implements
 			} else {
 				String thumb = MediaDAO.getVideoThumbnailFromCursor(context,
 						getCursor(), position);
-				listener.onCursorAssetsSelect(AppUtil
+				listener.onCursorAssetsSelect(AssetUtil
 						.getMediaModel(createMediaResultModel(thumb, path)));
 			}
 

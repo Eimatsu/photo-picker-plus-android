@@ -68,6 +68,7 @@ import com.chute.android.photopickerplus.ui.listener.ListenerFilesCursor;
 import com.chute.android.photopickerplus.ui.listener.ListenerImageSelection;
 import com.chute.android.photopickerplus.ui.listener.ListenerVideoSelection;
 import com.chute.android.photopickerplus.util.AppUtil;
+import com.chute.android.photopickerplus.util.AssetUtil;
 import com.chute.android.photopickerplus.util.Constants;
 import com.chute.android.photopickerplus.util.NotificationUtil;
 import com.chute.android.photopickerplus.util.PhotoPickerPreferenceUtil;
@@ -426,7 +427,7 @@ public class ServicesActivity extends FragmentActivity implements
 	@Override
 	public void onDeliverCursorAssets(List<DeliverMediaModel> deliverList) {
 		IntentUtil.deliverDataToInitialActivity(ServicesActivity.this,
-				AppUtil.getPhotoCollection(deliverList));
+				AssetUtil.getPhotoCollection(deliverList));
 
 	}
 
