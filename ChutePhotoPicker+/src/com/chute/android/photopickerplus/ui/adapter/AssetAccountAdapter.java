@@ -79,7 +79,7 @@ public class AssetAccountAdapter extends BaseAdapter implements
 
 	public AssetAccountAdapter(FragmentActivity context,
 			AccountBaseModel baseModel,
-			AdapterItemClickListener adapterItemClicklistener) {
+			AdapterItemClickListener adapterItemClicklistener, DisplayType displayType) {
 		this.context = context;
 		this.adapterItemClickListener = adapterItemClicklistener;
 		inflater = (LayoutInflater) context
@@ -103,12 +103,7 @@ public class AssetAccountAdapter extends BaseAdapter implements
 		} else {
 			((AssetActivity) context).setAssetsSelectListener(this);
 		}
-		//TODO get AccountType
-		map = PhotoPicker.getInstance().getAccountDisplayType();
-		displayType = getDisplayType(map);
-		if (displayType == null) {
-			displayType = PhotoPicker.getInstance().getDefaultAccountDisplayType();
-		}
+		this.displayType = displayType;
 	}
 
 	@Override
@@ -272,16 +267,4 @@ public class AssetAccountAdapter extends BaseAdapter implements
 		return positions;
 	}
 	
-	private DisplayType getDisplayType(Map<AccountType, DisplayType> accountMap) {
-		Iterator<Entry<AccountType, DisplayType>> iterator = map.entrySet().iterator();
-		while(iterator.hasNext()) {
-			Entry<AccountType, DisplayType> pairs = iterator.next();
-			AccountType type = pairs.getKey();
-			if (type == accountType) {
-				displayType =  pairs.getValue();
-			}
-		}
-		return displayType;
-	}
-
 }

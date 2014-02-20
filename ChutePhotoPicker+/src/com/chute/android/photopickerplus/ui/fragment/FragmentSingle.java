@@ -23,7 +23,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 package com.chute.android.photopickerplus.ui.fragment;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -35,6 +38,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -42,6 +46,8 @@ import com.araneaapps.android.libs.logger.ALog;
 import com.chute.android.photopickerplus.R;
 import com.chute.android.photopickerplus.callback.ImageDataResponseLoader;
 import com.chute.android.photopickerplus.config.PhotoPicker;
+import com.chute.android.photopickerplus.models.enums.DisplayType;
+import com.chute.android.photopickerplus.models.enums.PhotoFilterType;
 import com.chute.android.photopickerplus.ui.adapter.AssetAccountAdapter;
 import com.chute.android.photopickerplus.ui.adapter.AssetAccountAdapter.AdapterItemClickListener;
 import com.chute.android.photopickerplus.ui.listener.ListenerFilesAccount;
@@ -53,6 +59,7 @@ import com.chute.sdk.v2.model.AccountAlbumModel;
 import com.chute.sdk.v2.model.AccountBaseModel;
 import com.chute.sdk.v2.model.AccountMediaModel;
 import com.chute.sdk.v2.model.AccountModel;
+import com.chute.sdk.v2.model.enums.AccountType;
 import com.chute.sdk.v2.model.response.ResponseModel;
 import com.dg.libs.rest.callbacks.HttpCallback;
 import com.dg.libs.rest.domain.ResponseStatus;
@@ -61,10 +68,13 @@ public class FragmentSingle extends Fragment implements
 		AdapterItemClickListener {
 
 	private GridView gridView;
+	private ListView listView;
 	private TextView textViewSelectMedia;
 	private ProgressBar progressBar;
 
 	private AccountModel account;
+	private AccountType accountType;
+	private DisplayType displayType;
 	private String folderId;
 	private boolean isMultipicker;
 	private List<Integer> selectedItemsPositions;
@@ -99,12 +109,28 @@ public class FragmentSingle extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.gc_fragment_assets_grid, container,
+		
+		isMultipicker = PhotoPicker.getInstance().isMultiPicker();
+//		accountType = AccountType.valueOf(account.getType().toUpperCase());
+		accountType = PhotoPickerPreferenceUtil.get().getAccountType();
+		Map<AccountType, DisplayType> accountMap = PhotoPicker.getInstance().getAccountDisplayType();
+		displayType = AppUtil.getDisplayType(accountMap, PhotoPicker.getInstance().getDefaultAccountDisplayType(), accountType);
+		
+		View view = null;
+		if (displayType == DisplayType.LIST) {
+		view = inflater.inflate(R.layout.gc_fragment_assets_list, container,
 				false);
+		listView = (ListView) view.findViewById(R.id.gcListViewAssets);
+		} else {
+			view = inflater.inflate(R.layout.gc_fragment_assets_grid, container,
+					false);
+			gridView = (GridView) view.findViewById(R.id.gcGridViewAssets);
+			gridView.setNumColumns(getResources().getInteger(
+					R.integer.grid_columns_assets));
+		}
 
 		textViewSelectMedia = (TextView) view
 				.findViewById(R.id.gcTextViewSelectMedia);
-		gridView = (GridView) view.findViewById(R.id.gcGridViewAssets);
 		progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
 		updateFragment(account, folderId, selectedItemsPositions);
@@ -114,16 +140,12 @@ public class FragmentSingle extends Fragment implements
 		Button cancel = (Button) view.findViewById(R.id.gcButtonCancel);
 		cancel.setOnClickListener(new CancelClickListener());
 
-		gridView.setNumColumns(getResources().getInteger(
-				R.integer.grid_columns_assets));
-
 		return view;
 	}
 
 	public void updateFragment(AccountModel account, String folderId,
 			List<Integer> selectedItemsPositions) {
 
-		isMultipicker = PhotoPicker.getInstance().isMultiPicker();
 		this.account = account;
 		this.selectedItemsPositions = selectedItemsPositions;
 		this.folderId = folderId;
@@ -160,8 +182,12 @@ public class FragmentSingle extends Fragment implements
 				accountAssetAdapter = new AssetAccountAdapter(getActivity(),
 						AppUtil.filterFiles(responseData.getData(),
 								supportImages, supportVideos),
-						FragmentSingle.this);
+						FragmentSingle.this, displayType);
+				if (displayType == DisplayType.LIST) {
+				listView.setAdapter(accountAssetAdapter);	
+				} else {
 				gridView.setAdapter(accountAssetAdapter);
+				}
 
 				if (selectedItemsPositions != null) {
 					for (int position : selectedItemsPositions) {

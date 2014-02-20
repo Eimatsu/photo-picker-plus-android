@@ -103,30 +103,20 @@ public class AssetActivity extends FragmentActivity implements
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		setContentView(R.layout.gc_activity_assets);
+		
+		retrieveSavedValuesFromBundle(savedInstanceState);
 
-		selectedAccountsPositions = savedInstanceState != null ? savedInstanceState
-				.getIntegerArrayList(Constants.KEY_SELECTED_ACCOUNTS_ITEMS)
-				: null;
-
-		selectedImagesPositions = savedInstanceState != null ? savedInstanceState
-				.getIntegerArrayList(Constants.KEY_SELECTED_IMAGES_ITEMS) : null;
-
-		selectedVideosPositions = savedInstanceState != null ? savedInstanceState
-				.getIntegerArrayList(Constants.KEY_SELECTED_VIDEOS_ITEMS) : null;
-
-
-		folderId = savedInstanceState != null ? savedInstanceState
-				.getString(Constants.KEY_FOLDER_ID) : null;
 
 		wrapper = new PhotosIntentWrapper(getIntent());
 		account = wrapper.getAccount();
 		filterType = wrapper.getFilterType();
+		
+		if (savedInstanceState == null) {
+            FragmentRoot root = FragmentRoot.newInstance(account, filterType, selectedAccountsPositions, selectedImagesPositions, selectedVideosPositions);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.gcFragments, root).commit();
+        }
 
-		fragmentRoot = (FragmentRoot) getSupportFragmentManager()
-				.findFragmentById(R.id.gcFragmentAssets);
-		fragmentRoot.updateFragment(account, filterType,
-				selectedAccountsPositions, selectedImagesPositions,
-				selectedVideosPositions);
 	}
 
 	@Override
@@ -275,5 +265,23 @@ public class AssetActivity extends FragmentActivity implements
 					selectedVideosPositions);
 		}
 	}
+	
+	private void retrieveSavedValuesFromBundle(Bundle savedInstanceState) {
+		selectedAccountsPositions = savedInstanceState != null ? savedInstanceState
+				.getIntegerArrayList(Constants.KEY_SELECTED_ACCOUNTS_ITEMS)
+				: null;
+
+		selectedImagesPositions = savedInstanceState != null ? savedInstanceState
+				.getIntegerArrayList(Constants.KEY_SELECTED_IMAGES_ITEMS) : null;
+
+		selectedVideosPositions = savedInstanceState != null ? savedInstanceState
+				.getIntegerArrayList(Constants.KEY_SELECTED_VIDEOS_ITEMS) : null;
+
+
+		folderId = savedInstanceState != null ? savedInstanceState
+				.getString(Constants.KEY_FOLDER_ID) : null;
+	}
+	
+	
 
 }
