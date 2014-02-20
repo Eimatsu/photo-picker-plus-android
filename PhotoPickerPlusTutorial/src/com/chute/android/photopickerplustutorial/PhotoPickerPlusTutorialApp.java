@@ -58,12 +58,12 @@ public class PhotoPickerPlusTutorialApp extends PhotoPickerPlusApp {
 		Chute.init(this, new AuthConstants(APP_ID, APP_SECRET));
 		
 		Map<AccountType, DisplayType> map = new HashMap<AccountType, DisplayType>();
-		map.put(AccountType.INSTAGRAM, DisplayType.GRID);
+		map.put(AccountType.INSTAGRAM, DisplayType.LIST);
 
 		PhotoPickerConfiguration config = new PhotoPickerConfiguration.Builder(
 				getApplicationContext())
 				.isMultiPicker(true)
-				.defaultAccountDisplayType(DisplayType.GRID)
+				.defaultAccountDisplayType(DisplayType.LIST)
 		        .accountDisplayType(map)
 				.accountList(AccountType.FLICKR, AccountType.DROPBOX,
 						AccountType.INSTAGRAM, AccountType.GOOGLE,
