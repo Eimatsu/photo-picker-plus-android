@@ -24,6 +24,7 @@ package com.chute.android.photopickerplus.ui.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.database.Cursor;
@@ -47,6 +48,7 @@ import com.chute.android.photopickerplus.config.PhotoPicker;
 import com.chute.android.photopickerplus.loaders.LocalImagesAsyncTaskLoader;
 import com.chute.android.photopickerplus.loaders.LocalVideosAsyncTaskLoader;
 import com.chute.android.photopickerplus.models.DeliverMediaModel;
+import com.chute.android.photopickerplus.models.enums.DisplayType;
 import com.chute.android.photopickerplus.models.enums.PhotoFilterType;
 import com.chute.android.photopickerplus.ui.adapter.AssetAccountAdapter;
 import com.chute.android.photopickerplus.ui.adapter.AssetAccountAdapter.AdapterItemClickListener;
@@ -71,7 +73,7 @@ import com.dg.libs.rest.domain.ResponseStatus;
 
 public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 
-//	private GridView gridView;
+	private GridView gridView;
 	private ListView listView;
 	private CursorAdapterImages adapterImages;
 	private CursorAdapterVideos adapterVideos;
@@ -89,13 +91,16 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 	private AccountModel account;
 	private PhotoFilterType filterType;
 	private AccountType accountType;
+	private Map<AccountType, DisplayType> accountMap;
+	private DisplayType displayType;
 	private ListenerFilesCursor cursorListener;
 	private ListenerFilesAccount accountListener;
 
 	public static FragmentRoot newInstance(AccountModel account,
 			PhotoFilterType filterType,
 			List<Integer> selectedAccountsPositions,
-			List<Integer> selectedImagePositions, List<Integer> selectedVideoPositions) {
+			List<Integer> selectedImagePositions,
+			List<Integer> selectedVideoPositions) {
 		FragmentRoot frag = new FragmentRoot();
 		frag.account = account;
 		frag.filterType = filterType;
@@ -125,18 +130,31 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.gc_fragment_assets_list, container,
-				false);
-		
 		isMultipicker = PhotoPicker.getInstance().isMultiPicker();
 		supportVideos = PhotoPicker.getInstance().supportVideos();
 		supportImages = PhotoPicker.getInstance().supportImages();
+		// accountType = AccountType.valueOf(account.getType().toUpperCase());
+		accountType = PhotoPickerPreferenceUtil.get().getAccountType();
+		accountMap = PhotoPicker.getInstance().getAccountDisplayType();
+		displayType = AppUtil.getDisplayType(accountMap, PhotoPicker.getInstance().getDefaultAccountDisplayType(), accountType);
+
+		View view = null;
+		if (displayType == DisplayType.LIST
+				&& filterType == PhotoFilterType.SOCIAL_MEDIA) {
+			view = inflater.inflate(R.layout.gc_fragment_assets_list,
+					container, false);
+			listView = (ListView) view.findViewById(R.id.gcListViewAssets);
+		} else {
+			view = inflater.inflate(R.layout.gc_fragment_assets_grid,
+					container, false);
+			gridView = (GridView) view.findViewById(R.id.gcGridViewAssets);
+			gridView.setNumColumns(getResources().getInteger(
+					R.integer.grid_columns_assets));
+		}
 
 		textViewSelectMedia = (TextView) view
 				.findViewById(R.id.gcTextViewSelectMedia);
 		progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-//		gridView = (GridView) view.findViewById(R.id.gcGridViewAssets);
-		listView = (ListView) view.findViewById(R.id.gcListViewAssets);
 
 		Button ok = (Button) view.findViewById(R.id.gcButtonOk);
 		Button cancel = (Button) view.findViewById(R.id.gcButtonCancel);
@@ -148,13 +166,10 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 			updateFragment(account, filterType, selectedAccountsPositions,
 					selectedImagePositions, selectedVideoPositions);
 		}
-		
+
 		AppUtil.setFragmentLabel(getActivity().getApplicationContext(),
 				textViewSelectMedia, supportImages, supportVideos,
 				isMultipicker);
-
-//		gridView.setNumColumns(getResources().getInteger(
-//				R.integer.grid_columns_assets));
 
 		return view;
 	}
@@ -162,13 +177,13 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 	public void updateFragment(AccountModel account,
 			PhotoFilterType filterType,
 			List<Integer> selectedAccountsPositions,
-			List<Integer> selectedImagePositions, List<Integer> selectedVideoPositions) {
+			List<Integer> selectedImagePositions,
+			List<Integer> selectedVideoPositions) {
 
-		
 		this.filterType = filterType;
 		this.selectedAccountsPositions = selectedAccountsPositions;
 		this.account = account;
-		
+
 		if ((filterType == PhotoFilterType.ALL_MEDIA)
 				|| (filterType == PhotoFilterType.CAMERA_ROLL)) {
 			adapterMerge = new MergeAdapter();
@@ -178,8 +193,7 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 					cursorListener);
 			adapterMerge.addAdapter(adapterVideos);
 			adapterMerge.addAdapter(adapterImages);
-//			gridView.setAdapter(adapterMerge);
-			listView.setAdapter(adapterMerge);
+			gridView.setAdapter(adapterMerge);
 			if (supportImages == true) {
 				getActivity().getSupportLoaderManager().initLoader(1, null,
 						new ImagesLoaderCallback(selectedImagePositions));
@@ -190,7 +204,6 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 			}
 		} else if (filterType == PhotoFilterType.SOCIAL_MEDIA
 				&& getActivity() != null) {
-			accountType = PhotoPickerPreferenceUtil.get().getAccountType();
 			if (supportVideos == false
 					&& accountType.equals(AccountType.YOUTUBE)) {
 				progressBar.setVisibility(View.GONE);
@@ -201,7 +214,6 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 						.executeAsync();
 			}
 		}
-		
 
 	}
 
@@ -232,9 +244,12 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 				adapterAccounts = new AssetAccountAdapter(getActivity(),
 						AppUtil.filterFiles(responseData.getData(),
 								supportImages, supportVideos),
-						FragmentRoot.this);
-//				gridView.setAdapter(adapterAccounts);
-				listView.setAdapter(adapterAccounts);
+						FragmentRoot.this, displayType);
+				if (displayType == DisplayType.LIST) {
+					listView.setAdapter(adapterAccounts);
+				} else {
+					gridView.setAdapter(adapterAccounts);
+				}
 
 				if (selectedAccountsPositions != null) {
 					for (int position : selectedAccountsPositions) {
@@ -322,7 +337,7 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 			progressBar.setVisibility(View.GONE);
 			adapterVideos.changeCursor(cursor);
 
-			if (videoPositions!= null) {
+			if (videoPositions != null) {
 				for (int selectedPoosition : videoPositions) {
 					adapterVideos.toggleTick(selectedPoosition);
 				}

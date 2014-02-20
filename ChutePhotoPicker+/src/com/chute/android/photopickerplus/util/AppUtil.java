@@ -28,8 +28,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -44,11 +47,14 @@ import android.widget.TextView;
 
 import com.araneaapps.android.libs.logger.ALog;
 import com.chute.android.photopickerplus.R;
+import com.chute.android.photopickerplus.config.PhotoPicker;
 import com.chute.android.photopickerplus.models.DeliverMediaModel;
+import com.chute.android.photopickerplus.models.enums.DisplayType;
 import com.chute.sdk.v2.model.AccountAlbumModel;
 import com.chute.sdk.v2.model.AccountBaseModel;
 import com.chute.sdk.v2.model.AccountMediaModel;
 import com.chute.sdk.v2.model.AssetModel;
+import com.chute.sdk.v2.model.enums.AccountType;
 import com.chute.sdk.v2.utils.Utils;
 
 /**
@@ -258,6 +264,21 @@ public class AppUtil {
 			textView.setText(context.getResources().getString(
 					R.string.select_media_source));
 		}
+	}
+	
+	public static DisplayType getDisplayType(Map<AccountType, DisplayType> accountMap, DisplayType displayType, AccountType accountType) {
+		if (accountMap != null) {
+			Iterator<Entry<AccountType, DisplayType>> iterator = accountMap
+					.entrySet().iterator();
+			while (iterator.hasNext()) {
+				Entry<AccountType, DisplayType> pairs = iterator.next();
+				AccountType type = pairs.getKey();
+				if (type == accountType) {
+					displayType = pairs.getValue();
+				}
+			}
+		}
+		return displayType;
 	}
 
 }

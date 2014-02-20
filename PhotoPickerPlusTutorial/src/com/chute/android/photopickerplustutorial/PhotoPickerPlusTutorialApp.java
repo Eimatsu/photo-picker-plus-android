@@ -58,7 +58,7 @@ public class PhotoPickerPlusTutorialApp extends PhotoPickerPlusApp {
 		Chute.init(this, new AuthConstants(APP_ID, APP_SECRET));
 		
 		Map<AccountType, DisplayType> map = new HashMap<AccountType, DisplayType>();
-		map.put(AccountType.INSTAGRAM, DisplayType.LIST);
+		map.put(AccountType.INSTAGRAM, DisplayType.GRID);
 
 		PhotoPickerConfiguration config = new PhotoPickerConfiguration.Builder(
 				getApplicationContext())
