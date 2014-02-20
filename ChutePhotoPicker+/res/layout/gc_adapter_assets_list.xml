@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    style="@style/relativeLayoutAssetFragment"
     android:padding="10dp" >
 
     <ImageView
@@ -30,7 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/gcImageViewListThumb"
         android:layout_alignTop="@+id/gcImageViewListThumb"
-        android:background="@drawable/video_icon" >
+        android:background="@drawable/video_icon"
+        android:visibility="gone" >
     </ImageView>
 
     <TextView

@@ -57,7 +57,6 @@ import darko.imagedownloader.ImageLoader;
 public class AssetAccountAdapter extends BaseAdapter implements
 		ListenerAccountAssetsSelection {
 
-
 	private static final int TYPE_MAX_COUNT = 2;
 
 	private static LayoutInflater inflater;
@@ -79,7 +78,8 @@ public class AssetAccountAdapter extends BaseAdapter implements
 
 	public AssetAccountAdapter(FragmentActivity context,
 			AccountBaseModel baseModel,
-			AdapterItemClickListener adapterItemClicklistener, DisplayType displayType) {
+			AdapterItemClickListener adapterItemClicklistener,
+			DisplayType displayType) {
 		this.context = context;
 		this.adapterItemClickListener = adapterItemClicklistener;
 		inflater = (LayoutInflater) context
@@ -144,19 +144,21 @@ public class AssetAccountAdapter extends BaseAdapter implements
 		int type = getItemViewType(position);
 		if (convertView == null) {
 			if (displayType == DisplayType.LIST) {
-			convertView = inflater.inflate(R.layout.gc_adapter_assets_list, null);
-			holder = new ViewHolder();
-			holder.imageViewThumb = (ImageView) convertView
-					.findViewById(R.id.gcImageViewListThumb);
-			holder.imageViewTick = (ImageView) convertView
-					.findViewById(R.id.gcImageViewListTick);
-			holder.imageVewVideo = (ImageView) convertView
-					.findViewById(R.id.gcImageViewListVideo);
-			holder.imageViewTick.setTag(position);
-			holder.textViewFolderTitle = (TextView) convertView
-					.findViewById(R.id.gcTextViewListAlbumTitle);
+				convertView = inflater.inflate(R.layout.gc_adapter_assets_list,
+						null);
+				holder = new ViewHolder();
+				holder.imageViewThumb = (ImageView) convertView
+						.findViewById(R.id.gcImageViewListThumb);
+				holder.imageViewTick = (ImageView) convertView
+						.findViewById(R.id.gcImageViewListTick);
+				holder.imageVewVideo = (ImageView) convertView
+						.findViewById(R.id.gcImageViewListVideo);
+				holder.imageViewTick.setTag(position);
+				holder.textViewFolderTitle = (TextView) convertView
+						.findViewById(R.id.gcTextViewListAlbumTitle);
 			} else {
-				convertView = inflater.inflate(R.layout.gc_adapter_assets_grid, null);
+				convertView = inflater.inflate(R.layout.gc_adapter_assets_grid,
+						null);
 				holder = new ViewHolder();
 				holder.imageViewThumb = (ImageView) convertView
 						.findViewById(R.id.gcImageViewGridThumb);
@@ -181,21 +183,28 @@ public class AssetAccountAdapter extends BaseAdapter implements
 					.getName();
 			holder.textViewFolderTitle.setText(folderName != null ? folderName
 					: "");
+			if (displayType == DisplayType.LIST) {
+				holder.textViewFolderTitle.setTextSize(16f);
+				holder.textViewFolderTitle.setTextColor(context.getResources()
+						.getColor(R.color.grey));
+			}
 			holder.imageViewThumb.setBackgroundDrawable(context.getResources()
 					.getDrawable(R.drawable.album_default));
-			holder.imageViewThumb
-					.setOnClickListener(new OnFolderClickedListener());
+			convertView
+					.setOnClickListener(new OnFolderClickedListener(position));
 		} else if (type == AccountMediaType.FILE.ordinal()) {
 			AccountMediaModel file = (AccountMediaModel) getItem(position);
 			if (displayType == DisplayType.LIST) {
 				holder.textViewFolderTitle.setVisibility(View.VISIBLE);
 				holder.textViewFolderTitle.setText(file.getCaption());
+				holder.textViewFolderTitle.setTextSize(16f);
+				holder.textViewFolderTitle.setTextColor(context.getResources()
+						.getColor(R.color.grey));
 			}
 			holder.imageViewTick.setVisibility(View.VISIBLE);
 			loader.displayImage(file.getThumbnail(), holder.imageViewThumb,
 					null);
-			holder.imageViewThumb
-					.setOnClickListener(new OnFileClickedListener());
+			convertView.setOnClickListener(new OnFileClickedListener(position));
 			if (file.getVideoUrl() != null) {
 				holder.imageVewVideo.setVisibility(View.VISIBLE);
 			}
@@ -203,12 +212,16 @@ public class AssetAccountAdapter extends BaseAdapter implements
 
 		if (tick.containsKey(position)) {
 			holder.imageViewTick.setVisibility(View.VISIBLE);
-			convertView.setBackgroundColor(context.getResources().getColor(
-					R.color.sky_blue));
+			if (displayType == DisplayType.GRID) {
+				convertView.setBackgroundColor(context.getResources().getColor(
+						R.color.sky_blue));
+			}
 		} else {
 			holder.imageViewTick.setVisibility(View.GONE);
-			convertView.setBackgroundColor(context.getResources().getColor(
-					R.color.gray_light));
+			if (displayType == DisplayType.GRID) {
+				convertView.setBackgroundColor(context.getResources().getColor(
+						R.color.gray_light));
+			}
 		}
 		return convertView;
 	}
@@ -237,9 +250,14 @@ public class AssetAccountAdapter extends BaseAdapter implements
 
 	private final class OnFolderClickedListener implements OnClickListener {
 
+		int position;
+
+		private OnFolderClickedListener(int position) {
+			this.position = position;
+		}
+
 		@Override
 		public void onClick(View v) {
-			Integer position = (Integer) v.getTag();
 			adapterItemClickListener.onFolderClicked(position);
 
 		}
@@ -247,10 +265,14 @@ public class AssetAccountAdapter extends BaseAdapter implements
 	}
 
 	private final class OnFileClickedListener implements OnClickListener {
+		int position;
+
+		private OnFileClickedListener(int position) {
+			this.position = position;
+		}
 
 		@Override
 		public void onClick(View v) {
-			Integer position = (Integer) v.getTag();
 			adapterItemClickListener.onFileClicked(position);
 
 		}
@@ -266,5 +288,5 @@ public class AssetAccountAdapter extends BaseAdapter implements
 		}
 		return positions;
 	}
-	
+
 }
