@@ -103,19 +103,21 @@ public class AssetActivity extends FragmentActivity implements
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		setContentView(R.layout.gc_activity_assets);
-		
-		retrieveSavedValuesFromBundle(savedInstanceState);
 
+		retrieveSavedValuesFromBundle(savedInstanceState);
 
 		wrapper = new PhotosIntentWrapper(getIntent());
 		account = wrapper.getAccount();
 		filterType = wrapper.getFilterType();
-		
+
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		if (savedInstanceState == null) {
-            FragmentRoot root = FragmentRoot.newInstance(account, filterType, selectedAccountsPositions, selectedImagesPositions, selectedVideosPositions);
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(R.id.gcFragments, root).commit();
-        }
+			fragmentRoot = FragmentRoot.newInstance(account, filterType,
+					selectedAccountsPositions, selectedImagesPositions,
+					selectedVideosPositions);
+			ft.add(R.id.gcFragments, fragmentRoot,
+					Constants.TAG_FRAGMENT_FOLDER).commit();
+		}
 
 	}
 
@@ -185,7 +187,7 @@ public class AssetActivity extends FragmentActivity implements
 			imagePositions.addAll(listenerImagesSelection
 					.getCursorImagesSelection());
 			outState.putIntegerArrayList(Constants.KEY_SELECTED_IMAGES_ITEMS,
-				 (ArrayList<Integer>) imagePositions);
+					(ArrayList<Integer>) imagePositions);
 		}
 		if (listenerVideosSelection != null
 				&& listenerVideosSelection.getCursorVideosSelection() != null) {
@@ -200,12 +202,9 @@ public class AssetActivity extends FragmentActivity implements
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
-		fragmentSingle = (FragmentSingle) getSupportFragmentManager()
-				.findFragmentByTag(Constants.TAG_FRAGMENT_FILES);
-		if (fragmentSingle != null) {
-			fragmentSingle.updateFragment(account, folderId,
-					selectedAccountsPositions);
-		}
+		updateRootFragment();
+		updateSingleFragment();
+
 	}
 
 	@Override
@@ -234,7 +233,8 @@ public class AssetActivity extends FragmentActivity implements
 				accountType = PhotoPickerPreferenceUtil.get().getAccountType();
 			}
 			if (responseData.getData().size() == 0) {
-				NotificationUtil.makeToast(getApplicationContext(), R.string.no_albums_found);
+				NotificationUtil.makeToast(getApplicationContext(),
+						R.string.no_albums_found);
 				return;
 			}
 			for (AccountModel accountModel : responseData.getData()) {
@@ -259,29 +259,51 @@ public class AssetActivity extends FragmentActivity implements
 		selectedAccountsPositions = null;
 		selectedImagesPositions = null;
 		selectedVideosPositions = null;
-		if (fragmentRoot != null) {
-			fragmentRoot.updateFragment(account, filterType,
-					selectedAccountsPositions, selectedImagesPositions,
-					selectedVideosPositions);
-		}
+		updateRootFragment();
 	}
-	
+
 	private void retrieveSavedValuesFromBundle(Bundle savedInstanceState) {
 		selectedAccountsPositions = savedInstanceState != null ? savedInstanceState
 				.getIntegerArrayList(Constants.KEY_SELECTED_ACCOUNTS_ITEMS)
 				: null;
 
 		selectedImagesPositions = savedInstanceState != null ? savedInstanceState
-				.getIntegerArrayList(Constants.KEY_SELECTED_IMAGES_ITEMS) : null;
+				.getIntegerArrayList(Constants.KEY_SELECTED_IMAGES_ITEMS)
+				: null;
+
+		if (selectedImagesPositions != null) {
+			ALog.d("retrieve positions : " + selectedImagesPositions.toString());
+		}
 
 		selectedVideosPositions = savedInstanceState != null ? savedInstanceState
-				.getIntegerArrayList(Constants.KEY_SELECTED_VIDEOS_ITEMS) : null;
-
+				.getIntegerArrayList(Constants.KEY_SELECTED_VIDEOS_ITEMS)
+				: null;
 
 		folderId = savedInstanceState != null ? savedInstanceState
 				.getString(Constants.KEY_FOLDER_ID) : null;
 	}
-	
-	
+
+	private void updateRootFragment() {
+		fragmentRoot = (FragmentRoot) getSupportFragmentManager()
+				.findFragmentByTag(Constants.TAG_FRAGMENT_FOLDER);
+		if (fragmentRoot != null) {
+			fragmentRoot.updateFragment(account, filterType,
+					selectedAccountsPositions, selectedImagesPositions,
+					selectedVideosPositions);
+		}
+	}
+
+	private void updateSingleFragment() {
+		fragmentSingle = (FragmentSingle) getSupportFragmentManager()
+				.findFragmentByTag(Constants.TAG_FRAGMENT_FILES);
+		if (fragmentSingle != null) {
+			fragmentSingle.updateFragment(account, folderId,
+					selectedAccountsPositions);
+		}
+	}
+
+	public List<Integer> getPositions() {
+		return selectedImagesPositions;
+	}
 
 }

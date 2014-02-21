@@ -98,7 +98,7 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 	private DisplayType displayType;
 	private ListenerFilesCursor cursorListener;
 	private ListenerFilesAccount accountListener;
-	
+
 	RelativeLayout relativeLayoutRoot;
 
 	public static FragmentRoot newInstance(AccountModel account,
@@ -141,18 +141,22 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 		// accountType = AccountType.valueOf(account.getType().toUpperCase());
 		accountType = PhotoPickerPreferenceUtil.get().getAccountType();
 		accountMap = PhotoPicker.getInstance().getAccountDisplayType();
-		displayType = AppUtil.getDisplayType(accountMap, PhotoPicker.getInstance().getDefaultAccountDisplayType(), accountType);
+		displayType = AppUtil.getDisplayType(accountMap, PhotoPicker
+				.getInstance().getDefaultAccountDisplayType(), accountType);
 
-		View view = inflater.inflate(R.layout.gc_fragment_assets_grid, container, false);
-		relativeLayoutRoot = (RelativeLayout) view.findViewById(R.id.gcRelativeLayoutRoot);
-		if (displayType == DisplayType.LIST && filterType == PhotoFilterType.SOCIAL_MEDIA) {
+		View view = inflater.inflate(R.layout.gc_fragment_assets_grid,
+				container, false);
+		relativeLayoutRoot = (RelativeLayout) view
+				.findViewById(R.id.gcRelativeLayoutRoot);
+		if (displayType == DisplayType.LIST
+				&& filterType == PhotoFilterType.SOCIAL_MEDIA) {
 			listView = UIUtil.initListView(getActivity());
 			relativeLayoutRoot.addView(listView);
 		} else {
 			gridView = UIUtil.initGridView(getActivity());
 			relativeLayoutRoot.addView(gridView);
 		}
-		
+
 		textViewSelectMedia = (TextView) view
 				.findViewById(R.id.gcTextViewSelectMedia);
 		progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
@@ -412,7 +416,5 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 		}
 
 	}
-	
-	
 
 }
