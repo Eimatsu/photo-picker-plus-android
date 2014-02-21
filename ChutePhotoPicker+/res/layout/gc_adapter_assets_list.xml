@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/gcImageViewThumb"
         android:layout_alignTop="@+id/gcImageViewThumb"
-        android:background="@drawable/tick"
+        android:background="@drawable/tick_list"
         android:visibility="gone" >
     </ImageView>
 
