@@ -62,7 +62,6 @@ import com.chute.android.photopickerplus.util.AppUtil;
 import com.chute.android.photopickerplus.util.AssetUtil;
 import com.chute.android.photopickerplus.util.Constants;
 import com.chute.android.photopickerplus.util.NotificationUtil;
-import com.chute.android.photopickerplus.util.PhotoPickerPreferenceUtil;
 import com.chute.android.photopickerplus.util.UIUtil;
 import com.chute.sdk.v2.api.accounts.GCAccounts;
 import com.chute.sdk.v2.model.AccountAlbumModel;
@@ -138,8 +137,9 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 		isMultipicker = PhotoPicker.getInstance().isMultiPicker();
 		supportVideos = PhotoPicker.getInstance().supportVideos();
 		supportImages = PhotoPicker.getInstance().supportImages();
-		// accountType = AccountType.valueOf(account.getType().toUpperCase());
-		accountType = PhotoPickerPreferenceUtil.get().getAccountType();
+		if (account != null) {
+			accountType = AccountType.valueOf(account.getType().toUpperCase());
+		}
 		accountMap = PhotoPicker.getInstance().getAccountDisplayType();
 		displayType = AppUtil.getDisplayType(accountMap, PhotoPicker
 				.getInstance().getDefaultAccountDisplayType(), accountType);

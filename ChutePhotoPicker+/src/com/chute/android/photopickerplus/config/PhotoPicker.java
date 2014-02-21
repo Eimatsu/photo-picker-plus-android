@@ -194,6 +194,13 @@ public class PhotoPicker {
 		}
 	}
 
+	/**
+	 * Retrieves a map containing {@link AccountType} as key and
+	 * {@link DisplayType} as value.
+	 * 
+	 * @return Map of {@link AccountType}s associated with their
+	 *         {@link DisplayType} values.
+	 */
 	public Map<AccountType, DisplayType> getAccountDisplayType() {
 		checkConfiguration();
 		Map<AccountType, DisplayType> map = configuration.accountDisplayTypeMap;
@@ -204,6 +211,13 @@ public class PhotoPicker {
 		}
 	}
 
+	/**
+	 * Gets the default display type of media items: {@link DisplayType#LIST} or
+	 * {@link DisplayType#GRID} If not set, the default display type is always
+	 * {@link DisplayType#GRID}.
+	 * 
+	 * @return {@link DisplayType}
+	 */
 	public DisplayType getDefaultAccountDisplayType() {
 		return configuration.displayType;
 	}

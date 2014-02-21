@@ -47,5 +47,6 @@
     <string name="connect_to_internet_to_cofigure_services">Connect your device to the Internet for configuring the services</string>
     <string name="expired_session_logging_in">Your session has expired. Logging in again...</string>
     <string name="sign_out">Sign out</string>
+    <string name="toast_signed_out">Signed out</string>
 
 </resources>

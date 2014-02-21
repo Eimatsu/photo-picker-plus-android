@@ -23,12 +23,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 package com.chute.android.photopickerplus.config;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
-import android.widget.TextView.BufferType;
 
 import com.chute.android.photopickerplus.models.enums.DisplayType;
 import com.chute.android.photopickerplus.models.enums.LocalServiceType;
@@ -88,6 +86,9 @@ public final class PhotoPickerConfiguration {
 	 * {@link AccountType#INSTAGRAM}</li>
 	 * <li>localMediaList = {@link LocalServiceType#ALL_MEDIA},
 	 * {@link LocalServiceType#CAMERA_MEDIA}</li>
+	 * <li>supportImages = true</li>
+	 * <li>supportVideos = true</li>
+	 * <li>displayType = {@link DisplayType#GRID}</li>
 	 * </ul>
 	 * */
 	public static PhotoPickerConfiguration createDefault(Context context) {
@@ -153,12 +154,30 @@ public final class PhotoPickerConfiguration {
 			return this;
 		}
 
+		/**
+		 * Sets the default {@link DisplayType} for the media items.
+		 * 
+		 * @param displayType
+		 *            It can be either list of gird. If not set, the default
+		 *            value is {@link DisplayType#GRID}
+		 * @return
+		 */
 		public Builder defaultAccountDisplayType(DisplayType displayType) {
 			this.displayType = displayType;
 			return this;
 		}
 
-		public Builder accountDisplayType(Map<AccountType, DisplayType> accountDisplayTypeMap) {
+		/**
+		 * Sets the {@link DisplayType} for each account individually and stores
+		 * the values in a map.
+		 * 
+		 * @param accountDisplayTypeMap
+		 *            Map that stores {@link AccountType}s as keys and
+		 *            {@link DisplayType}s as values.
+		 * @return
+		 */
+		public Builder accountDisplayType(
+				Map<AccountType, DisplayType> accountDisplayTypeMap) {
 			this.accountDisplayTypeMap = accountDisplayTypeMap;
 			return this;
 
