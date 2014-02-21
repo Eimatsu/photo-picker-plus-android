@@ -113,8 +113,9 @@ public class FragmentSingle extends Fragment implements
 			Bundle savedInstanceState) {
 		
 		isMultipicker = PhotoPicker.getInstance().isMultiPicker();
-//		accountType = AccountType.valueOf(account.getType().toUpperCase());
-		accountType = PhotoPickerPreferenceUtil.get().getAccountType();
+		if (account != null) {
+		accountType = AccountType.valueOf(account.getType().toUpperCase());
+		}
 		Map<AccountType, DisplayType> accountMap = PhotoPicker.getInstance().getAccountDisplayType();
 		displayType = AppUtil.getDisplayType(accountMap, PhotoPicker.getInstance().getDefaultAccountDisplayType(), accountType);
 		
