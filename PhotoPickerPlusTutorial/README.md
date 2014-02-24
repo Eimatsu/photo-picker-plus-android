@@ -1,7 +1,7 @@
 Introduction
 ====
 
-PhotoPickerPlusTutorial is a tutorial project that shows how to use the PhotoPicker+ component. It contains Chute SDK library as well as PhotoPicker+ library. This tutorial enables browsing your locally-stored photos as weel as your albums and photos from your social galleries, photo selection and display.
+PhotoPickerPlusTutorial is a tutorial project that shows how to use the PhotoPicker+ component. It contains Chute SDK library as well as PhotoPicker+ library. This tutorial enables browsing your locally-stored photos and/or videos as weel as your albums and media items from your social galleries, item selection and display.
 
 ![tutorial1](../screenshots/tutorial1.png)![tutorial2](../screenshots/tutorial2.png)![tutorial3](../screenshots/tutorial3.png)![tutorial4](../screenshots/tutorial4.png)![tutorial5](../screenshots/tutorial5.png)
 
@@ -51,11 +51,47 @@ Usage
 ====
 
 ##PhotoPickerPlusTutorialApp.java 
-This class is the extended Application class. It is registered inside the "application" tag in the manifest and is used for initializing the utility classes used in the component.
+This class is the extended Application class. It is registered inside the ``<application>`` tag in the manifest and is used for initializing the utility classes used in the component.
 PhotoPickerPlusTutorialApp can extend PhotoPickerPlusApp as shown in this tutorial:
 
 <pre><code>
 public class PhotoPickerPlusTutorialApp extends PhotoPickerPlusApp {
+
+    @Override
+	public void onCreate() {
+		super.onCreate();
+        ALog.setDebugTag("PhotoPicker");
+		ALog.setDebugLevel(DebugLevel.ALL);
+
+		/**
+		 * Fill in using "app_id" and "app_secret" values from your Chute
+		 * application.
+		 * 
+		 * See <a href="https://apps.getchute.com">https://apps.getchute.com</a>
+		 */
+
+		Chute.init(this, new AuthConstants(APP_ID, APP_SECRET));
+		
+		Map<AccountType, DisplayType> map = new HashMap<AccountType, DisplayType>();
+		map.put(AccountType.INSTAGRAM, DisplayType.LIST);
+
+		PhotoPickerConfiguration config = new PhotoPickerConfiguration.Builder(
+				getApplicationContext())
+				.isMultiPicker(true)
+				.defaultAccountDisplayType(DisplayType.LIST)
+		        .accountDisplayType(map)
+				.accountList(AccountType.FLICKR, AccountType.DROPBOX,
+						AccountType.INSTAGRAM, AccountType.GOOGLE,
+						AccountType.YOUTUBE)
+				.localMediaList(LocalServiceType.ALL_MEDIA,
+						LocalServiceType.CAMERA_MEDIA,
+						LocalServiceType.RECORD_VIDEO,
+						LocalServiceType.LAST_VIDEO_CAPTURED)
+				.configUrl(ConfigEndpointURLs.SERVICES_CONFIG_URL)
+				.supportImages(true).supportVideos(true).build();
+		PhotoPicker.getInstance().init(config);
+
+	}
 
 }
 </code></pre>
@@ -67,11 +103,8 @@ If you decide to extend the Application class instead of PhotoPickerPlusApp you 
 <pre><code>
 public class PhotoPickerPlusTutorialApp extends Application {
 
-    public static final String APP_ID = "4f3c39ff38ecef0c89000003";
-    public static final String APP_SECRET = "c9a8cb57c52f49384ab6117c4f6483a1a5c5a14c4a50d4cef276a9a13286efc9";
-
     private static ImageLoader createImageLoader(Context context) {
-		ImageLoader imageLoader = new ImageLoader(context, R.drawable.placeholder);
+    	ImageLoader imageLoader = new ImageLoader(context, R.drawable.placeholder);
 		imageLoader.setDefaultImageSize((int) TypedValue.applyDimension(
 				TypedValue.COMPLEX_UNIT_DIP, 75, context.getResources()
 						.getDisplayMetrics()));
@@ -88,16 +121,26 @@ public class PhotoPickerPlusTutorialApp extends Application {
 	PhotoPickerPreferenceUtil.init(getApplicationContext());
         ALog.setDebugTag("PhotoPicker");
         ALog.setDebugLevel(DebugLevel.ALL);
-        Chute.init(this, new AuthConstants(APP_ID, APP_SECRET));
+        Chute.init(this, new AuthConstants("APP_ID", "APP_SECRET"));
 
-    PhotoPickerConfiguration config = new PhotoPickerConfiguration.Builder(
-        getApplicationContext())
-        .isMultiPicker(true)
-        .accountList(AccountType.FACEBOOK, AccountType.INSTAGRAM)
-        .localMediaList(LocalMediaType.ALL_PHOTOS, LocalMediaType.TAKE_PHOTO)
-        .configUrl(ConfigEndpointURLs.SERVICES_CONFIG_URL)
-        .build();
-    PhotoPicker.getInstance().init(config);
+        Map<AccountType, DisplayType> map = new HashMap<AccountType, DisplayType>();
+		map.put(AccountType.INSTAGRAM, DisplayType.LIST);
+
+		PhotoPickerConfiguration config = new PhotoPickerConfiguration.Builder(
+				getApplicationContext())
+				.isMultiPicker(true)
+				.defaultAccountDisplayType(DisplayType.LIST)
+		        .accountDisplayType(map)
+				.accountList(AccountType.FLICKR, AccountType.DROPBOX,
+						AccountType.INSTAGRAM, AccountType.GOOGLE,
+						AccountType.YOUTUBE)
+				.localMediaList(LocalServiceType.ALL_MEDIA,
+						LocalServiceType.CAMERA_MEDIA,
+						LocalServiceType.RECORD_VIDEO,
+						LocalServiceType.LAST_VIDEO_CAPTURED)
+				.configUrl(ConfigEndpointURLs.SERVICES_CONFIG_URL)
+				.supportImages(true).supportVideos(true).build();
+		PhotoPicker.getInstance().init(config);
     }
 
     @Override
@@ -115,8 +158,8 @@ public class PhotoPickerPlusTutorialApp extends Application {
 PhotoPickerPlusTutorialApp can also be neglected by registering PhotoPickerPlusApp into the manifest instead of PhotoPickerPlusTutoiralApp if you don't need to extend the Application class.
 
 ##PhotoPickerPlusTutorialActivity.java 
-PhotoPicker+ component shows a list of services and device photos albums. You can authenticate using Facebook, Flickr, Instagram, Picasa, Google Drive, Google+, Skydrive and Dropbox, browse albums and photos, browse device photos as well as take a photo with the camera. 
-After selecting photos, a result is returned to the activity that started the component i.e. PhotoPickerPlusTutorialAcitivity where the selected photos are displayed in a grid.
+PhotoPicker+ component shows a list of services and device media albums. You can authenticate using Facebook, Flickr, Instagram, Picasa, Google Drive, Google+, Skydrive, YouTube and Dropbox, browse albums and media items, browse device media as well as take a photo or video with the camera. 
+After selecting media items, a result is returned to the activity that started the component i.e. PhotoPickerPlusTutorialAcitivity where the selected items are displayed in a grid.
 
 <pre><code>
 @Override
@@ -131,7 +174,7 @@ After selecting photos, a result is returned to the activity that started the co
     }
 </code></pre>
 
-PhotoActivityIntentWrapper encapsulates different information available for the selected image. Some of the additional info might be null depending of its availability. Different AccountMediaModel image paths can point to the same location if there are no additional sizes available.
+PhotoActivityIntentWrapper encapsulates different information available for the selected item. Some of the additional info might be null depending of its availability. Different AccountMediaModel image paths can point to the same location if there are no additional sizes available.
 
 
       

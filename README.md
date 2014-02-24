@@ -20,14 +20,14 @@ https://github.com/chute/photo-picker-plus-ios
 PhotoPickerPlus
 ==========
 
-PhotoPickerPlus does not contain any external dependancies besides Chute SDK which you can find at:
+PhotoPickerPlus does not contain any external dependencies besides Chute SDK which you can find at:
 https://github.com/chute/Chute-SDK-V2-Android
 
 
 Introduction
 ==========
 
-PhotoPicker+ is a component made for developers to easily integrate it inside their application and enable photo picking functionality. This component enables browsing photos from services such as Facebook, Picasa, Instagram, Flickr, Google+, Google Drive, SkyDrive and Dropbox. It also enables taking photos with the native camera application and choosing photos from the device.
+PhotoPicker+ is a component made for developers to easily integrate it inside their application and enable photo and video picking functionality. This component enables browsing media items from services such as Facebook, Picasa, Instagram, Flickr, Google+, Google Drive, SkyDrive, YouTube and Dropbox. It also enables capturing photos and videos with the native camera application and choosing media items from the device.
 
 
 Screenshots
@@ -58,7 +58,6 @@ Contains English text for all the strings that the application uses, including t
 res/values-fr/strings.xml  
 Contain French text for all the strings, including title.  
 res/values-ja/strings.xml  
-Contain Japanese text for all the strings except title.
 
 Some of PhotoPicker+ supported languages might not be correctly translated. Any feedback is welcomed.
 
