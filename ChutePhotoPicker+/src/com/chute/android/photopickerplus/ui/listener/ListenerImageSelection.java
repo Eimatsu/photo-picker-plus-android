@@ -31,9 +31,6 @@ import java.util.List;
  */
 public interface ListenerImageSelection {
 
-
 	public List<Integer> getCursorImagesSelection();
-	
-	
 
 }

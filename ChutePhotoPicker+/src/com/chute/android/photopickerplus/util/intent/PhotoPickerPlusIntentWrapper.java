@@ -29,6 +29,7 @@ import com.chute.android.photopickerplus.ui.activity.ServicesActivity;
 import com.chute.sdk.v2.model.AssetModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * {@link PhotoPickerPlusIntentWrapper} is a wrapper class that wraps the
@@ -42,48 +43,47 @@ import java.util.ArrayList;
  */
 public class PhotoPickerPlusIntentWrapper extends IntentWrapper {
 
+	public static final int ACTIVITY_FOR_RESULT_KEY = 115;
+	private static final String KEY_ACCOUNT_ID = "accountId";
+	private static final String KEY_ALBUM_ID = "albumId";
+	private static final String KEY_PHOTO_COLLECTION = "photoCollection";
 
-  public static final int ACTIVITY_FOR_RESULT_KEY = 115;
-  private static final String KEY_ACCOUNT_ID = "accountId";
-  private static final String KEY_ALBUM_ID = "albumId";
-  private static final String KEY_PHOTO_COLLECTION = "photoCollection";
+	public PhotoPickerPlusIntentWrapper(Context context) {
+		super(context, ServicesActivity.class);
+	}
 
-  public PhotoPickerPlusIntentWrapper(Context context) {
-    super(context, ServicesActivity.class);
-  }
+	public PhotoPickerPlusIntentWrapper(Intent intent) {
+		super(intent);
+	}
 
-  public PhotoPickerPlusIntentWrapper(Intent intent) {
-    super(intent);
-  }
+	public String getAccountId() {
+		return getIntent().getExtras().getString(KEY_ACCOUNT_ID);
+	}
 
-  public String getAccountId() {
-    return getIntent().getExtras().getString(KEY_ACCOUNT_ID);
-  }
+	public void setAccountId(String accountId) {
+		getIntent().putExtra(KEY_ACCOUNT_ID, accountId);
+	}
 
-  public void setAccountId(String accountId) {
-    getIntent().putExtra(KEY_ACCOUNT_ID, accountId);
-  }
+	public String getAlbumId() {
+		return getIntent().getExtras().getString(KEY_ALBUM_ID);
+	}
 
-  public String getAlbumId() {
-    return getIntent().getExtras().getString(KEY_ALBUM_ID);
-  }
+	public void setAlbumId(String albumId) {
+		getIntent().putExtra(KEY_ALBUM_ID, albumId);
+	}
 
-  public void setAlbumId(String albumId) {
-    getIntent().putExtra(KEY_ALBUM_ID, albumId);
-  }
+	@SuppressWarnings("unchecked")
+	public ArrayList<AssetModel> getMediaCollection() {
+		return (ArrayList<AssetModel>) getIntent().getExtras().getSerializable(
+				KEY_PHOTO_COLLECTION);
+	}
 
-  @SuppressWarnings("unchecked")
-  public ArrayList<AssetModel> getMediaCollection() {
-    return (ArrayList<AssetModel>) getIntent().getExtras().getSerializable(
-        KEY_PHOTO_COLLECTION);
-  }
+	public void setMediaCollection(List<AssetModel> mediaCollection) {
+		getIntent().putExtra(KEY_PHOTO_COLLECTION,
+				(ArrayList<AssetModel>) mediaCollection);
+	}
 
-  public void setMediaCollection(ArrayList<AssetModel> mediaCollection) {
-    getIntent()
-        .putExtra(KEY_PHOTO_COLLECTION, mediaCollection);
-  }
-
-  public void startActivityForResult(Activity context) {
-    context.startActivityForResult(getIntent(), ACTIVITY_FOR_RESULT_KEY);
-  }
+	public void startActivityForResult(Activity context) {
+		context.startActivityForResult(getIntent(), ACTIVITY_FOR_RESULT_KEY);
+	}
 }

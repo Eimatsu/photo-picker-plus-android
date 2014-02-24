@@ -210,7 +210,7 @@ public final class PhotoPickerConfiguration {
 		}
 
 		/**
-		 * Allows selection of one or multiple photos in the PhotoPicker.
+		 * Allows selection of one or multiple media items in the PhotoPicker.
 		 * 
 		 * @param isMultiPicker
 		 *            <b>true</b> for enabling multi-picking and <b>false</b>

@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The {@link MediaDataModel} class encapsulates asset information regarding the
- * image and thumbnail URLs.
+ * media item and thumbnail URLs.
  * 
  */
 public class MediaDataModel implements Parcelable {
@@ -52,12 +52,18 @@ public class MediaDataModel implements Parcelable {
 	@JsonProperty("thumbnail")
 	private String thumbnail;
 
+	/**
+	 * Asset's file type. It can be image or video.
+	 */
 	@JsonProperty("file_type")
 	private String fileType;
 
 	public MediaDataModel() {
 	}
 
+	/**
+	 * Getters and setters
+	 */
 	public String getFileType() {
 		return fileType;
 	}

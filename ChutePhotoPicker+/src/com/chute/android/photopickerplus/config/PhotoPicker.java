@@ -344,7 +344,7 @@ public class PhotoPicker {
 	 * removed.
 	 * 
 	 * Remote supported services include: Facebook, Flickr, Picasa, Instagram,
-	 * Dropbox, Google, GoogleDrive and SkyDrive.
+	 * Dropbox, Google, GoogleDrive, SkyDrive and YouTube.
 	 * 
 	 * @param remoteServices
 	 *            List of {@link AccountType} services.
@@ -383,8 +383,8 @@ public class PhotoPicker {
 	 * service which is not supported by the Chute API, the service is
 	 * immediately removed.
 	 * 
-	 * Local supported services include: All Photos, Camera Photos, Last Taken
-	 * Photo and Take Photo.
+	 * Local supported services include: All Media, Camera Media, Last Taken
+	 * Photo, Take Photo, Last Video Captured and Record Video.
 	 * 
 	 * @param localServices
 	 *            List of {@link LocalServiceType} services.

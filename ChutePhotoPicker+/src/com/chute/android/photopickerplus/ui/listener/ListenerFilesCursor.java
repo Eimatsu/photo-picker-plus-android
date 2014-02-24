@@ -37,7 +37,7 @@ import com.chute.sdk.v2.model.AssetModel;
 public interface ListenerFilesCursor {
 
   /**
-   * Delivers {@link AssetModel} to the main activity when a photo from a local
+   * Delivers {@link AssetModel} to the main activity when media item from a local
    * service is selected.
    * 
    * @param assetModel
@@ -47,7 +47,7 @@ public interface ListenerFilesCursor {
   public void onCursorAssetsSelect(AssetModel assetModel);
 
   /**
-   * Delivers a list of {@link DeliverMediaModel}s to the main activity when photos
+   * Delivers a list of {@link DeliverMediaModel}s to the main activity when media items
    * from a local service are selected.
    * 
    * @param deliverList

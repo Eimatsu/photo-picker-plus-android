@@ -264,7 +264,7 @@ public class MediaDAO {
 	 *            Cursor object enabling read-write access to videos on the
 	 *            device.
 	 * @param position
-	 *            Cursor position
+	 *            Cursor position.
 	 * @return Path of the video thumbnail.
 	 */
 	public static String getVideoThumbnailFromCursor(final Context context,
@@ -283,7 +283,6 @@ public class MediaDAO {
 			if (thumbCursor.moveToFirst()) {
 				thumbPath = thumbCursor.getString(thumbCursor
 						.getColumnIndex(MediaStore.Video.Thumbnails.DATA));
-				ALog.d("thumb path = " + thumbPath);
 			}
 			safelyCloseCursor(thumbCursor);
 		}
@@ -340,14 +339,16 @@ public class MediaDAO {
 	}
 
 	/**
-	 * Gets
+	 * Created a thumbnail of the specified image ID.
 	 * 
 	 * @param context
 	 *            The application context
 	 * @param cursor
 	 *            Cursor object enabling read-write access to all videos on the
-	 *            device.
-	 * @return Video bitmap thumbnail.
+	 *            device used for retrieving the original image ID associated
+	 *            with the video thumbnail.
+	 * @return A Bitmap instance. It could be null if the original image
+	 *         associated with origId doesn't exist or memory is not enough.
 	 */
 	public static Bitmap getVideoThumbnail(Context context, Cursor cursor) {
 		int id = cursor.getInt(cursor

@@ -63,7 +63,7 @@ import com.dg.libs.rest.domain.ResponseStatus;
  * Activity for displaying the content of the selected service.
  * 
  * This activity is used to display albums and assets for both local and remote
- * services in a GridView.
+ * services in a GridView or ListView.
  * 
  */
 public class AssetActivity extends FragmentActivity implements

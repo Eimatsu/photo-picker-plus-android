@@ -51,104 +51,113 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 @JsonFilter("imageDataModelFilter")
 public class MediaModel implements Parcelable {
 
-  /**
-   * {@link OptionsModel} object containing the client ID.
-   */
-  @JsonProperty("options")
-  private OptionsModel options;
+	/**
+	 * {@link OptionsModel} object containing the client ID.
+	 */
+	@JsonProperty("options")
+	private OptionsModel options;
 
-  /**
-   * List of {@link MediaDataModel} containing asset's image and thumbnail URL.
-   */
-  @JsonProperty("media")
-  private List<MediaDataModel> media = new ArrayList<MediaDataModel>();
+	/**
+	 * List of {@link MediaDataModel} containing asset's image and thumbnail
+	 * URL.
+	 */
+	@JsonProperty("media")
+	private List<MediaDataModel> media = new ArrayList<MediaDataModel>();
 
-  public MediaModel() {
-    media = new ArrayList<MediaDataModel>();
-  }
+	public MediaModel() {
+		media = new ArrayList<MediaDataModel>();
+	}
 
-  public OptionsModel getOptions() {
-    return options;
-  }
+	/**
+	 * Getters and setters
+	 */
+	public OptionsModel getOptions() {
+		return options;
+	}
 
-  public void setOptions(OptionsModel options) {
-    this.options = options;
-  }
+	public void setOptions(OptionsModel options) {
+		this.options = options;
+	}
 
-  public List<MediaDataModel> getMedia() {
-    return media;
-  }
+	public List<MediaDataModel> getMedia() {
+		return media;
+	}
 
-  public void setMedia(List<MediaDataModel> media) {
-    this.media = media;
-  }
+	public void setMedia(List<MediaDataModel> media) {
+		this.media = media;
+	}
 
-  public String serializeImageDataModel() {
-    FilterProvider filters = new SimpleFilterProvider().addFilter("imageDataModelFilter",
-        SimpleBeanPropertyFilter.filterOutAllExcept("options", "media"));
-    String result = null;
-    try {
-      result = JsonUtil.getMapper().writer(filters).writeValueAsString(this);
-    } catch (JsonProcessingException e) {
-      ALog.d("", e);
-    }
-    return result;
-  }
+	public String serializeImageDataModel() {
+		FilterProvider filters = new SimpleFilterProvider()
+				.addFilter("imageDataModelFilter", SimpleBeanPropertyFilter
+						.filterOutAllExcept("options", "media"));
+		String result = null;
+		try {
+			result = JsonUtil.getMapper().writer(filters)
+					.writeValueAsString(this);
+		} catch (JsonProcessingException e) {
+			ALog.d("", e);
+		}
+		return result;
+	}
 
-  /*
-   * (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("ImageDataModel [options=");
-    builder.append(options);
-    builder.append(", media=");
-    builder.append(media);
-    builder.append("]");
-    return builder.toString();
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("ImageDataModel [options=");
+		builder.append(options);
+		builder.append(", media=");
+		builder.append(media);
+		builder.append("]");
+		return builder.toString();
+	}
 
-  /*
-   * (non-Javadoc)
-   * @see android.os.Parcelable#describeContents()
-   */
-  @Override
-  public int describeContents() {
-    return 0;
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.Parcelable#describeContents()
+	 */
+	@Override
+	public int describeContents() {
+		return 0;
+	}
 
-  /*
-   * (non-Javadoc)
-   * @see android.os.Parcelable#writeToParcel(android.os.Parcel, int)
-   */
-  @Override
-  public void writeToParcel(Parcel dest, int flags) {
-    dest.writeParcelable(options, flags);
-    dest.writeTypedList(media);
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.Parcelable#writeToParcel(android.os.Parcel, int)
+	 */
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeParcelable(options, flags);
+		dest.writeTypedList(media);
 
-  }
+	}
 
-  public MediaModel(Parcel in) {
-    this();
-    options = in.readParcelable(OptionsModel.class.getClassLoader());
-    in.readTypedList(media, MediaDataModel.CREATOR);
+	public MediaModel(Parcel in) {
+		this();
+		options = in.readParcelable(OptionsModel.class.getClassLoader());
+		in.readTypedList(media, MediaDataModel.CREATOR);
 
-  }
+	}
 
-  public static final Parcelable.Creator<MediaModel> CREATOR = new Parcelable.Creator<MediaModel>() {
+	public static final Parcelable.Creator<MediaModel> CREATOR = new Parcelable.Creator<MediaModel>() {
 
-    @Override
-    public MediaModel createFromParcel(Parcel in) {
-      return new MediaModel(in);
-    }
+		@Override
+		public MediaModel createFromParcel(Parcel in) {
+			return new MediaModel(in);
+		}
 
-    @Override
-    public MediaModel[] newArray(int size) {
-      return new MediaModel[size];
-    }
+		@Override
+		public MediaModel[] newArray(int size) {
+			return new MediaModel[size];
+		}
 
-  };
+	};
 
 }
