@@ -49,11 +49,11 @@ import com.dg.libs.rest.domain.ResponseStatus;
 
 /**
  * The {@link ImageDataResponseLoader} has the responsibility for uploading the
- * selected photo(s) URL(s) and delivering the retrieved data to the main
- * activity i.e. the activity that started the PhotoPicker.
+ * selected media URL(s) and delivering the retrieved data to the main activity
+ * i.e. the activity that started the PhotoPicker.
  * 
- * This class consists exclusively of static methods and is used only with
- * photos from social accounts.
+ * This class consists exclusively of static methods and is used only with media
+ * from social accounts.
  * 
  */
 public class ImageDataResponseLoader {

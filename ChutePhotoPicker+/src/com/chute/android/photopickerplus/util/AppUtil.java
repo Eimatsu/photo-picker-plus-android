@@ -44,7 +44,6 @@ import android.provider.MediaStore.MediaColumns;
 
 import com.araneaapps.android.libs.logger.ALog;
 import com.chute.android.photopickerplus.models.enums.DisplayType;
-import com.chute.sdk.v2.model.AssetModel;
 import com.chute.sdk.v2.model.enums.AccountType;
 import com.chute.sdk.v2.utils.Utils;
 
@@ -52,10 +51,11 @@ import com.chute.sdk.v2.utils.Utils;
  * The {@link AppUtil} class contains helper methods including:
  * <ul>
  * <li>Get image thumbnail URL in 100x100 dimension
- * <li>Get chache directorium
+ * <li>Get temp image file
+ * <li>Get temp video file
+ * <li>Get the given bitmap path
  * <li>Check if the device has an image capture bug
- * <li>Set ImageView dimensions according to the device size
- * <li>Create {@link AssetModel}(s) using the image path
+ * <li>Get media items display type
  * </ul>
  * 
  */
@@ -112,7 +112,7 @@ public class AppUtil {
 		return path;
 	}
 
-	public static File getAppCacheDir(Context context) {
+	private static File getAppCacheDir(Context context) {
 		return new File(String.format(SDCARD_FOLDER_CACHE,
 				context.getPackageName()));
 	}
@@ -141,15 +141,6 @@ public class AppUtil {
 				.getColumnIndexOrThrow(MediaColumns.DATA);
 		cursor.moveToFirst();
 		return cursor.getString(column_index);
-	}
-
-	public final static String asUpperCaseFirstChar(final String target) {
-
-		if ((target == null) || (target.length() == 0)) {
-			return target;
-		}
-		return Character.toUpperCase(target.charAt(0))
-				+ (target.length() > 1 ? target.substring(1) : "");
 	}
 
 	public static DisplayType getDisplayType(

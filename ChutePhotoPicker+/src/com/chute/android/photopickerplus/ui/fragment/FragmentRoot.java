@@ -83,6 +83,7 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 	private MergeAdapter adapterMerge;
 	private TextView textViewSelectMedia;
 	private ProgressBar progressBar;
+	private RelativeLayout relativeLayoutRoot;
 
 	private boolean isMultipicker;
 	private boolean supportVideos;
@@ -97,8 +98,6 @@ public class FragmentRoot extends Fragment implements AdapterItemClickListener {
 	private DisplayType displayType;
 	private ListenerFilesCursor cursorListener;
 	private ListenerFilesAccount accountListener;
-
-	RelativeLayout relativeLayoutRoot;
 
 	public static FragmentRoot newInstance(AccountModel account,
 			PhotoFilterType filterType,

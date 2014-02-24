@@ -71,6 +71,7 @@ public class FragmentSingle extends Fragment implements
 	private ListView listView;
 	private TextView textViewSelectMedia;
 	private ProgressBar progressBar;
+	private RelativeLayout relativeLayoutRoot;
 
 	private AccountModel account;
 	private AccountType accountType;
@@ -81,8 +82,6 @@ public class FragmentSingle extends Fragment implements
 
 	private AssetAccountAdapter accountAssetAdapter;
 	private ListenerFilesAccount accountListener;
-	
-	private RelativeLayout relativeLayoutRoot;
 
 	public static FragmentSingle newInstance(AccountModel account,
 			String folderId, List<Integer> selectedItemPositions) {
@@ -111,16 +110,20 @@ public class FragmentSingle extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
+
 		isMultipicker = PhotoPicker.getInstance().isMultiPicker();
 		if (account != null) {
-		accountType = AccountType.valueOf(account.getType().toUpperCase());
+			accountType = AccountType.valueOf(account.getType().toUpperCase());
 		}
-		Map<AccountType, DisplayType> accountMap = PhotoPicker.getInstance().getAccountDisplayType();
-		displayType = AppUtil.getDisplayType(accountMap, PhotoPicker.getInstance().getDefaultAccountDisplayType(), accountType);
-		
-		View view = inflater.inflate(R.layout.gc_fragment_assets_grid, container, false);
-		relativeLayoutRoot = (RelativeLayout) view.findViewById(R.id.gcRelativeLayoutRoot);
+		Map<AccountType, DisplayType> accountMap = PhotoPicker.getInstance()
+				.getAccountDisplayType();
+		displayType = AppUtil.getDisplayType(accountMap, PhotoPicker
+				.getInstance().getDefaultAccountDisplayType(), accountType);
+
+		View view = inflater.inflate(R.layout.gc_fragment_assets_grid,
+				container, false);
+		relativeLayoutRoot = (RelativeLayout) view
+				.findViewById(R.id.gcRelativeLayoutRoot);
 		if (displayType == DisplayType.LIST) {
 			listView = UIUtil.initListView(getActivity());
 			relativeLayoutRoot.addView(listView);
@@ -184,9 +187,9 @@ public class FragmentSingle extends Fragment implements
 								supportImages, supportVideos),
 						FragmentSingle.this, displayType);
 				if (displayType == DisplayType.LIST) {
-				listView.setAdapter(accountAssetAdapter);	
+					listView.setAdapter(accountAssetAdapter);
 				} else {
-				gridView.setAdapter(accountAssetAdapter);
+					gridView.setAdapter(accountAssetAdapter);
 				}
 
 				if (selectedItemsPositions != null) {
@@ -251,5 +254,5 @@ public class FragmentSingle extends Fragment implements
 			}
 		}
 	}
-	
+
 }

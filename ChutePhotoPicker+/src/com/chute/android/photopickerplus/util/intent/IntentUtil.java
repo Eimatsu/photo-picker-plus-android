@@ -23,6 +23,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 package com.chute.android.photopickerplus.util.intent;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
@@ -39,13 +40,13 @@ public class IntentUtil {
 
   public static void deliverDataToInitialActivity(final FragmentActivity context,
       final AssetModel model) {
-    ArrayList<AssetModel> mediaCollection = new ArrayList<AssetModel>();
+    List<AssetModel> mediaCollection = new ArrayList<AssetModel>();
     mediaCollection.add(model);
     deliverDataToInitialActivity(context, mediaCollection);
   }
 
   public static void deliverDataToInitialActivity(final FragmentActivity context,
-      final ArrayList<AssetModel> collection) {
+      final List<AssetModel> collection) {
     final PhotoPickerPlusIntentWrapper wrapper = new PhotoPickerPlusIntentWrapper(new Intent(
         context,
         ServicesActivity.class));

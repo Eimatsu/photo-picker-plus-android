@@ -33,74 +33,80 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class OptionsModel implements Parcelable {
 
-  /**
-   * Client ID. It can be retrieved from your Chute application.
-   * 
-   * See <a href="https://apps.getchute.com">https://apps.getchute.com</a>
-   */
-  @JsonProperty("client_id")
-  private String cliendId;
+	/**
+	 * Client ID. It can be retrieved from your Chute application.
+	 * 
+	 * See <a href="https://apps.getchute.com">https://apps.getchute.com</a>
+	 */
+	@JsonProperty("client_id")
+	private String cliendId;
 
-  public OptionsModel() {
-  }
+	public OptionsModel() {
+	}
 
-  public String getCliendId() {
-    return cliendId;
-  }
+	/**
+	 * Getters and setters
+	 */
+	public String getCliendId() {
+		return cliendId;
+	}
 
-  public void setCliendId(String cliendId) {
-    this.cliendId = cliendId;
-  }
+	public void setCliendId(String cliendId) {
+		this.cliendId = cliendId;
+	}
 
-  /*
-   * (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("OptionsModel [cliendId=");
-    builder.append(cliendId);
-    builder.append("]");
-    return builder.toString();
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("OptionsModel [cliendId=");
+		builder.append(cliendId);
+		builder.append("]");
+		return builder.toString();
+	}
 
-  /*
-   * (non-Javadoc)
-   * @see android.os.Parcelable#describeContents()
-   */
-  @Override
-  public int describeContents() {
-    return 0;
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.Parcelable#describeContents()
+	 */
+	@Override
+	public int describeContents() {
+		return 0;
+	}
 
-  /*
-   * (non-Javadoc)
-   * @see android.os.Parcelable#writeToParcel(android.os.Parcel, int)
-   */
-  @Override
-  public void writeToParcel(Parcel dest, int flags) {
-    dest.writeString(cliendId);
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.Parcelable#writeToParcel(android.os.Parcel, int)
+	 */
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(cliendId);
 
-  }
+	}
 
-  public OptionsModel(Parcel in) {
-    this();
-    cliendId = in.readString();
-  }
+	public OptionsModel(Parcel in) {
+		this();
+		cliendId = in.readString();
+	}
 
-  public static final Parcelable.Creator<OptionsModel> CREATOR = new Parcelable.Creator<OptionsModel>() {
+	public static final Parcelable.Creator<OptionsModel> CREATOR = new Parcelable.Creator<OptionsModel>() {
 
-    @Override
-    public OptionsModel createFromParcel(Parcel in) {
-      return new OptionsModel(in);
-    }
+		@Override
+		public OptionsModel createFromParcel(Parcel in) {
+			return new OptionsModel(in);
+		}
 
-    @Override
-    public OptionsModel[] newArray(int size) {
-      return new OptionsModel[size];
-    }
+		@Override
+		public OptionsModel[] newArray(int size) {
+			return new OptionsModel[size];
+		}
 
-  };
+	};
 
 }

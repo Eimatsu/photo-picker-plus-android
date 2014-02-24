@@ -38,46 +38,45 @@ import com.chute.sdk.v2.model.enums.AccountType;
  */
 public interface ListenerFilesAccount {
 
-  /**
-   * Delivers {@link AssetModel} to the main activity when a photo from a remote
-   * service is selected.
-   * 
-   * @param assetModel
-   *          The {@link AssetModel} delivered to the main activity i.e. the
-   *          activity that started the PhotoPicker.
-   */
-  public void onAccountFilesSelect(AssetModel assetModel);
+	/**
+	 * Delivers {@link AssetModel} to the main activity when media item from a
+	 * remote service is selected.
+	 * 
+	 * @param assetModel
+	 *            The {@link AssetModel} delivered to the main activity i.e. the
+	 *            activity that started the PhotoPicker.
+	 */
+	public void onAccountFilesSelect(AssetModel assetModel);
 
-  /**
-   * Delivers a list of {@link AssetModel}s to the main activity when photos
-   * from a remote service are selected.
-   * 
-   * @param assetModelList
-   *          {@link AssetModel} list delivered to the main activity i.e. the
-   *          activity that started the PhotoPicker.
-   */
-  public void onDeliverAccountFiles(ArrayList<AssetModel> assetModelList);
+	/**
+	 * Delivers a list of {@link AssetModel}s to the main activity when media items
+	 * from a remote service are selected.
+	 * 
+	 * @param assetModelList
+	 *            {@link AssetModel} list delivered to the main activity i.e.
+	 *            the activity that started the PhotoPicker.
+	 */
+	public void onDeliverAccountFiles(ArrayList<AssetModel> assetModelList);
 
-  /**
-   * Triggered when a remote service folder or album is selected.
-   * 
-   * @param account
-   *          {@link AccountModel} the album belongs to.
-   * @param folderId
-   *          The ID of the album/folder.
-   */
-  public void onAccountFolderSelect(AccountModel account,
-      String folderId);
+	/**
+	 * Triggered when a remote service folder or album is selected.
+	 * 
+	 * @param account
+	 *            {@link AccountModel} the album belongs to.
+	 * @param folderId
+	 *            The ID of the album/folder.
+	 */
+	public void onAccountFolderSelect(AccountModel account, String folderId);
 
-  /**
-   * This method is used to handle expired session events. It is triggered when
-   * HTTP Error containing 401 error code is thrown. It happens when the account
-   * is inactive for 15 min. Google, SkyDrive and YouTube usually manifest this kind of
-   * behavior.
-   * 
-   * @param accountType
-   *          The account whose session is expired.
-   */
-  public void onSessionExpired(AccountType accountType);
+	/**
+	 * This method is used to handle expired session events. It is triggered
+	 * when HTTP Error containing 401 error code is thrown. It happens when the
+	 * account is inactive for 15 min. Google, SkyDrive and YouTube usually
+	 * manifest this kind of behavior.
+	 * 
+	 * @param accountType
+	 *            The account whose session is expired.
+	 */
+	public void onSessionExpired(AccountType accountType);
 
 }
