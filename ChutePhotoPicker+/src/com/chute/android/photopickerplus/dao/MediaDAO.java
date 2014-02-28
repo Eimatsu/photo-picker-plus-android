@@ -24,6 +24,7 @@ package com.chute.android.photopickerplus.dao;
 
 import java.io.File;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -331,7 +332,7 @@ public class MediaDAO {
 	 * @return The URI for the requested query.
 	 */
 	private static Uri getFirstVideoThumbnailUri(Cursor cursor) {
-		if (cursor != null && cursor.moveToFirst()) {
+		if (cursor != null && cursor.moveToLast()) {
 			return Uri.fromFile(new File(cursor.getString(cursor
 					.getColumnIndex(MediaStore.Video.Thumbnails.DATA))));
 		}
@@ -376,4 +377,5 @@ public class MediaDAO {
 			ALog.d("", e);
 		}
 	}
+
 }
